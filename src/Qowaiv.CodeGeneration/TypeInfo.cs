@@ -1,17 +1,21 @@
-﻿using System.Reflection;
+﻿using Qowaiv.CodeGeneration.Instructions;
+using Qowaiv.CodeGeneration.IO;
+using System.Reflection;
 
 namespace Qowaiv.CodeGeneration;
 
-public abstract partial class TypeInfo : Type
+public abstract partial class TypeInfo : Type, Code
 {
     protected TypeInfo(
         TypeName nameType,
-        bool isArray = false,
-        Type? baseType = null)
+        IReadOnlyCollection<Code>? decorations,
+        bool isArray,
+        Type? baseType)
     {
         NS = Guard.NotNull(nameType, nameof(nameType)).Namespace;
         Name = nameType.Name;
         _IsArray = isArray;
+        Decorations = decorations ?? Array.Empty<Code>();
         BaseType = baseType ?? typeof(object);
     }
 
@@ -24,15 +28,18 @@ public abstract partial class TypeInfo : Type
     public override string Name { get; }
 
     /// <inheritdoc />
-    public override Type? BaseType { get; }
+    public override Type BaseType { get; }
 
     /// <inheritdoc />
     public override string FullName => $"{Namespace}.{Name}";
 
-
+    public IReadOnlyCollection<Code> Decorations { get; }
 
     /// <inheritdoc />
     public override Guid GUID => Qowaiv.Uuid.GenerateWithSHA1(Encoding.ASCII.GetBytes(FullName));
+
+    /// <inheritdoc />
+    public abstract void Write(CSharpWriter writer);
 
     /// <inheritdoc />
     [Pure]

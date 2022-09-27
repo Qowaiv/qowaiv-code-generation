@@ -2,6 +2,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Qowaiv.CodeGeneration;
 using Qowaiv.OpenApi;
+using Qowaiv.OpenApi.Decorators;
 using System.IO;
 using System.Linq;
 
@@ -21,7 +22,7 @@ public class Serialization
         var reader = new Microsoft.OpenApi.Readers.OpenApiStreamReader();
         var openApiDocument = reader.Read(stream, out var diagnostic);
 
-        var resolver = new OpenApiTypeResolver("Tjip.Hypotheek.Overzicht");
+        var resolver = new OpenApiTypeResolver("Tjip.Hypotheek.Overzicht", new SystemTextJsonDecorator());
         var types = resolver.Resolve(openApiDocument).ToArray();
 
         var enums = types.OfType<Enumeration>().ToArray();

@@ -3,7 +3,7 @@
 namespace Qowaiv.CodeGeneration;
 
 /// <summary>Represents the <see cref="FieldInfo"/> of a enum value.</summary>
-public sealed class EnumerationField : FieldInfo
+public partial class EnumerationField : FieldInfo
 {
     public EnumerationField(Type enumType, string name, string display, object? value)
     {

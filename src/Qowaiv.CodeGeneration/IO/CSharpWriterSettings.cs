@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Qowaiv.OpenApi.IO;
+﻿namespace Qowaiv.CodeGeneration.IO;
 
 public record CSharpWriterSettings
 {

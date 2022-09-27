@@ -1,16 +1,23 @@
-﻿using System.Reflection;
+﻿using Qowaiv.CodeGeneration.IO;
+using System.Reflection;
 
 namespace Qowaiv.CodeGeneration;
 
 /// <summary>Represents the <see cref="PropertyInfo"/> of a <see cref="Type"/> property.</summary>
-public sealed class Property : PropertyInfo
+public partial class Property : PropertyInfo
 {
-    public Property(string name, Type propertyType, Type declaringClass, PropertyAccess access)
+    public Property(
+        string name,
+        Type propertyType,
+        Type declaringClass,
+        PropertyAccess access,
+        IReadOnlyCollection<Code>? decorations = null)
     {
         Name = Guard.NotNullOrEmpty(name, nameof(name));
         PropertyType = Guard.NotNull(propertyType, nameof(propertyType));
         DeclaringType = Guard.NotNull(declaringClass, nameof(declaringClass));
         PropertyAccess = Guard.DefinedEnum(access, nameof(access));
+        Decorations = decorations ?? Array.Empty<Code>();
     }
 
     /// <inheritdoc />
@@ -35,6 +42,9 @@ public sealed class Property : PropertyInfo
 
     /// <inheritdoc />
     public override PropertyAttributes Attributes => default;
+
+
+    public IReadOnlyCollection<Code> Decorations { get; }
 
     /// <inheritdoc />
     [Pure]
@@ -81,6 +91,4 @@ public sealed class Property : PropertyInfo
     [Pure]
     public override void SetValue(object? obj, object? value, BindingFlags invokeAttr, Binder? binder, object?[]? index, CultureInfo? culture) 
         => throw new NotSupportedException();
-
-    
 }

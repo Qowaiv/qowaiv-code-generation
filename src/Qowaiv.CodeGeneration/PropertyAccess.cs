@@ -1,26 +1,47 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Qowaiv.CodeGeneration.IO;
 
 namespace Qowaiv.CodeGeneration;
 
 public enum PropertyAccess
 {
     /// <summary>{ get; init; }</summary>
-    [Display(Name = "{ get; init; }")]
     InitOnly = 0,
 
     /// <summary>{ get; set; }</summary>
-    [Display(Name = "{ get; set; }")]
     PublicSet,
 
     /// <summary>{ get; protected set; }</summary>
-    [Display(Name = "{ get; protected set; }")]
     ProtectedSet,
 
     /// <summary>{ get; internal set; }</summary>
-    [Display(Name = "{ get; internal set; }")]
     InternalSet,
 
     /// <summary>{ get; }</summary>
-    [Display(Name = "{ get; }")]
     GetOnly,
 }
+
+public static class PropertyAccessExtensions
+{
+    [Pure]
+    public static Code Code(this PropertyAccess propertyAccess) => new Snippet(propertyAccess);
+
+    private sealed class Snippet : Code
+    {
+        private readonly PropertyAccess PropertyAccess;
+
+        public Snippet(PropertyAccess propertyAccess)
+            => PropertyAccess = Guard.DefinedEnum(propertyAccess, nameof(propertyAccess));
+
+        public void Write(CSharpWriter writer)
+            => writer.Write(PropertyAccess switch
+            {
+                PropertyAccess.InitOnly => "{ get; init; }",
+                PropertyAccess.PublicSet => "{ get; set; }",
+                PropertyAccess.ProtectedSet => "{ get; protected set; }",
+                PropertyAccess.InternalSet => "{ get; internal set; }",
+                PropertyAccess.GetOnly => "{ get; }",
+                _ => string.Empty,
+            });
+    }
+}
+

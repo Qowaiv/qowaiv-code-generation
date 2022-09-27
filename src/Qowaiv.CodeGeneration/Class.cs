@@ -1,13 +1,19 @@
 ﻿using System.Reflection;
+using Qowaiv.CodeGeneration.Instructions;
 
 namespace Qowaiv.CodeGeneration;
 
 /// <summary>Represents the <see cref="Type"/> of a class.</summary>
-public sealed class Class : TypeInfo
+public partial class Class : TypeInfo
 {
     /// <summary>Creates a new instance of the <see cref="Class"/> class.</summary>
-    public Class(TypeName nameType, IReadOnlyCollection<Property>? properties = null, bool isArray = false, Type? baseType = null)
-        : base(nameType, isArray, baseType)
+    public Class(
+        TypeName nameType,
+        IReadOnlyCollection<Property>? properties = null,
+        IReadOnlyCollection<Decoration>? decorations = null,
+        bool isArray = false,
+        Type? baseType = null)
+        : base(nameType, decorations, isArray, baseType)
     {
         Properties = properties ?? Array.Empty<Property>();
     }
@@ -23,7 +29,7 @@ public sealed class Class : TypeInfo
     [Pure]
     public override Type? GetElementType()
         => IsArray
-        ? new Class(new(NS, Name), Properties, isArray: false, BaseType)
+        ? new Class(new(NS, Name), Properties, Decorations, isArray: false, BaseType)
         : null;
 
     /// <inheritdoc />
@@ -31,7 +37,7 @@ public sealed class Class : TypeInfo
     public override Type MakeArrayType()
          => IsArray
         ? this
-        : new Class(new(NS, Name), Properties, isArray: true, BaseType);
+        : new Class(new(NS, Name), Properties, Decorations, isArray: true, BaseType);
 
     /// <inheritdoc />
     [Pure]

@@ -1,16 +1,17 @@
 ﻿using System.Reflection;
+using Qowaiv.CodeGeneration.Instructions;
 
 namespace Qowaiv.CodeGeneration;
 
 /// <summary>Represents the <see cref="Type"/> of a enum.</summary>
-public sealed class Enumeration : TypeInfo
+public partial class Enumeration : TypeInfo
 {
     /// <summary>Creates a new instance of the <see cref="Enumeration"/> class.</summary>
     public Enumeration(
         TypeName nameType,
         IReadOnlyCollection<EnumerationField>? fields = null,
-        bool isArray = false)
-        : base(nameType, isArray, typeof(Enum))
+        IReadOnlyCollection<Decoration>? decorations = null,
+        bool isArray = false) : base(nameType, decorations, isArray, typeof(Enum))
     {
         Fields = fields ?? Array.Empty<EnumerationField>();
     }

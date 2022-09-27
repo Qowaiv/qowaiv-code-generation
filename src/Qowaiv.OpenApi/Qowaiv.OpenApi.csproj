@@ -6,30 +6,25 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Decoration\**" />
+	  <Compile Remove="Decorators\**" />
 	  <Compile Remove="Generation\**" />
-	  <Compile Remove="IO\**" />
-	  <EmbeddedResource Remove="Decoration\**" />
+	  <EmbeddedResource Remove="Decorators\**" />
 	  <EmbeddedResource Remove="Generation\**" />
-	  <EmbeddedResource Remove="IO\**" />
-	  <None Remove="Decoration\**" />
+	  <None Remove="Decorators\**" />
 	  <None Remove="Generation\**" />
-	  <None Remove="IO\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Remove="Collection\Collector.cs" />
-	  <Compile Remove="Collection\NamingStrategy.cs" />
-	  <Compile Remove="Collection\TypeResolver.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Include="..\..\shared\Guard.cs" Link="Guard.cs" />
+		<Compile Include="Decorators\CodeDecorator.cs" />
+		<Compile Include="Decorators\NewtonsoftJsontJsonDecorator.cs" />
+		<Compile Include="Decorators\SystemTextJsonDecorator.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.OpenApi" Version="1.4.2" />
 		<PackageReference Include="Microsoft.OpenApi.Readers" Version="1.4.1" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Qowaiv" Version="6.2.2" />
 	</ItemGroup>
 
@@ -42,10 +37,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Qowaiv.CodeGeneration\Qowaiv.CodeGeneration.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Collection\" />
 	</ItemGroup>
 
 </Project>

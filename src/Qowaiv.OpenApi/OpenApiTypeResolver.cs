@@ -2,17 +2,23 @@
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Readers;
 using Qowaiv.CodeGeneration;
+using Qowaiv.CodeGeneration.IO;
 using Qowaiv.OpenApi.Collection;
+using Qowaiv.OpenApi.Decorators;
 using System.IO;
 
 namespace Qowaiv.OpenApi;
 
 public class OpenApiTypeResolver
 {
-    public OpenApiTypeResolver(Namespace defaultNamespace)
-        => DefaultNamespace = Guard.NotDefault(defaultNamespace, nameof(defaultNamespace));
+    public OpenApiTypeResolver(Namespace defaultNamespace, params CodeDecorator[] decorators)
+    {
+        DefaultNamespace = Guard.NotDefault(defaultNamespace, nameof(defaultNamespace));
+        Decorators = decorators ?? Array.Empty<CodeDecorator>();
+    }
 
     public Namespace DefaultNamespace { get; }
+    public IReadOnlyCollection<CodeDecorator> Decorators { get; }
 
     [Pure]
     public IEnumerable<TypeInfo> Resolve(FileInfo documentLocation, out OpenApiDiagnostic diagnostic)
@@ -124,16 +130,9 @@ public class OpenApiTypeResolver
             "UUIDBASE64" => TypeInfo.Uuid,
             "YESNO" => TypeInfo.YesNo,
 
-            _ => schema.Enum.Any() ? ResolveEnum(schema) : TypeInfo.String //ResolveString(schema.Reference.Id),
+            _ => schema.Enum.Any() ? ResolveEnum(schema) : TypeInfo.String,
         };
 
-    [Pure]
-    protected virtual Type ResolveString(string name)
-    {
-        if (new[] { "EMAIL", "EMAILADDRESS" }.Contains(name.ToUpperInvariant())) return TypeInfo.EmailAddress;
-        else if (new[] { "IBAN", "INTERNATIONALBANKACCOUNTNUMBER" }.Contains(name.ToUpperInvariant())) return TypeInfo.InternationalBankAccountNumber;
-        else return TypeInfo.String;
-    }
 
     [Pure]
     protected virtual Type? ResolveEnum(OpenApiSchema schema)
@@ -159,16 +158,25 @@ public class OpenApiTypeResolver
         var properties = new List<Property>();
         var classType = new Class(nameType, properties);
 
-        foreach (var property in schema.OpenApiProperties())
-        {
-            var propertyType = Resolve(property.Schema);
-            if (propertyType is { })
-            {
-                properties.Add(new Property(property.Name, propertyType, classType, Access(property)));
-            }
-        }
+        properties.AddRange(schema.OpenApiProperties().Select(prop => Resolve(classType, prop)).OfType<Property>());
+
         return classType;
     }
+
+    [Pure]
+    private Property? Resolve(Class @class, OpenApiProperty property)
+    {
+        var propertyType = Resolve(property.Schema);
+        if (propertyType is { })
+        {
+            var decorations = new List<Code>();
+            var prop = new Property(property.Name, propertyType, @class, Access(property), decorations);
+            decorations.AddRange(Decorators.SelectMany(d => d.Property(prop, property)));
+            return prop;
+        }
+        else return null;
+    }
+
 
     [Pure]
     protected virtual TypeName ResolveName(OpenApiSchema schema)

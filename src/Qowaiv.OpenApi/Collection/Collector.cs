@@ -92,8 +92,8 @@ public sealed class Collector : IReadOnlyCollection<Code>
         {
             Console.WriteLine($"WRN: {d.Message}");
         }
-
-        return Collect(loaded.Components.NamedSchemas());
+        return null;
+        //return Collect(loaded.Components.NamedSchemas());
     }
 
     private void Collect(OpenApiNamedSchema schema)

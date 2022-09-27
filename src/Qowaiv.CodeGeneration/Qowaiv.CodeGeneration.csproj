@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
@@ -11,10 +10,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Qowaiv" Version="6.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Qowaiv.Analyzers.CSharp" Version="0.0.3.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Extensions\" />
   </ItemGroup>
 
 </Project>

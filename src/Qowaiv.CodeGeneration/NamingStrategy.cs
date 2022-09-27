@@ -1,9 +1,7 @@
-﻿using System.Linq;
-
-namespace Qowaiv.OpenApi.Collection;
+﻿namespace Qowaiv.OpenApi.Collection;
 
 public delegate string EnumValueNaming(string name);
-public delegate string PropertyNaming(string name, CodeType model);
+public delegate string PropertyNaming(string name, Type model);
 
 public static class NamingStrategy
 {
@@ -12,10 +10,10 @@ public static class NamingStrategy
     public static string PascalCase(string name)
        => (char.ToUpperInvariant(name[0]) + name[1..]);
 
-    public static string PascalCase(string name, CodeType model) 
+    public static string PascalCase(string name, Type model) 
         => PascalCase(name).Enclosing(model);
 
-    public static string CamelCase(string name, CodeType model) 
+    public static string CamelCase(string name, Type model) 
         => (char.ToLowerInvariant(name[0]) + name[1..]).Enclosing(model);
 
     public static string Enum(string name)
@@ -28,7 +26,7 @@ public static class NamingStrategy
         return name;
     }
 
-    private static string Enclosing(this string name, CodeType type)
+    private static string Enclosing(this string name, Type type)
         => type.Name == name
         ? '_' + name
         : name;

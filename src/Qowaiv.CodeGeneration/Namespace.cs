@@ -1,17 +1,25 @@
-﻿namespace Qowaiv.CodeGeneration;
+﻿using System.IO;
 
-/// <summary>Represents a namespace.</summary>
+namespace Qowaiv.CodeGeneration;
+
+/// <summary>Represents a TypeScript namespace.</summary>
 public readonly struct Namespace : IEquatable<Namespace>
 {
-    /// <summary>The empty/no namespace.</summary>
-    public static readonly Namespace None;
-
     /// <summary>Creates a new instance of the <see cref="Namespace"/> struct.</summary>
-    private Namespace(string name) => Name = Guard.NotNullOrEmpty(name, nameof(name));
+    public Namespace(string name) => Name = Guard.NotNullOrEmpty(name, nameof(name));
 
     /// <summary>Gets the name of the namespace.</summary>
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private readonly string Name;
+    public string Name { get; }
+
+    /// <summary>Get the parent namespace of the namespace.</summary>
+    public Namespace Parent
+    {
+        get
+        {
+            var index = Name.LastIndexOf('.');
+            return index == -1 ? default : new(Name[..index]);
+        }
+    }
 
     /// <summary>Returns true if empty.</summary>
     public bool IsEmpty() => string.IsNullOrEmpty(Name);
@@ -46,4 +54,22 @@ public readonly struct Namespace : IEquatable<Namespace>
 
     /// <summary>Implicitly casts a string to a namespace.</summary>
     public static implicit operator Namespace(string value) => new(value);
+
+    [Pure]
+    public static IEnumerable<Namespace> Globals(FileInfo file)
+        => Globals(Guard.NotNull(file, nameof(file)).OpenRead());
+
+    [Pure]
+    public static IEnumerable<Namespace> Globals(Stream stream)
+    {
+        Guard.NotNull(stream, nameof(Stream));
+        using var reader = new StreamReader(stream);
+        while (reader.ReadLine() is { } line)
+        {
+            if (line.StartsWith("global using ") && line[^1] == ';')
+            {
+                yield return new Namespace(line[13..^1]);
+            }
+        }
+    }
 }

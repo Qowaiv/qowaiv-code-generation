@@ -4,7 +4,7 @@ using Qowaiv.IO;
 using Qowaiv.Mathematics;
 using Qowaiv.Statistics;
 
-namespace Qowaiv.OpenApi;
+namespace Qowaiv.CodeGeneration;
 
 public partial class TypeInfo
 {

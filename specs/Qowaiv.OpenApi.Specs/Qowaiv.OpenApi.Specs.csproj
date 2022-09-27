@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Qowaiv.CodeGeneration\Qowaiv.CodeGeneration.csproj" />
     <ProjectReference Include="..\..\src\Qowaiv.OpenApi\Qowaiv.OpenApi.csproj" />
   </ItemGroup>
 

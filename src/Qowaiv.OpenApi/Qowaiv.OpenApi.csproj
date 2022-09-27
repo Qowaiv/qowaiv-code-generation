@@ -6,6 +6,24 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Decoration\**" />
+	  <Compile Remove="Generation\**" />
+	  <Compile Remove="IO\**" />
+	  <EmbeddedResource Remove="Decoration\**" />
+	  <EmbeddedResource Remove="Generation\**" />
+	  <EmbeddedResource Remove="IO\**" />
+	  <None Remove="Decoration\**" />
+	  <None Remove="Generation\**" />
+	  <None Remove="IO\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Collection\Collector.cs" />
+	  <Compile Remove="Collection\NamingStrategy.cs" />
+	  <Compile Remove="Collection\TypeResolver.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Compile Include="..\..\shared\Guard.cs" Link="Guard.cs" />
 	</ItemGroup>
 
@@ -20,6 +38,14 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Qowaiv.CodeGeneration\Qowaiv.CodeGeneration.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Collection\" />
 	</ItemGroup>
 
 </Project>

@@ -1,0 +1,562 @@
+﻿{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "MortgageCustomerInterestRateCalculationServiceAPI",
+    "description": "",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://abnamro-development.smartplatforms.io"
+    }
+  ],
+  "paths": {
+    "/mortgage-customer-interest-rate-calculation/v2/hypotheekrentes/rentebladen": {
+      "get": {
+        "tags": [
+          "HypotheekRenteblad"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/mortgage-customer-interest-rate-calculation/v2/hypotheekrentes/renteblad/{ingangsdatum}": {
+      "get": {
+        "tags": [
+          "HypotheekRenteblad"
+        ],
+        "parameters": [
+          {
+            "name": "ingangsdatum",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Full-date notation as defined by RFC 3339, section 5.6, for example, 2017-06-10.",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/mortgage-customer-interest-rate-calculation/v2/hypotheekrentes/approve/{ingangsdatum}/{version}": {
+      "put": {
+        "tags": [
+          "Hypotheekrentes"
+        ],
+        "parameters": [
+          {
+            "name": "ingangsdatum",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Full-date notation as defined by RFC 3339, section 5.6, for example, 2017-06-10.",
+              "format": "date"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/mortgage-customer-interest-rate-calculation/v2/hypotheekrentes/reject/{ingangsdatum}/{version}": {
+      "put": {
+        "tags": [
+          "Hypotheekrentes"
+        ],
+        "parameters": [
+          {
+            "name": "ingangsdatum",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Full-date notation as defined by RFC 3339, section 5.6, for example, 2017-06-10.",
+              "format": "date"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/mortgage-customer-interest-rate-calculation/v2/hypotheekrentes/add-renteblad/{version}": {
+      "put": {
+        "tags": [
+          "Hypotheekrentes"
+        ],
+        "parameters": [
+          {
+            "name": "version",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/mortgage-customer-interest-rate-calculation/v2/starting-dates": {
+      "get": {
+        "tags": [
+          "Overview"
+        ],
+        "summary": "Retrieves all possible starting dates",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "Full-date notation as defined by RFC 3339, section 5.6, for example, 2017-06-10.",
+                    "format": "date"
+                  }
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "Full-date notation as defined by RFC 3339, section 5.6, for example, 2017-06-10.",
+                    "format": "date"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oops",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Oops",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mortgage-customer-interest-rate-calculation/v2/interest-rates/{startDate}": {
+      "get": {
+        "tags": [
+          "Overview"
+        ],
+        "summary": "Retrieves an overview of interest rates",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Full-date notation as defined by RFC 3339, section 5.6, for example, 2017-06-10.",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterestRates"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterestRates"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Oops",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Oops",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorDetails": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Designates the type of error",
+            "nullable": true,
+            "example": "UNSUPPORTED_MEDIA_TYPE"
+          },
+          "message": {
+            "type": "string",
+            "description": "Detailed information about the error",
+            "nullable": true,
+            "example": "The requested content type is missing or not supported"
+          },
+          "status": {
+            "type": "integer",
+            "description": "Designates the type of error using HTTP status-codes",
+            "format": "int32",
+            "example": 415
+          },
+          "traceId": {
+            "type": "string",
+            "description": "TraceId generated or passed in via the Trace-Id header",
+            "nullable": true,
+            "example": "0HM250PNEVDVM:00000001"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Contains response details based on enterprise guidelines"
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorDetails"
+            },
+            "description": "Is an array of errors",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Response based on enterprise standard"
+      },
+      "InterestRateType": {
+        "enum": [
+          "BUDGET",
+          "WONING",
+          "DUURZAAM",
+          "OVERWAARDE_EENMALIG",
+          "OVERWAARDE_MAANDELIJKS",
+          "CHF_TOETSRENTE",
+          "OVERBRUGGING"
+        ],
+        "type": "string"
+      },
+      "DeviationType": {
+        "enum": [
+          "ANNUITAIR",
+          "LINEAIR",
+          "BANKSPAAR",
+          "HYBRIDE"
+        ],
+        "type": "string"
+      },
+      "Deviation": {
+        "type": "object",
+        "properties": {
+          "raise": {
+            "pattern": "-?[0-9]+(\\\\.[0-9])?%",
+            "type": "string",
+            "description": "Ratio expressed as a fraction of 100 denoted using the percent sign '%', for example 13.76%.",
+            "format": "percentage"
+          },
+          "type": {
+            "$ref": "#/components/schemas/DeviationType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DiscountType": {
+        "enum": [
+          "UNKNOWN",
+          "BANK_ACCOUNT",
+          "EMPLOYER_ARRANGEMENT",
+          "SUSTAINABILITY"
+        ],
+        "type": "string"
+      },
+      "Discount": {
+        "type": "object",
+        "properties": {
+          "reduce": {
+            "pattern": "-?[0-9]+(\\\\.[0-9])?%",
+            "type": "string",
+            "description": "Ratio expressed as a fraction of 100 denoted using the percent sign '%', for example 13.76%.",
+            "format": "percentage"
+          },
+          "type": {
+            "$ref": "#/components/schemas/DiscountType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SurchargeType": {
+        "enum": [
+          "UNKNOWN",
+          "NHG",
+          "LTV"
+        ],
+        "type": "string"
+      },
+      "Surcharge": {
+        "type": "object",
+        "properties": {
+          "base": {
+            "pattern": "-?[0-9]+(\\\\.[0-9])?%",
+            "type": "string",
+            "description": "Ratio expressed as a fraction of 100 denoted using the percent sign '%', for example 13.76%.",
+            "format": "percentage",
+            "nullable": true
+          },
+          "ltv": {
+            "type": "string",
+            "description": "Category of loan to value denoted as range with '%', for example >85% or 65%-85%.",
+            "format": "ltv",
+            "nullable": true
+          },
+          "raise": {
+            "pattern": "-?[0-9]+(\\\\.[0-9])?%",
+            "type": "string",
+            "description": "Ratio expressed as a fraction of 100 denoted using the percent sign '%', for example 13.76%.",
+            "format": "percentage",
+            "nullable": true
+          },
+          "step": {
+            "pattern": "-?[0-9]+(\\\\.[0-9])?%",
+            "type": "string",
+            "description": "Ratio expressed as a fraction of 100 denoted using the percent sign '%', for example 13.76%.",
+            "format": "percentage",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/SurchargeType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InterestRate": {
+        "type": "object",
+        "properties": {
+          "base": {
+            "pattern": "-?[0-9]+(\\\\.[0-9])?%",
+            "type": "string",
+            "description": "Ratio expressed as a fraction of 100 denoted using the percent sign '%', for example 13.76%.",
+            "format": "percentage"
+          },
+          "commercialProduct": {
+            "type": "string",
+            "nullable": true
+          },
+          "duration": {
+            "pattern": "[+-]?[0-9]+Y[+-][0-9]+M",
+            "type": "string",
+            "description": "Month span, specified in years and months, for example 1Y+10M.",
+            "format": "month-span"
+          },
+          "reflectionPeriod": {
+            "pattern": "[+-]?[0-9]+Y[+-][0-9]+M",
+            "type": "string",
+            "description": "Month span, specified in years and months, for example 1Y+10M.",
+            "format": "month-span",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/InterestRateType"
+          },
+          "deviations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Deviation"
+            },
+            "nullable": true
+          },
+          "discounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Discount"
+            },
+            "nullable": true
+          },
+          "risk": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Surcharge"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InterestRates": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "description": "Universally unique identifier, Base64 encoded, for example lmZO_haEOTCwGsCcbIZFFg.",
+            "format": "uuid-base64",
+            "nullable": true
+          },
+          "startingDate": {
+            "type": "string",
+            "description": "Full-date notation as defined by RFC 3339, section 5.6, for example, 2017-06-10.",
+            "format": "date"
+          },
+          "rates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InterestRate"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "X-Api-Key": {
+        "type": "apiKey",
+        "description": "Provide the given authentication key",
+        "name": "X-Api-Key",
+        "in": "header"
+      }
+    }
+  }
+}

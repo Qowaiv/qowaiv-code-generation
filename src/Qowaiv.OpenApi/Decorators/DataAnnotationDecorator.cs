@@ -1,51 +1,36 @@
-﻿using Qowaiv.OpenApi.IO;
+﻿using Qowaiv.CodeGeneration;
+using Qowaiv.CodeGeneration.Instructions;
+using Qowaiv.CodeGeneration.IO;
+using Qowaiv.Validation.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Qowaiv.OpenApi.Decoration;
+namespace Qowaiv.OpenApi.Decorators;
 
 public class DataAnnotationDecorator : CodeDecorator
 {
-    public static readonly CodeType Range = new("RangeAttribute", "System.ComponentModel.DataAnnotations");
-    public static readonly CodeType AllowedValues = new("AllowedValuesAttribute", "System.ComponentModel.DataAnnotations");
-    public static readonly CodeType RegularExpression = new("RegularExpressionAttribute", "System.ComponentModel.DataAnnotations");
-    public static readonly CodeType Required = new("RequiredAttribute", "System.ComponentModel.DataAnnotations");
-    public static readonly CodeType Any = new("AnyAttribute", "Qowaiv.Validation.DataAnnotations");
-    public static readonly CodeType Optional = new("OptionalAttribute", "Qowaiv.Validation.DataAnnotations");
-
-    public override void Property(CSharpWriter writer, CodeProperty property)
+    [Pure]
+    public override IEnumerable<Code> Property(Property property, OpenApiProperty schema)
     {
-        PropertyNullable(writer, property);
-        PropertyPattern(writer, property);
-        
-    }
-    protected virtual void PropertyNullable(CSharpWriter writer, CodeProperty property)
-    {
-        if (!property.Schema.Nullable)
-        {
-            writer.Indent()
-                .Write('[')
-                .Write(property.Type.IsArray ? Any : Required, attribute: true)
-                .Line(']');
-        }
-        else
-        {
-            writer.Indent()
-                .Write('[')
-                .Write(Optional, attribute: true)
-                .Line(']');
-        }
+        if (PropertyRequired(property, schema) is { } required) yield return required;
+        if (PropertyPattern(property, schema) is { } pattern) yield return pattern;
     }
 
-    protected virtual void PropertyPattern(CSharpWriter writer, CodeProperty property)
+    [Pure]
+    protected virtual Code? PropertyRequired(Property property, OpenApiProperty schema)
     {
-        if (property.Type == CodeType.String && property.Schema.Pattern is { })
+        if (!schema.Schema.Nullable)
         {
-            writer.Indent()
-                .Write('[')
-                .Write(RegularExpression, attribute: true)
-                .Write('(')
-                .Literal(property.Schema.Pattern.ToString())
-                .Line($")]");
+            return property.PropertyType.IsArray
+                ? new Decoration(typeof(AnyAttribute))
+                : new Decoration(typeof(RequiredAttribute));
         }
+        else return new Decoration(typeof(OptionalAttribute));
     }
+
+    [Pure]
+    protected virtual Code? PropertyPattern(Property property, OpenApiProperty schema) 
+        => property.PropertyType == TypeInfo.String && schema.Schema.Pattern is { } pattern
+        ? new Decoration(typeof(RegularExpressionAttribute), new object[] { pattern })
+        : null;
 }
 

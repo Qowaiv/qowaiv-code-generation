@@ -1,35 +1,18 @@
-﻿using Qowaiv.OpenApi.Collection;
-using Qowaiv.OpenApi.Decoration;
-using Qowaiv.OpenApi.IO;
+﻿using Qowaiv.CodeGeneration;
+using Qowaiv.CodeGeneration.IO;
 using System.IO;
 
 namespace Qowaiv.OpenApi.Generation;
 
 public static class CollectorWriter
 {
-    public static void Write(
-        this Collector collector,
-        CodeGeneratorSettings? settings = null,
-        CSharpWriterSettings? writerSettings = null,
-        params CodeDecorator[] decorators)
+    public static void WriteTo(this IEnumerable<TypeInfo> types, DirectoryInfo rootDirectory, CSharpWriterSettings? settings = null)
     {
-        settings ??= new();
-        writerSettings ??= new();
+        DeleteExistingGeneratedFiles(rootDirectory);
 
-        DeleteExistingGeneratedFiles(settings);
-
-        var defaultNamespace = collector.Resolver.DefaultNamespace.Name ?? string.Empty;
-
-        foreach (var code in collector)
+        foreach (var code in types)
         {
-            var ns = code.Type.Namespace.Name;
-
-            if (ns == defaultNamespace || ns.StartsWith($"{defaultNamespace}."))
-            {
-                ns = ns[defaultNamespace.Length..].TrimStart('.').Replace('.', '\\');
-            }
-
-            var path = Path.Combine(settings.RootLocation.FullName, ns, code.Type.Name + ".generated.cs");
+            var path = Path.Combine(rootDirectory.FullName, code.FullName + ".generated.cs");
 
             var location = new FileInfo(path);
             if (!location.Directory!.Exists)
@@ -38,17 +21,13 @@ public static class CollectorWriter
             }
             using var textWriter = new StreamWriter(location.FullName, CSharpWriter.Encoding, new FileStreamOptions { Access = FileAccess.Write, Mode = FileMode.Create });
 
-            var generator = new CodeGenerator(settings, decorators);
-
-            generator.Write(code, new CSharpWriter(writerSettings, textWriter));
+            code.Write(new CSharpWriter(textWriter, settings));
         }
     }
 
-    private static void DeleteExistingGeneratedFiles(CodeGeneratorSettings settings)
+    private static void DeleteExistingGeneratedFiles(DirectoryInfo rootDirectory)
     {
-        if (!settings.DeleteExistingGeneratedFiles || !settings.RootLocation.Exists) return;
-
-        var toDelete = settings.RootLocation.GetFiles("*.generated.cs", SearchOption.AllDirectories);
+        var toDelete = rootDirectory.GetFiles("*.generated.cs", SearchOption.AllDirectories);
         foreach (var file in toDelete)
         {
             try
@@ -61,7 +40,7 @@ public static class CollectorWriter
             }
         }
 
-        var emptyDirectories = settings.RootLocation
+        var emptyDirectories = rootDirectory
             .EnumerateDirectories("*", SearchOption.AllDirectories)
             .Where(IsEmpty)
             .ToArray();

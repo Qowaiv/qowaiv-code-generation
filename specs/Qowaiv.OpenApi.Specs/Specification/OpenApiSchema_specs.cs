@@ -1,8 +1,11 @@
 using FluentAssertions;
+using Microsoft.OpenApi.Models;
 using NUnit.Framework;
 using Qowaiv.CodeGeneration;
 using Qowaiv.OpenApi;
 using Qowaiv.OpenApi.Decorators;
+using Qowaiv.OpenApi.Generation;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -19,38 +22,16 @@ public class Serialization
         using var stream = new FileStream(
             @"C:\_TJIP\abn-hypotheek\services\hypotheekdossier-api\extern\Tjip.Hypotheekservices.Api\Overzicht\TjipOverzicht.swagger.json", FileMode.Open);
 
-        var reader = new Microsoft.OpenApi.Readers.OpenApiStreamReader();
-        var openApiDocument = reader.Read(stream, out var diagnostic);
+        var resolver = new TjipHypotheekOverzichtResolver();
 
-        var resolver = new OpenApiTypeResolver("Tjip.Hypotheek.Overzicht", new SystemTextJsonDecorator());
-        var types = resolver.Resolve(openApiDocument).ToArray();
+        var types = resolver.Resolve(stream, out var diagnostic).ToArray();
 
-        var enums = types.OfType<Enumeration>().ToArray();
+        types.Should().HaveCount(23);
 
-        types.Should().HaveCount(1000);
-
-        //var collect = Collector.Empty(new TjipHypotheekservicesResolver())
-        //    .WithPropertyNaming(NamingStrategy.PascalCase)
-        //    .Collect(stream);
-
-        //collect.Write(new CodeGeneratorSettings
-        //{
-        //    RootLocation = root,
-        //    PropertyAccess = PropertyAccess.InitOnly,
-        //    ModelType = ModelType.Class,
-        //    DeleteExistingGeneratedFiles = true,
-        //},
-        //new CSharpWriterSettings
-        //{
-        //    Globals = Namespace.Globals(globals).ToArray()
-        //},
-        //new DocumentationDecorator(),
-        //new DataAnnotationDecorator(),
-        ////new SystemTextJsonDecorator(),
-        //new NewtonsoftJsontJsonDecorator()
-        //);
-
-        //collect.Should().NotBeEmpty();
+        types.WriteTo(root, new()
+        {
+            Globals = Namespace.Globals(globals).ToArray(),
+        });
     }
 
     //[Test]
@@ -193,4 +174,16 @@ public class Serialization
     //        }
     //    }
     //}
+}
+
+internal class TjipHypotheekOverzichtResolver : OpenApiTypeResolver
+{
+    public TjipHypotheekOverzichtResolver() : base("Tjip.Hypotheek.Overzicht", new DataAnnotationDecorator(),
+            new SystemTextJsonDecorator()) { }
+
+    protected override Type? Custom(OpenApiSchema schema)
+    {
+        if (schema.OpenApiType() == OpenApiType.number) return TypeInfo.Amount;
+        return null;
+    }
 }

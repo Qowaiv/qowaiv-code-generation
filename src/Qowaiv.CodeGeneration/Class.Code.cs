@@ -17,7 +17,7 @@ public partial class Class
         writer.Write("partial class ").Write(Name);
         if (BaseType != typeof(object)) writer.Write(" : ").Write(BaseType);
 
-        using (writer.CodeBlock())
+        using (writer.Line().CodeBlock())
         {
             writer.Write(
                 writes: Properties.Select(WriteProperty),

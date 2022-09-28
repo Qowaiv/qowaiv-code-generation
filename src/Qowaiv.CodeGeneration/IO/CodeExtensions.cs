@@ -9,8 +9,9 @@ public static class CodeExtensions
     {
         Guard.NotNull(code, nameof(code));
         using var stream = new MemoryStream();
-        var writer = new CSharpWriter(null, new StreamWriter(stream));
+        var writer = new CSharpWriter(new StreamWriter(stream));
         code.Write(writer);
+        writer.Flush();
         return Encoding.UTF8.GetString(stream.ToArray());
     }
 }

@@ -14,10 +14,13 @@ public sealed class CSharpWriter
     private int Indentation;
 
     /// <summary>Creates a new instance of the <see cref="CSharpWriter"/> class.</summary>
-    public CSharpWriter(CSharpWriterSettings? settings, TextWriter writer)
+    public CSharpWriter(TextWriter writer) : this(writer, null) { }
+
+    /// <summary>Creates a new instance of the <see cref="CSharpWriter"/> class.</summary>
+    public CSharpWriter(TextWriter writer, CSharpWriterSettings? settings)
     {
-        Settings = settings ?? new();
         Writer = Guard.NotNull(writer, nameof(writer));
+        Settings = settings ?? new();
     }
 
     /// <summary>Writes a character to the code file.</summary>
@@ -63,10 +66,13 @@ public sealed class CSharpWriter
     }
 
     [FluentSyntax]
-    public CSharpWriter Write(Type type, bool attribute = false) => this;
-    //=> type.Display(Settings.Globals) is var display && attribute && display.EndsWith("Attribute")
-    //? Write(display[..^9])
-    //: Write(display);
+    public CSharpWriter Write(Type type, bool attribute = false)
+    {
+        var name = type.ToCSharpString(withNamespace: !Settings.Globals.Contains(type.Namespace!));
+        return attribute && name.EndsWith("Attribute")
+            ? Write(name[..^9])
+            : Write(name);
+    }
 
     [FluentSyntax]
     public CSharpWriter Literal(object? str)
@@ -135,6 +141,12 @@ public sealed class CSharpWriter
         Indentation++;
         return new ScopedCodeBlock(this, markers[1]);
     }
+
+    /// <summary>
+    /// Clears all buffers for the current writer and causes any buffered data
+    /// to be written to the code file.
+    /// </summary>
+    public void Flush() => Writer.Flush();
 
     private sealed record ScopedCodeBlock(CSharpWriter Writer, char Close) : IDisposable
     {

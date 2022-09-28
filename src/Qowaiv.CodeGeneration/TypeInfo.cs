@@ -86,17 +86,19 @@ public abstract partial class TypeInfo : Type, Code
 
     #region Not available
 
-    public override Assembly Assembly => throw new NotSupportedException();
+    public override Assembly Assembly => Assembly.GetCallingAssembly();
 
-    public override Module Module => throw new NotSupportedException();
-    public override string? AssemblyQualifiedName => throw new NotSupportedException();
-    public override Type UnderlyingSystemType => throw new NotSupportedException();
+    public override Module Module => Assembly.Modules.First();
+    public override string AssemblyQualifiedName => Assembly.GetName().FullName;
+    public override Type UnderlyingSystemType => this;
 
     /// <inheritdoc />
     [Pure]
     public override object? InvokeMember(string name, BindingFlags invokeAttr, Binder? binder, object? target, object?[]? args, ParameterModifier[]? modifiers, CultureInfo? culture, string[]? namedParameters) => throw new NotSupportedException();
-    
 
+    /// <inheritdoc />
+    [Pure]
+    public override int GetArrayRank() => IsArray ? 1 : 0;
 
     /// <inheritdoc />
     [Pure]

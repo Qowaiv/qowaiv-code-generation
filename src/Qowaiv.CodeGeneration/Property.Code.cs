@@ -9,6 +9,8 @@ public partial class Property : Code
     {
         foreach (var decoration in Decorations) writer.Write(decoration);
 
-        writer.Indent().Write("public ").Write(PropertyType).Write(" ").Write(PropertyAccess.Code()).Line();
+        writer.Indent()
+            .Write("public ").Write(PropertyType).Write(' ').Write(Name).Write(' ').Write(PropertyAccess.Code())
+            .Line();
     }
 }

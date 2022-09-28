@@ -7,6 +7,6 @@ public partial class EnumerationField : Code
     /// <inheritdoc />
     public virtual void Write(CSharpWriter writer)
     {
-        writer.Indent().Line(Name);
+        writer.Indent().Write(Name);
     }
 }

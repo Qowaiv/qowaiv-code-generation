@@ -16,9 +16,10 @@ public partial class Enumeration
         {
             writer.Write(
                 writes: Fields.Select(WriteField),
-                split: writer => writer.Line());
+                split: writer => writer.Line(','))
+                .Line();
         }
 
-        Action<CSharpWriter> WriteField(EnumerationField field) => writer => writer.Write(field.ToString());
+        Action<CSharpWriter> WriteField(EnumerationField field) => writer => writer.Write(field);
     }
 }

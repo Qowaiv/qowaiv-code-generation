@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using Qowaiv.CodeGeneration.Instructions;
+﻿using Qowaiv.CodeGeneration.IO;
+using System.Reflection;
 
 namespace Qowaiv.CodeGeneration;
 
@@ -10,7 +10,7 @@ public partial class Class : TypeInfo
     public Class(
         TypeName nameType,
         IReadOnlyCollection<Property>? properties = null,
-        IReadOnlyCollection<Decoration>? decorations = null,
+        IReadOnlyCollection<Code>? decorations = null,
         bool isArray = false,
         Type? baseType = null)
         : base(nameType, decorations, isArray, baseType)

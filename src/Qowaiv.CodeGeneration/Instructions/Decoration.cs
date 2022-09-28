@@ -34,7 +34,7 @@ public sealed class Decoration : Code
             writer.Write('(');
             writer.Write(CtorArguments.Select(a => CtorArgument(a)), writer => writer.Write(", "));
 
-            if (CtorArguments.Any()) writer.Write(", ");
+            if (CtorArguments.Any() && PropertyValues.Any()) writer.Write(", ");
 
             writer.Write(PropertyValues.Select(a => PropertyValue(a)), writer => writer.Write(", "));
             writer.Write(')');

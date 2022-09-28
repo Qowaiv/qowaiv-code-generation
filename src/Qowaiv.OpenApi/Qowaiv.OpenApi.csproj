@@ -17,8 +17,10 @@
 	<ItemGroup>
 		<Compile Include="..\..\shared\Guard.cs" Link="Guard.cs" />
 		<Compile Include="Decorators\CodeDecorator.cs" />
+		<Compile Include="Decorators\DataAnnotationDecorator.cs" />
 		<Compile Include="Decorators\NewtonsoftJsontJsonDecorator.cs" />
 		<Compile Include="Decorators\SystemTextJsonDecorator.cs" />
+		<Compile Include="Generation\Collector.Write.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -33,6 +35,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Qowaiv.Validation.DataAnnotations" Version="1.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

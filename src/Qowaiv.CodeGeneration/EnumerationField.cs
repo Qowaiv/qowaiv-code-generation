@@ -12,12 +12,15 @@ public partial class EnumerationField : FieldInfo
         FieldType = enumType;
     }
 
-    public override FieldAttributes Attributes => throw new NotImplementedException();
+    /// <inheritdoc />
+    public override FieldAttributes Attributes =>default;
 
-    public override RuntimeFieldHandle FieldHandle => throw new NotImplementedException();
+    /// <inheritdoc />
+    public override RuntimeFieldHandle FieldHandle => default;
 
     /// <inheritdoc />
     public override string Name { get; }
+
     public object? Value { get; }
 
     /// <inheritdoc />
@@ -32,29 +35,24 @@ public partial class EnumerationField : FieldInfo
     /// <inheritdoc />
     [Pure]
     public override string ToString() => Value is { } ? $"{Name} = {Value}" : $"{Name}";
+    
+    /// <inheritdoc />
+    [Pure]
+    public override object[] GetCustomAttributes(bool inherit) => Array.Empty<object>();
 
-    public override object[] GetCustomAttributes(bool inherit)
-    {
-        throw new NotImplementedException();
-    }
+    /// <inheritdoc />
+    [Pure]
+    public override object[] GetCustomAttributes(Type attributeType, bool inherit) => Array.Empty<object>();
 
-    public override object[] GetCustomAttributes(Type attributeType, bool inherit)
-    {
-        throw new NotImplementedException();
-    }
+    /// <inheritdoc />
+    [Pure]
+    public override bool IsDefined(Type attributeType, bool inherit) => false;
 
-    public override object? GetValue(object? obj)
-    {
-        throw new NotImplementedException();
-    }
+    /// <inheritdoc />
+    [Pure]
+    public override object? GetValue(object? obj) => throw new NotSupportedException();
 
-    public override bool IsDefined(Type attributeType, bool inherit)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void SetValue(object? obj, object? value, BindingFlags invokeAttr, Binder? binder, CultureInfo? culture)
-    {
-        throw new NotImplementedException();
-    }
+    /// <inheritdoc />
+    [Pure]
+    public override void SetValue(object? obj, object? value, BindingFlags invokeAttr, Binder? binder, CultureInfo? culture) => throw new NotSupportedException();
 }

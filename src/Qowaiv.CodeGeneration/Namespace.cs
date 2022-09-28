@@ -22,6 +22,7 @@ public readonly struct Namespace : IEquatable<Namespace>
     }
 
     /// <summary>Returns true if empty.</summary>
+    [Pure]
     public bool IsEmpty() => string.IsNullOrEmpty(Name);
 
     [Pure]

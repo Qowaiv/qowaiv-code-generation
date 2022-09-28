@@ -170,13 +170,16 @@ public class OpenApiTypeResolver
         if (propertyType is { })
         {
             var decorations = new List<Code>();
-            var prop = new Property(property.Name, propertyType, @class, Access(property), decorations);
+            var prop = new Property(PorpertyName(@class, property), propertyType, @class, Access(property), decorations);
             decorations.AddRange(Decorators.SelectMany(d => d.Property(prop, property)));
             return prop;
         }
         else return null;
     }
 
+    [Pure]
+    protected virtual string PorpertyName(Class @class, OpenApiProperty property)
+        => NamingStrategy.PascalCase(property.Name, @class);
 
     [Pure]
     protected virtual TypeName ResolveName(OpenApiSchema schema)

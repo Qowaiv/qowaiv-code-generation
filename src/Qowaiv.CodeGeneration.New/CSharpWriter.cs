@@ -1,9 +1,7 @@
 ﻿using Qowaiv.Diagnostics.Contracts;
 using System.IO;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
 
-namespace Qowaiv.CodeGeneration.IO;
+namespace Qowaiv.CodeGeneration;
 
 public sealed class CSharpWriter
 {
@@ -80,40 +78,6 @@ public sealed class CSharpWriter
         => str is null
         ? Write("null")
         : Write($@"""{str}""");
-
-    /// <summary>Writes a file-scoped namespace declaration to the code file.</summary>
-    [FluentSyntax]
-    public CSharpWriter NamespaceDeclaration(Namespace @namespace) => Line($"namespace {@namespace};").Line();
-
-    [FluentSyntax]
-    public CSharpWriter Documentation(string type, string? text, bool literal = false)
-    {
-        var lines = (text ?? string.Empty)
-            .Replace("\r", "")
-            .Split('\n', StringSplitOptions.TrimEntries)
-            .ToList();
-
-        for (var i = lines.Count - 1; i >= 0; i--)
-        {
-            if (!string.IsNullOrEmpty(lines[i])) break;
-            else lines.RemoveAt(i);
-        }
-
-        if (lines.Count == 1)
-        {
-            Indent().Line($"/// <{type}>{(literal ? lines[0] : new XText(lines[0]))}</{type}>");
-        }
-        else if (lines.Any())
-        {
-            Indent().Line($"/// <{type}>");
-            foreach (var line in lines)
-            {
-                Indent().Line($"/// {(literal ? line : new XText(line))}");
-            }
-            Indent().Line($"/// </{type}>");
-        }
-        return this;
-    }
 
     /// <summary>Indents the current line of the code file.</summary>
     [FluentSyntax]

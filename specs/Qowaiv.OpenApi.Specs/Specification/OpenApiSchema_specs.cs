@@ -184,6 +184,7 @@ internal class TjipHypotheekOverzichtResolver : OpenApiTypeResolver
     protected override Type? Custom(OpenApiSchema schema)
     {
         if (schema.OpenApiType() == OpenApiType.number) return TypeInfo.Amount;
+        if (schema.OpenApiType() == OpenApiType.@string && schema.Format == "date-time") return TypeInfo.DateOnly;
         return null;
     }
 }

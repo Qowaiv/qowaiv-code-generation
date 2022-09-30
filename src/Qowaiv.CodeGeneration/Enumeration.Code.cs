@@ -5,11 +5,11 @@ namespace Qowaiv.CodeGeneration;
 public partial class Enumeration
 {
     /// <inheritdoc />
-    public override void Write(CSharpWriter writer)
+    public override void WriteTo(CSharpWriter writer)
     {
-        foreach (var decoration in Decorations) writer.Write(decoration);
-
         writer.NamespaceDeclaration(NS);
+
+        foreach (var decoration in Decorations) writer.Write(decoration);
         writer.Indent().Write("public enum ").Line(Name);
         
         using (writer.CodeBlock())

@@ -5,11 +5,11 @@ namespace Qowaiv.CodeGeneration;
 public partial class Class
 {
     /// <inheritdoc />
-    public override void Write(CSharpWriter writer)
+    public override void WriteTo(CSharpWriter writer)
     {
-        foreach (var decoration in Decorations) writer.Write(decoration);
-
         writer.NamespaceDeclaration(NS);
+
+        foreach (var decoration in Decorations) writer.Write(decoration);
 
         writer.Indent().Write("public ");
         if (IsAbstract) writer.Write("abstract ");

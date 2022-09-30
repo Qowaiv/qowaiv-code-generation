@@ -21,7 +21,7 @@ public static class CollectorWriter
             }
             using var textWriter = new StreamWriter(location.FullName, CSharpWriter.Encoding, new FileStreamOptions { Access = FileAccess.Write, Mode = FileMode.Create });
 
-            code.Write(new CSharpWriter(textWriter, settings));
+            code.WriteTo(new CSharpWriter(textWriter, settings));
         }
     }
 

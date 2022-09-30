@@ -22,7 +22,7 @@ public sealed class Decoration : Code
     public override string ToString() => this.Stringify();
 
     /// <inheritdoc />
-    public void Write(CSharpWriter writer)
+    public void WriteTo(CSharpWriter writer)
     {
         writer
             .Indent()

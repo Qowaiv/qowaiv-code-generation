@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Qowaiv.CodeGeneration.IO;
+namespace Qowaiv.CodeGeneration;
 
 public static class CodeExtensions
 {

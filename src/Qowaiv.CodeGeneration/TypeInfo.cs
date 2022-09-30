@@ -1,5 +1,4 @@
-﻿using Qowaiv.CodeGeneration.Instructions;
-using Qowaiv.CodeGeneration.IO;
+﻿using Qowaiv.CodeGeneration.IO;
 using System.Reflection;
 
 namespace Qowaiv.CodeGeneration;
@@ -39,7 +38,7 @@ public abstract partial class TypeInfo : Type, Code
     public override Guid GUID => Qowaiv.Uuid.GenerateWithSHA1(Encoding.ASCII.GetBytes(FullName));
 
     /// <inheritdoc />
-    public abstract void Write(CSharpWriter writer);
+    public abstract void WriteTo(CSharpWriter writer);
 
     /// <inheritdoc />
     [Pure]

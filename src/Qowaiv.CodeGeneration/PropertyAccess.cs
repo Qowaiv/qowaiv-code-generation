@@ -32,7 +32,7 @@ public static class PropertyAccessExtensions
         public Snippet(PropertyAccess propertyAccess)
             => PropertyAccess = Guard.DefinedEnum(propertyAccess, nameof(propertyAccess));
 
-        public void Write(CSharpWriter writer)
+        public void WriteTo(CSharpWriter writer)
             => writer.Write(PropertyAccess switch
             {
                 PropertyAccess.InitOnly => "{ get; init; }",

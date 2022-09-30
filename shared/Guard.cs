@@ -6,7 +6,7 @@
 //-----------------------------------------------------------------------
 #nullable enable
 
-namespace Qowaiv;
+namespace Qowaiv.CodeGeneration;
 
 /// <summary>Supplies parameter guarding for methods and constructors.</summary>
 /// <remarks>

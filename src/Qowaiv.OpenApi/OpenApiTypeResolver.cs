@@ -2,7 +2,6 @@
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Readers;
 using Qowaiv.CodeGeneration;
-using Qowaiv.CodeGeneration.IO;
 using Qowaiv.OpenApi.Collection;
 using Qowaiv.OpenApi.Decorators;
 using System.IO;

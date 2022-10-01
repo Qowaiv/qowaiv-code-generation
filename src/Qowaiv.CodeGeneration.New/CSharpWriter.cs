@@ -65,7 +65,10 @@ public sealed class CSharpWriter
     }
 
     [FluentSyntax]
-    public CSharpWriter Write(Type type, bool attribute = false)
+    public CSharpWriter Write(Type type) => Write(type, attribute: false);
+
+    [FluentSyntax]
+    public CSharpWriter Write(Type type, bool attribute)
     {
         var name = type.ToCSharpString(withNamespace: !Settings.Globals.Contains(type.Namespace!));
         return attribute && name.EndsWith("Attribute")
@@ -90,11 +93,15 @@ public sealed class CSharpWriter
 
     /// <summary>Writes the line including an ending to the code file.</summary>
     [FluentSyntax]
-    public CSharpWriter Line(string? line = null) => Write(line).Write(Settings.NewLine);
+    public CSharpWriter Line(string? line) => Write(line).Line();
 
     /// <summary>Writes the character including an ending to the code file.</summary>
     [FluentSyntax]
-    public CSharpWriter Line(char ch) => Write(ch).Write(Settings.NewLine);
+    public CSharpWriter Line(char ch) => Write(ch).Line();
+
+    /// <summary>Writes the character including an ending to the code file.</summary>
+    [FluentSyntax]
+    public CSharpWriter Line() => Write(Settings.NewLine);
 
     /// <summary>Writes a code block (`{ ... }`).</summary>
     [Pure]

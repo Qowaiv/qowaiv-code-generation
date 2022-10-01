@@ -73,11 +73,9 @@ public sealed class CSharpWriter
             : Write(name);
     }
 
+    /// <summary>Writes a literal to the code file.</summary>
     [FluentSyntax]
-    public CSharpWriter Literal(object? str)
-        => str is null
-        ? Write("null")
-        : Write($@"""{str}""");
+    public CSharpWriter Literal(object? value) => Write(new Syntax.Literal(value));
 
     /// <summary>Indents the current line of the code file.</summary>
     [FluentSyntax]

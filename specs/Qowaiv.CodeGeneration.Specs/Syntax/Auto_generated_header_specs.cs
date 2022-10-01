@@ -1,4 +1,4 @@
-﻿using Qowaiv.CodeGeneration.Sytnax;
+﻿using Qowaiv.CodeGeneration.Syntax;
 
 namespace Syntax.Auto_generated_header_specs;
 

@@ -31,6 +31,13 @@ public readonly struct Namespace : IEquatable<Namespace>
         ? new(child)
         : new($"{Name}.{child}");
 
+    /// <summary>Gets the (
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    [Pure]
+    public Code Declaration() => new Syntax.NamespaceDeclaration(this);
+
     /// <inheritdoc/>
     [Pure]
     public override string ToString() => Name ?? "";

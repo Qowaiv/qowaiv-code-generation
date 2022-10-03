@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Snippets\*.cs" />
+    <EmbeddedResource Include="Snippets\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Qowaiv.CodeGeneration\Qowaiv.CodeGeneration.csproj" />
+  </ItemGroup>
+
+
+</Project>

@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.CodeGeneration", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.CodeGeneration.Specs", "specs\Qowaiv.CodeGeneration.Specs\Qowaiv.CodeGeneration.Specs.csproj", "{10275478-1E52-4C16-97D2-AF143DAB5754}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qowaiv.SingleValueObjects", "src\Qowaiv.SingleValueObjects\Qowaiv.SingleValueObjects.csproj", "{6EA317E7-ED85-48C3-A585-05980E16C2EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{10275478-1E52-4C16-97D2-AF143DAB5754}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10275478-1E52-4C16-97D2-AF143DAB5754}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10275478-1E52-4C16-97D2-AF143DAB5754}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EA317E7-ED85-48C3-A585-05980E16C2EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EA317E7-ED85-48C3-A585-05980E16C2EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EA317E7-ED85-48C3-A585-05980E16C2EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EA317E7-ED85-48C3-A585-05980E16C2EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

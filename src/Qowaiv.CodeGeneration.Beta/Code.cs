@@ -1,4 +1,6 @@
-﻿namespace Qowaiv.CodeGeneration;
+﻿using Qowaiv.CodeGeneration.IO;
+
+namespace Qowaiv.CodeGeneration;
 
 /// <summary>Represents code that can be written to a <see cref="CSharpWriter"/>.</summary>
 public interface Code

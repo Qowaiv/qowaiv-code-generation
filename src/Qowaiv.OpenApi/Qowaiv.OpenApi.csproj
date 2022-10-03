@@ -39,7 +39,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Qowaiv.CodeGeneration\Qowaiv.CodeGeneration.csproj" />
+	  <ProjectReference Include="..\Qowaiv.CodeGeneration\Qowaiv.CodeGeneration.Beta.csproj" />
 	</ItemGroup>
 
 </Project>

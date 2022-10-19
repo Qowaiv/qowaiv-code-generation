@@ -1,7 +1,9 @@
 ﻿namespace Qowaiv.CodeGeneration.Syntax;
 
+/// <summary>Represents an attribute decoration.</summary>
 public sealed class AttributeDecoration : Code
 {
+    /// <summary>Creates a new instance of the <see cref="AttributeDecoration"/> class.</summary>
     public AttributeDecoration(Type attribute, object[]? ctorArguments = null, params KeyValuePair<string, object>[] propertyValues)
     {
         Attribute = Guard.NotNull(attribute, nameof(attribute));

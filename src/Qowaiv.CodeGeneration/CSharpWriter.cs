@@ -70,7 +70,7 @@ public sealed class CSharpWriter
     [FluentSyntax]
     public CSharpWriter Write(Type type, bool attribute)
     {
-        var name = type.ToCSharpString(withNamespace: !Settings.Globals.Contains(type.Namespace!));
+        var name = type.ToCSharpString(withNamespace: !Settings.GlobalUsings.Contains(type.Namespace!));
         return attribute && name.EndsWith("Attribute")
             ? Write(name[..^9])
             : Write(name);

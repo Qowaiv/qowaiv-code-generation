@@ -2,7 +2,7 @@
 
 namespace Qowaiv.CodeGeneration;
 
-/// <summary>Represents a TypeScript namespace.</summary>
+/// <summary>Represents a .NET namespace.</summary>
 public readonly struct Namespace : IEquatable<Namespace>
 {
     /// <summary>Creates a new instance of the <see cref="Namespace"/> struct.</summary>

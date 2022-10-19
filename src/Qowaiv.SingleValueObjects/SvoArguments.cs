@@ -1,6 +1,6 @@
 ﻿namespace Qowaiv.SingleValueObjects;
 
-public class SvoArguments
+public sealed record SvoArguments
 {
     public SvoFeatures Features { get; init; } = SvoFeatures.Default;
     public Type Underlying { get; init; } = typeof(string);
@@ -9,7 +9,4 @@ public class SvoArguments
     public string? FullName { get; init; }
     public string Namespace { get; init; } = "Qowaiv";
     public string? FormatExceptionMessage { get; init; }
-
-    public bool HasFeature(SvoFeatures feature) => Features.HasFlag(feature);
-    public bool LacksFeature(SvoFeatures feature) => !HasFeature(feature);
 }

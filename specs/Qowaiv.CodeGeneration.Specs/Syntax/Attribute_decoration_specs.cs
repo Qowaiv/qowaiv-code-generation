@@ -18,5 +18,5 @@ public class Supports
     public void parameter_sets()
         => new AttributeDecoration(typeof(TestAttribute),
             null, KeyValuePair.Create("Author", (object)"Qowaiv"))
-       .Should().HaveContent(@"[NUnit.Framework.Test(Author = ""Qowaiv"")]\r\n");
+       .Should().HaveContent("[NUnit.Framework.Test(Author = \"Qowaiv\")]\r\n");
 }

@@ -114,7 +114,7 @@ public class Generation_of
             SvoTemplate template,
             bool @override = false)
         {
-            if (@override || !location.Exists || location.Length < StreamSize.KB)
+            if (@override || !location.Exists || location.Length < StreamSize.FromKilobytes(0.25))
             {
                 if (!location.Directory!.Exists)
                 {

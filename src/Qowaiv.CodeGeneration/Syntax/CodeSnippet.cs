@@ -66,7 +66,10 @@ public sealed class CodeSnippet : Code
             }
             else if (enabled)
             {
-                lines.Add(line);
+                if (line != string.Empty || lines.LastOrDefault() != string.Empty)
+                {
+                    lines.Add(line);
+                }
             }
         }
         return new(lines.ToArray());

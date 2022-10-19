@@ -2,7 +2,7 @@
 
 namespace Qowaiv.Json;
 
-/// <summary>Provides a JSON conversion for a postal code.</summary>
+/// <summary>Provides a JSON conversion for a @FullName.</summary>
 public sealed class @TSvoJsonConverter : SvoJsonConverter<@TSvo>
 {
     /// <inheritdoc />

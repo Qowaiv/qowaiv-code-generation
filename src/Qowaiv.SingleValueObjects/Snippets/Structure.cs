@@ -2,8 +2,10 @@
 
 namespace @Namespace;
 
+#if !NotStructure // exec
 public partial struct @TSvo
 {
+#endif // exec
 #if !NotField // exec
     private @TSvo(@type_n value) => m_Value = value;
 
@@ -26,4 +28,6 @@ public partial struct @TSvo
     [Pure]
     public bool IsEmptyOrUnknown() => IsEmpty() || IsUnknown();
 #endif // exec
+#if !NotStructure // exec
 }
+#endif // exec

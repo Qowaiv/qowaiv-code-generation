@@ -1,4 +1,5 @@
-﻿public partial struct @TSvo : IFormattable
+﻿#if !NotIFormattable // exec
+public partial struct @TSvo : IFormattable
 {
     /// <summary>Returns a <see cref="string"/> that represents the @FullName.</summary>
     [Pure]
@@ -18,3 +19,4 @@
     [Pure]
     public string ToString(IFormatProvider? provider) => ToString(format: null, provider);
 }
+#endif // exec

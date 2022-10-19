@@ -10,7 +10,6 @@
     <Compile Include="..\..\shared\Guard.cs" Link="Guard.cs" />
   </ItemGroup>
 
-  
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.7.0" />
     <PackageReference Include="FluentAssertions.Analyzers" Version="0.17.2">
@@ -26,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Qowaiv.CodeGeneration.New\Qowaiv.CodeGeneration.New.csproj" />
+    <ProjectReference Include="..\..\src\Qowaiv.SingleValueObjects\Qowaiv.SingleValueObjects.csproj" />
   </ItemGroup>
 
 </Project>

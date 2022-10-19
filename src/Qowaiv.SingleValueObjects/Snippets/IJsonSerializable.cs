@@ -7,11 +7,11 @@
     /// <returns>
     /// The deserialized @FullName.
     /// </returns>
-#if !NotCultureDependent
+#if !NotCultureDependent // exec
     [Pure]
     public static @TSvo FromJson(string? json) => Parse(json, CultureInfo.InvariantCulture);
-#else
+#else // exec
     [Pure]
     public static @TSvo FromJson(string json) => Parse(json);
-#endif
+#endif // exec
 }

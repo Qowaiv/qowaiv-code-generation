@@ -8,14 +8,14 @@
         else if (obj is @TSvo other) { return CompareTo(other); }
         else { throw new ArgumentException($"Argument must be {GetType().Name}.", nameof(obj)); }
     }
-#if !NotEqualsSvo
+#if !NotEqualsSvo // exec
     /// <inheritdoc />
     [Pure]
 #nullable disable
     public int CompareTo(@TSvo other) => Comparer<@type>.Default.Compare(m_Value, other.m_Value);
 #nullable enable
-#endif
-#if !NotComparisonOperators
+#endif // exec
+#if !NotComparisonOperators // exec
     /// <summary>Returns true if the left operator is less then the right operator, otherwise false.</summary>
     public static bool operator <(@TSvo l, @TSvo r) => l.CompareTo(r) < 0;
 
@@ -27,5 +27,5 @@
 
     /// <summary>Returns true if the left operator is greater then or equal the right operator, otherwise false.</summary>
     public static bool operator >=(@TSvo l, @TSvo r) => l.CompareTo(r) >= 0;
-#endif
+#endif // exec
 }

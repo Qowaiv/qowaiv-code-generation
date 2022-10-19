@@ -13,11 +13,11 @@
     {
         Guard.NotNull(reader, nameof(reader));
         var xml = reader.ReadElementString();
-#if !NotCultureDependent
+#if !NotCultureDependent // exec
         System.Runtime.CompilerServices.Unsafe.AsRef(this) = Parse(xml, CultureInfo.InvariantCulture);
-#else
+#else // exec
         System.Runtime.CompilerServices.Unsafe.AsRef(this) = Parse(xml);
-#endif
+#endif // exec
     }
 
     /// <summary>Writes the @FullName to an <see href="XmlWriter" />.</summary>

@@ -1,8 +1,8 @@
-﻿#if NotComparisonOperators
+﻿#if NotComparisonOperators // exec
 #pragma warning disable S1210
 // "Equals" and the comparison operators should be overridden when implementing "IComparable"
 // See README.md => Sortable
-#endif
+#endif // exec
 
 namespace @Namespace;
 
@@ -97,7 +97,7 @@ public readonly partial struct @TSvo : ISerializable, IXmlSerializable, IFormatt
     /// <summary>Casts a <see cref="@type"/> to a @FullName.</summary>
     public static explicit operator @TSvo(@type val) => Create(val);
 
-#if !NotCultureDependent
+#if !NotCultureDependent // exec
 
     /// <summary>Converts the <see cref="string"/> to <see cref="@TSvo"/>.
     /// A return value indicates whether the conversion succeeded.
@@ -129,7 +129,7 @@ public readonly partial struct @TSvo : ISerializable, IXmlSerializable, IFormatt
         }
         throw new NotImplementedException();
     }
-#else
+#else // exec
     /// <summary>Converts the <see cref="string"/> to <see cref="@TSvo"/>.
     /// A return value indicates whether the conversion succeeded.
     /// </summary>
@@ -157,5 +157,5 @@ public readonly partial struct @TSvo : ISerializable, IXmlSerializable, IFormatt
         }
         throw new NotImplementedException();
     }
-#endif
+#endif // exec
 }

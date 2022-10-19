@@ -1,6 +1,6 @@
 ﻿public partial struct @TSvo
 {
-#if !NotCultureDependent
+#if !NotCultureDependent // exec
     /// <summary>Returns true if the value represents a valid @FullName.</summary>
     /// <param name="val">
     /// The <see cref="string"/> to validate.
@@ -19,7 +19,7 @@
     public static bool IsValid(string? val, IFormatProvider? formatProvider)
         => !string.IsNullOrWhiteSpace(val)
         && TryParse(val, formatProvider, out _);
-#else
+#else // exec
     /// <summary>Returns true if the value represents a valid @FullName.</summary>
     /// <param name="val">
     /// The <see cref="string"/> to validate.
@@ -28,5 +28,5 @@
     public static bool IsValid(string val)
         => !string.IsNullOrWhiteSpace(val)
         && TryParse(val, out _);
-#endif
+#endif // exec
 }

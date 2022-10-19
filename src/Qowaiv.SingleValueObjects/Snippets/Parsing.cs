@@ -1,6 +1,6 @@
 ﻿public partial struct @TSvo
 {
-#if !NotCultureDependent
+#if !NotCultureDependent // exec
     /// <summary>Converts the <see cref="string"/> to <see cref="@TSvo"/>.</summary>
     /// <param name="s">
     /// A string containing the @FullName to convert.
@@ -67,7 +67,7 @@
     /// </returns>
     [Pure]
     public static bool TryParse(string? s, out @TSvo result) => TryParse(s, null, out result);
-#else
+#else // exec
     /// <summary>Converts the <see cref="string"/> to <see cref="@TSvo"/>.</summary>
     /// <param name="s">
     /// A string containing the @FullName to convert.
@@ -90,5 +90,5 @@
     /// </returns>
     [Pure]
     public static @TSvo? TryParse(string? s) => TryParse(s, out var val) ? val : default(@TSvo?);
-#endif
+#endif // exec
 }

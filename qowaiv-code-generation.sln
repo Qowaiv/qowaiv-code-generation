@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.OpenApi.Specs", "spe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.OpenApi", "src\Qowaiv.OpenApi\Qowaiv.OpenApi.csproj", "{F9B20B9C-937D-49E8-BD93-640AC47A5B21}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.CodeGeneration.Beta", "src\Qowaiv.CodeGeneration.Beta\Qowaiv.CodeGeneration.Beta.csproj", "{9BB6860E-B1AB-49FD-9936-DED3835197A5}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.CodeGeneration", "src\Qowaiv.CodeGeneration\Qowaiv.CodeGeneration.csproj", "{D7B2D09E-B5AF-481F-953A-99C6E2A7BE84}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.CodeGeneration.Specs", "specs\Qowaiv.CodeGeneration.Specs\Qowaiv.CodeGeneration.Specs.csproj", "{10275478-1E52-4C16-97D2-AF143DAB5754}"
@@ -29,10 +27,6 @@ Global
 		{F9B20B9C-937D-49E8-BD93-640AC47A5B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9B20B9C-937D-49E8-BD93-640AC47A5B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9B20B9C-937D-49E8-BD93-640AC47A5B21}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9BB6860E-B1AB-49FD-9936-DED3835197A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9BB6860E-B1AB-49FD-9936-DED3835197A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9BB6860E-B1AB-49FD-9936-DED3835197A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9BB6860E-B1AB-49FD-9936-DED3835197A5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D7B2D09E-B5AF-481F-953A-99C6E2A7BE84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D7B2D09E-B5AF-481F-953A-99C6E2A7BE84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7B2D09E-B5AF-481F-953A-99C6E2A7BE84}.Release|Any CPU.ActiveCfg = Release|Any CPU

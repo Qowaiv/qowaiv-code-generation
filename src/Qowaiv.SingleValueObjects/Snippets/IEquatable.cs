@@ -1,4 +1,7 @@
 ﻿public partial struct @TSvo : IEquatable<@TSvo>
+#if NET7_0_OR_GREATER
+    , System.Numerics.IEqualityOperators<@TSvo,@TSvo,bool>
+#endif
 {
     /// <inheritdoc />
     [Pure]

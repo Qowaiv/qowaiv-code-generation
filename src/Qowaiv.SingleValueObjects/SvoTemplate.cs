@@ -44,7 +44,11 @@ public sealed class SvoTemplate : Code
         static IReadOnlyCollection<Constant> Constants(SvoFeatures features)
         {
             var constants = new List<Constant>();
-            foreach(var flag in Enum.GetValues<SvoFeatures>())
+            constants.Add((features & SvoFeatures.Structure) != default
+                ? "Structure"
+                : "NotStructure");
+
+            foreach (var flag in Enum.GetValues<SvoFeatures>().Where(f => f != SvoFeatures.Structure))
             {
                 if (features.HasFlag(flag))
                 {

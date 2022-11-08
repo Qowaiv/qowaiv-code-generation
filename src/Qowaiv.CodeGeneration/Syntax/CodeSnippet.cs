@@ -93,12 +93,14 @@ public sealed class CodeSnippet : Code
             }
             else if (pattern.Match(line) is { Success: true } m)
             {
-                if (unexpected(mode)) throw ParseError.Line(lineNr, line, mode == Mode.None 
+                match = m;
+                var exec = match.Groups["exec"].Value is { Length: > 0 };
+
+                if (exec && unexpected(mode)) throw ParseError.Line(lineNr, line, mode == Mode.None 
                     ? $"Unexpected {startsWith}."
                     : $"Unexpected {startsWith} after #{mode}");
 
-                match = m;
-                return match.Groups["exec"].Value is { };
+                return exec;
             }
             else throw ParseError.Line(lineNr, line, "invalid pattern");
         }

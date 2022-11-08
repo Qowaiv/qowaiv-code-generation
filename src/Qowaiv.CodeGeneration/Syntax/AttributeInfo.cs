@@ -1,17 +1,17 @@
 ﻿namespace Qowaiv.CodeGeneration.Syntax;
 
 /// <summary>Represents an attribute decoration.</summary>
-public sealed class AttributeDecoration : Code
+public sealed partial class AttributeInfo : Code
 {
-    /// <summary>Creates a new instance of the <see cref="AttributeDecoration"/> class.</summary>
-    public AttributeDecoration(Type attribute, object[]? ctorArguments = null, params KeyValuePair<string, object>[] propertyValues)
+    /// <summary>Creates a new instance of the <see cref="AttributeInfo"/> class.</summary>
+    public AttributeInfo(Type attribute, object[]? ctorArguments = null, params KeyValuePair<string, object>[] propertyValues)
     {
-        Attribute = Guard.NotNull(attribute, nameof(attribute));
+        AttributeType = Guard.NotNull(attribute, nameof(attribute));
         CtorArguments = ctorArguments ?? Array.Empty<object>();
         PropertyValues = propertyValues ?? Array.Empty<KeyValuePair<string, object>>();
     }
 
-    private readonly Type Attribute;
+    public Type AttributeType { get; }
 
     private readonly IReadOnlyCollection<object> CtorArguments;
 
@@ -27,7 +27,7 @@ public sealed class AttributeDecoration : Code
         writer
             .Indent()
             .Write('[')
-            .Write(Attribute, attribute: true);
+            .Write(AttributeType, attribute: true);
 
         if (CtorArguments.Any() || PropertyValues.Any())
         {

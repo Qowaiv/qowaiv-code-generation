@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <RootNamespace>Specs</RootNamespace>
   </PropertyGroup>
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Qowaiv.CodeGeneration.New\Qowaiv.CodeGeneration.New.csproj" />
+    <ProjectReference Include="..\..\src\Qowaiv.CodeGeneration\Qowaiv.CodeGeneration.csproj" />
     <ProjectReference Include="..\..\src\Qowaiv.SingleValueObjects\Qowaiv.SingleValueObjects.csproj" />
   </ItemGroup>
 

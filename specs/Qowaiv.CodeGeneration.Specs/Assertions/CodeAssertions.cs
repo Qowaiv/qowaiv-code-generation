@@ -19,12 +19,18 @@ public class CodeAssertions
         var writer = new CSharpWriter(new StreamWriter(stream), settings);
         Subject.WriteTo(writer);
         writer.Flush();
-        
-        var csharp = Encoding.UTF8.GetString(stream.ToArray());
 
-        csharp.Should().Be(content, because, becauseArgs);
+        var csharp = Encoding.UTF8.GetString(stream.ToArray());
+        csharp.Should().Be(Normalize(content, settings ?? new()), because, becauseArgs);
 
         return new(this);
+
+        static string Normalize(string content, CSharpWriterSettings settings)
+        {
+            var lines = content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+            content = string.Join((settings).NewLine, lines);
+            return content;
+        }
     }
 }
 

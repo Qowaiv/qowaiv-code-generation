@@ -13,7 +13,7 @@ public class CodeAssertions
         string content,
         CSharpWriterSettings? settings = null, 
         string because = "",
-        params object[] becuaseArgs)
+        params object[] becauseArgs)
     {
         using var stream = new MemoryStream();
         var writer = new CSharpWriter(new StreamWriter(stream), settings);
@@ -22,7 +22,7 @@ public class CodeAssertions
         
         var csharp = Encoding.UTF8.GetString(stream.ToArray());
 
-        csharp.Should().Be(content, because, becuaseArgs);
+        csharp.Should().Be(content, because, becauseArgs);
 
         return new(this);
     }

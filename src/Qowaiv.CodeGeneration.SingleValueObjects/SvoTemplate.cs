@@ -84,7 +84,7 @@ public sealed class SvoTemplate : Code
 
     private static CodeSnippet Embedded(string name)
     {
-        var path = $"Qowaiv.SingleValueObjects.Snippets.{name}.cs";
+        var path = $"Qowaiv.CodeGeneration.SingleValueObjects.Snippets.{name}.cs";
 
         using var stream = typeof(SvoTemplate).Assembly.GetManifestResourceStream(path);
 

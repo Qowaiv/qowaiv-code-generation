@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Qowaiv.CodeGeneration\Qowaiv.CodeGeneration.csproj" />
-    <ProjectReference Include="..\..\src\Qowaiv.SingleValueObjects\Qowaiv.CodeGeneration.SingleValueObjects.csproj" />
+    <ProjectReference Include="..\..\src\Qowaiv.CodeGeneration.SingleValueObjects\Qowaiv.CodeGeneration.SingleValueObjects.csproj" />
   </ItemGroup>
 
 </Project>

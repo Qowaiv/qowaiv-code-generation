@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <RootNamespace>Qowaiv.CodeGeneration</RootNamespace>
   </PropertyGroup>
@@ -11,16 +11,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Qowaiv" Version="6.3.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Qowaiv" Version="6.*" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.*" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Qowaiv.Analyzers.CSharp" Version="0.0.3.1">
+    <PackageReference Include="Qowaiv.Analyzers.CSharp" Version="0.*">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Qowaiv.Validation.DataAnnotations" Version="1.0.0" />
+    <PackageReference Include="Qowaiv.Validation.DataAnnotations" Version="1.*" />
   </ItemGroup>
 
 </Project>

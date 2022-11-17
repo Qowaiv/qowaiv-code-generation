@@ -3,15 +3,30 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.OpenApi.Specs", "specs\Qowaiv.OpenApi.Specs\Qowaiv.OpenApi.Specs.csproj", "{5C6984F5-740A-4C28-942E-4B9910D506DE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.OpenApi", "src\Qowaiv.OpenApi\Qowaiv.OpenApi.csproj", "{F9B20B9C-937D-49E8-BD93-640AC47A5B21}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.CodeGeneration", "src\Qowaiv.CodeGeneration\Qowaiv.CodeGeneration.csproj", "{D7B2D09E-B5AF-481F-953A-99C6E2A7BE84}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.CodeGeneration.Specs", "specs\Qowaiv.CodeGeneration.Specs\Qowaiv.CodeGeneration.Specs.csproj", "{10275478-1E52-4C16-97D2-AF143DAB5754}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.SingleValueObjects", "src\Qowaiv.SingleValueObjects\Qowaiv.SingleValueObjects.csproj", "{6EA317E7-ED85-48C3-A585-05980E16C2EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.CodeGeneration.SingleValueObjects", "src\Qowaiv.CodeGeneration.SingleValueObjects\Qowaiv.CodeGeneration.SingleValueObjects.csproj", "{6EA317E7-ED85-48C3-A585-05980E16C2EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "specs", "specs", "{9FC998BC-71B3-4298-9160-AD89C82A407D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3881024E-D041-4197-A734-3664F103ABC4}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{8AF500FB-8B0B-4E40-B140-2E93FBDD0DCB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{F438C0C5-754D-4EB3-A310-B6A59F7076A6}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build-test.yaml = .github\workflows\build-test.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +34,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5C6984F5-740A-4C28-942E-4B9910D506DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C6984F5-740A-4C28-942E-4B9910D506DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C6984F5-740A-4C28-942E-4B9910D506DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C6984F5-740A-4C28-942E-4B9910D506DE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9B20B9C-937D-49E8-BD93-640AC47A5B21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9B20B9C-937D-49E8-BD93-640AC47A5B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9B20B9C-937D-49E8-BD93-640AC47A5B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9B20B9C-937D-49E8-BD93-640AC47A5B21}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D7B2D09E-B5AF-481F-953A-99C6E2A7BE84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D7B2D09E-B5AF-481F-953A-99C6E2A7BE84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7B2D09E-B5AF-481F-953A-99C6E2A7BE84}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -42,6 +49,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{10275478-1E52-4C16-97D2-AF143DAB5754} = {9FC998BC-71B3-4298-9160-AD89C82A407D}
+		{8AF500FB-8B0B-4E40-B140-2E93FBDD0DCB} = {3881024E-D041-4197-A734-3664F103ABC4}
+		{F438C0C5-754D-4EB3-A310-B6A59F7076A6} = {8AF500FB-8B0B-4E40-B140-2E93FBDD0DCB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7B1E843-44FB-453A-93BF-09607421A182}

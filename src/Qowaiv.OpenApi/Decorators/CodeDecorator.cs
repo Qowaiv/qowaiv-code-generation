@@ -1,5 +1,5 @@
 ﻿using Microsoft.OpenApi.Models;
-using Qowaiv.CodeGeneration;
+using Qowaiv.CodeGeneration.Syntax;
 
 namespace Qowaiv.OpenApi.Decorators;
 
@@ -8,14 +8,14 @@ public class CodeDecorator
     public virtual IEnumerable<Type> Interfaces => Array.Empty<Type>();
 
     [Pure]
-    public virtual IEnumerable<Code> Class(Class @class, OpenApiSchema schema) => Array.Empty<Code>();
+    public virtual IEnumerable<AttributeInfo> Class(Class @class, OpenApiSchema schema) => Array.Empty<AttributeInfo>();
 
     [Pure]
-    public virtual IEnumerable<Code> Enum(Enumeration enumeration, OpenApiSchema schema) => Array.Empty<Code>();
+    public virtual IEnumerable<AttributeInfo> Enum(Enumeration enumeration, OpenApiSchema schema) => Array.Empty<AttributeInfo>();
 
     [Pure]
-    public virtual IEnumerable<Code> Ctor(Class @class, OpenApiSchema schema) => Array.Empty<Code>();
+    public virtual IEnumerable<AttributeInfo> Ctor(Class @class, OpenApiSchema schema) => Array.Empty<AttributeInfo>();
 
     [Pure]
-    public virtual IEnumerable<Code> Property(Property property, OpenApiProperty schema) => Array.Empty<Code>();
+    public virtual IEnumerable<AttributeInfo> Property(Property property, OpenApiProperty schema) => Array.Empty<AttributeInfo>();
 }

@@ -2,7 +2,7 @@
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Readers;
 using Qowaiv.CodeGeneration;
-using Qowaiv.OpenApi.Collection;
+using Qowaiv.CodeGeneration.Syntax;
 using Qowaiv.OpenApi.Decorators;
 using System.IO;
 
@@ -20,14 +20,14 @@ public class OpenApiTypeResolver
     public IReadOnlyCollection<CodeDecorator> Decorators { get; }
 
     [Pure]
-    public IEnumerable<TypeInfo> Resolve(FileInfo documentLocation, out OpenApiDiagnostic diagnostic)
+    public IEnumerable<Type> Resolve(FileInfo documentLocation, out OpenApiDiagnostic diagnostic)
     {
         using var stream = documentLocation.OpenRead();
         return Resolve(stream, out diagnostic);
     }
 
     [Pure]
-    public IEnumerable<TypeInfo> Resolve(Stream documentStream, out OpenApiDiagnostic diagnostic)
+    public IEnumerable<Type> Resolve(Stream documentStream, out OpenApiDiagnostic diagnostic)
     {
         var reader = new OpenApiStreamReader();
         var document = reader.Read(documentStream, out diagnostic);
@@ -40,10 +40,10 @@ public class OpenApiTypeResolver
     /// <param name="document"></param>
     /// <returns></returns>
     [Pure]
-    public IEnumerable<TypeInfo> Resolve(OpenApiDocument document)
+    public IEnumerable<Type> Resolve(OpenApiDocument document)
         => Guard.NotNull(document, nameof(document))
         .Components.Schemas.Values.Select(schema => Resolve(schema))
-        .OfType<TypeInfo>();
+        .OfType<ObjectBase>();
 
     [Pure]
     private Type? Resolve(OpenApiSchema schema)
@@ -75,7 +75,7 @@ public class OpenApiTypeResolver
         => schema.OpenApiType() switch
         {
             OpenApiType.None => null,
-            OpenApiType.boolean => TypeInfo.Boolean,
+            OpenApiType.boolean => typeof(bool),
             OpenApiType.integer => ResolveInteger(schema),
             OpenApiType.number => ResolveNumber(schema),
             OpenApiType.@string => ResolveString(schema),
@@ -88,48 +88,48 @@ public class OpenApiTypeResolver
     protected virtual Type ResolveInteger(OpenApiSchema schema)
         => Normalize(schema.Format) switch
         {
-            "YEAR" => TypeInfo.Year,
-            _ => TypeInfo.Int32,
+            "YEAR" => typeof(Year),
+            _ => typeof(int),
         };
 
     [Pure]
     protected virtual Type ResolveNumber(OpenApiSchema schema)
        => Normalize(schema.Format) switch
        {
-           "AMOUNT" => TypeInfo.Amount,
-           "ELO" => TypeInfo.Elo,
-           _ => TypeInfo.Decimal,
+           "AMOUNT" => typeof(Qowaiv.Financial.Amount),
+           "ELO" => typeof(Qowaiv.Statistics.Elo),
+           _ => typeof(decimal),
        };
 
     [Pure]
     protected virtual Type? ResolveString(OpenApiSchema schema)
         => Normalize(schema.Format) switch
         {
-            "BIC" => TypeInfo.BusinessIdentifierCode,
-            "COUNTRY" => TypeInfo.Country,
-            "CURRENCY" => TypeInfo.Currency,
-            "DATE" => TypeInfo.DateOnly,
-            "DATESPAN" => TypeInfo.DateSpan,
-            "DATETIME" => TypeInfo.DateTime,
-            "DATEWEEKBASED" => TypeInfo.WeekDate,
-            "EMAIL" => TypeInfo.EmailAddress,
-            "EMAILCOLLECTION" => TypeInfo.EmailAddressCollection,
-            "FRACTION" => TypeInfo.Fraction,
-            "GUID" or "UUID" => TypeInfo.Guid,
-            "IBAN" => TypeInfo.InternationalBankAccountNumber,
-            "HOUSENUMBER" => TypeInfo.HouseNumber,
-            "LOCALDATETIME" => TypeInfo.LocalDateTime,
-            "MONEY" => TypeInfo.Money,
-            "MONTH" => TypeInfo.Month,
-            "MONTHSPAN" => TypeInfo.MonthSpan,
-            "PERCENTAGE" => TypeInfo.Percentage,
-            "POSTALCODE" => TypeInfo.Percentage,
-            "GENDER" or "SEX" => TypeInfo.Sex,
-            "STREAMSIZE" => TypeInfo.StreamSize,
-            "UUIDBASE64" => TypeInfo.Uuid,
-            "YESNO" => TypeInfo.YesNo,
+            "BIC" => typeof(Qowaiv.Financial.BusinessIdentifierCode),
+            "COUNTRY" => typeof(Qowaiv.Globalization.Country),
+            "CURRENCY" => typeof(Qowaiv.Financial.Currency),
+            "DATE" => typeof(System.DateOnly),
+            "DATESPAN" => typeof(Qowaiv.DateSpan),
+            "DATETIME" => typeof(System.DateTime),
+            "DATEWEEKBASED" => typeof(Qowaiv.WeekDate),
+            "EMAIL" => typeof(Qowaiv.EmailAddress),
+            "EMAILCOLLECTION" => typeof(Qowaiv.EmailAddressCollection),
+            "FRACTION" => typeof(Qowaiv.Mathematics.Fraction),
+            "GUID" or "UUID" => typeof(System.Guid),
+            "IBAN" => typeof(Qowaiv.Financial.InternationalBankAccountNumber),
+            "HOUSENUMBER" => typeof(Qowaiv.HouseNumber),
+            "LOCALDATETIME" => typeof(Qowaiv.LocalDateTime),
+            "MONEY" => typeof(Qowaiv.Financial.Money),
+            "MONTH" => typeof(Qowaiv.Month),
+            "MONTHSPAN" => typeof(Qowaiv.MonthSpan),
+            "PERCENTAGE" => typeof(Qowaiv.Percentage),
+            "POSTALCODE" => typeof(Qowaiv.PostalCode),
+            "GENDER" or "SEX" => typeof(Qowaiv.Sex),
+            "STREAMSIZE" => typeof(Qowaiv.IO.StreamSize),
+            "UUIDBASE64" => typeof(Qowaiv.Uuid),
+            "YESNO" => typeof(Qowaiv.YesNo),
 
-            _ => schema.Enum.Any() ? ResolveEnum(schema) : TypeInfo.String,
+            _ => schema.Enum.Any() ? ResolveEnum(schema) : typeof(string),
         };
 
 
@@ -144,7 +144,7 @@ public class OpenApiTypeResolver
         {
             if (@enum is OpenApiString str)
             {
-                fields.Add(new(type, str.Value, str.Value, null));
+                fields.Add(new(type, str.Value, null));
             }
         }
         return type;
@@ -155,7 +155,7 @@ public class OpenApiTypeResolver
     {
         var nameType = ResolveName(schema);
         var properties = new List<Property>();
-        var classType = new Class(nameType, properties);
+        var classType = new Class(nameType, properties: properties);
 
         properties.AddRange(schema.OpenApiProperties().Select(prop => Resolve(classType, prop)).OfType<Property>());
 

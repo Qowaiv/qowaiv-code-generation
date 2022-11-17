@@ -1,4 +1,9 @@
 ﻿public partial struct @TSvo : IComparable, IComparable<@TSvo>
+#if !NotComparisonOperators // exec
+#if NET7_0_OR_GREATER
+    , IComparisonOperators<@TSvo, @TSvo, bool>
+#endif
+#endif // exec
 {
     /// <inheritdoc />
     [Pure]

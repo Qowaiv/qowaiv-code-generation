@@ -12,6 +12,6 @@
     public static @TSvo FromJson(string? json) => Parse(json, CultureInfo.InvariantCulture);
 #else // exec
     [Pure]
-    public static @TSvo FromJson(string json) => Parse(json);
+    public static @TSvo FromJson(string? json) => Parse(json);
 #endif // exec
 }

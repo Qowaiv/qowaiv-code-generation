@@ -1,0 +1,247 @@
+root = true
+[*]
+end_of_line = crlf
+insert_final_newline = true
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+tab_width = 4
+indent_size = 4
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+dotnet_style_prefer_auto_properties = true:silent
+
+# Code files
+[*.{cs,cshtml,ts}]
+indent_style = space
+indent_size = 4
+
+# Project files
+[*.{csproj,props,yaml}]
+indent_style = space
+indent_size = 2
+
+# IDE warnings
+[*.cs]
+'
+# IDE0005: Using directive unnecessary
+dotnet_diagnostic.IDE0005.severity = warning
+
+# IDE1006: Naming Styles
+dotnet_diagnostic.IDE1006.severity = none
+
+# IDE0018: Inline variable declaration
+csharp_style_inlined_variable_declaration = true:warning
+
+# IDE0034: Simplify 'default' expression
+csharp_prefer_simple_default_expression = true:warning
+
+# IDE0054: Use compound assignment
+dotnet_style_prefer_compound_assignment = true:warning
+
+# IDE0059: Unnecessary assignment of a value
+csharp_style_unused_value_assignment_preference = discard_variable:warning
+
+# IDE0079: Unnecessary suppression
+dotnet_diagnostic.IDE0079.severity = warning
+
+# IDE0090: Simplify new expression
+dotnet_diagnostic.IDE0090.severity = warning
+
+# IDE1006: Naming Styles
+dotnet_diagnostic.IDE1006.severity = none
+
+# CA1069: Enums values should not be duplicated
+dotnet_diagnostic.CA1069.severity = warning
+
+# CA1806: Do not ignore method results
+dotnet_diagnostic.CA1806.severity = warning
+
+# CA1816: Dispose methods should call SuppressFinalize
+dotnet_diagnostic.CA1816.severity = warning
+
+# CA1822: Member that does not access instance data can be marked as static
+dotnet_diagnostic.CA1822.severity = warning
+
+# CA1825: Avoid unnecessary zero-length array allocations
+dotnet_diagnostic.CA1825.severity = warning
+
+# CA1830: Prefer strongly-typed Append and Insert method overloads on StringBuilder
+dotnet_diagnostic.CA1845.severity = warning
+
+# CA1845: Use span-based 'string.Concat'
+dotnet_diagnostic.CA1845.severity = none
+
+# CA1846: Prefer 'AsSpan' over 'Substring'
+dotnet_diagnostic.CA1846.severity = none
+
+# CA1847: Use char literal for a single character lookup
+dotnet_diagnostic.CA1847.severity = warning
+
+# CA2016: Forward the 'CancellationToken' parameter to methods
+dotnet_diagnostic.CA2016.severity = warning
+
+# CA2211: Non-constant fields should not be visible
+dotnet_diagnostic.CA2211.severity = warning
+
+# CA2231: Overload operator equals on overriding value type Equals
+dotnet_diagnostic.CA2231.severity = none
+
+# CA2249: Consider using 'string.Contains' instead of 'string.IndexOf'
+dotnet_diagnostic.CA2249.severity = warning
+
+# CA2254: Template should be a static expression
+dotnet_diagnostic.CA2254.severity = warning
+
+# QW0003: Decorate Pure functions
+dotnet_diagnostic.QW0003.severity = warning
+
+# S100: Properties should be named in PascalCase
+dotnet_diagnostic.S100.severity = none
+
+# S101: Types should be named in PascalCase
+dotnet_diagnostic.S101.severity = none
+
+# S107: Methods should not have too many parameters
+dotnet_diagnostic.S107.severity = warning
+
+# S127: Methods should not have too many parameters
+dotnet_diagnostic.S127.severity = warning
+
+# S134: Control flow statements "if", "switch", "for", "foreach", "while", "do" and "try" should not be nested too deeply
+dotnet_diagnostic.S134.severity = warning
+
+# S138: Functions should not have too many lines of code
+dotnet_diagnostic.S138.severity = warning
+
+# S1067: Expressions should not be too complex
+dotnet_diagnostic.S1067.severity = warning
+
+# S1144: Unused private types or members should be removed
+dotnet_diagnostic.S1144.severity = warning
+
+# S1185: Overriding members should do more than simply call the same member in the base class
+dotnet_diagnostic.S1185.severity = warning
+
+# S1227: break statements should not be used except for switch cases
+dotnet_diagnostic.S1227.severity = warning
+
+# S1479: Consider reworking this 'switch' to reduce the number of 'case's to at most 30
+dotnet_diagnostic.S1479.severity = warning
+
+# S1541: Methods and properties should not be too complex
+dotnet_diagnostic.S1541.severity = warning
+
+# S1858: "ToString()" calls should not be redundant
+dotnet_diagnostic.S1858.severity = warning
+
+# S1694: An abstract class should have both abstract and concrete methods
+dotnet_diagnostic.S1694.severity = warning
+
+# S2197: Modulus results should not be checked for direct equa
+dotnet_diagnostic.S2197.severity = warning
+
+# S2328: GetHashCode() should not reference mutable fields
+dotnet_diagnostic.S2328.severity = none
+
+# S2178: Short-circuit logic should be used in boolean contexts
+# '&' is used instead of && to accommodate expressions with nullable booleans too.
+dotnet_diagnostic.S2178.severity = none
+
+# S2302: "nameof" should be used
+dotnet_diagnostic.S2302.severity = warning
+
+# S2342: Rename this enumeration to match naming convention
+dotnet_diagnostic.S2342.severity = warning
+
+# S2436: Types and methods should not have too many generic parameters
+dotnet_diagnostic.S2436.severity = warning
+
+# S2701: Literal boolean values should not be used in assertions
+dotnet_diagnostic.S2701.severity = warning
+
+# S3215: interface instances should not be cast to concrete types
+dotnet_diagnostic.S3215.severity = warning
+
+# S3257: Declarations and initializations should be as concise as possible
+dotnet_diagnostic.S3257.severity = warning
+
+# S3376: Attribute, EventArgs, and Exception type names should end with the type being extended
+dotnet_diagnostic.S3376.severity = none
+
+# S3776: Cognitive Complexity of methods should not be too high
+dotnet_diagnostic.S3776.severity = warning
+
+# S3925: "ISerializable" should be implemented correctly
+dotnet_diagnostic.S3925.severity = warning
+
+# S3376: Attribute, EventArgs, and Exception type names should end with the type being extended
+dotnet_diagnostic.S3376.severity = none
+
+# S3900: Arguments of public methods should be validated against null
+dotnet_diagnostic.S3900.severity = warning
+
+# S4136: Method overloads should be grouped together
+dotnet_diagnostic.S4136.severity = none
+csharp_indent_labels = one_less_than_current
+csharp_using_directive_placement = outside_namespace:silent
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_prefer_braces = true:silent
+csharp_style_namespace_declarations = block_scoped:silent
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_top_level_statements = true:silent
+csharp_style_expression_bodied_methods = false:silent
+csharp_style_expression_bodied_constructors = false:silent
+csharp_style_expression_bodied_operators = false:silent
+csharp_style_expression_bodied_properties = true:silent
+csharp_style_expression_bodied_indexers = true:silent
+csharp_style_expression_bodied_accessors = true:silent
+csharp_style_expression_bodied_lambdas = true:silent
+csharp_style_expression_bodied_local_functions = false:silent
+
+[*.{cs,vb}]
+#### Naming styles ####
+
+# Naming rules
+
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
+dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
+dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
+
+dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.types_should_be_pascal_case.symbols = types
+dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
+
+dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
+dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
+
+# Symbol specifications
+
+dotnet_naming_symbols.interface.applicable_kinds = interface
+dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.interface.required_modifiers = 
+
+dotnet_naming_symbols.types.applicable_kinds = class, struct, interface, enum
+dotnet_naming_symbols.types.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.types.required_modifiers = 
+
+dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, method
+dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.non_field_members.required_modifiers = 
+
+# Naming styles
+
+dotnet_naming_style.begins_with_i.required_prefix = I
+dotnet_naming_style.begins_with_i.required_suffix = 
+dotnet_naming_style.begins_with_i.word_separator = 
+dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+dotnet_naming_style.pascal_case.required_prefix = 
+dotnet_naming_style.pascal_case.required_suffix = 
+dotnet_naming_style.pascal_case.word_separator = 
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+dotnet_naming_style.pascal_case.required_prefix = 
+dotnet_naming_style.pascal_case.required_suffix = 
+dotnet_naming_style.pascal_case.word_separator = 
+dotnet_naming_style.pascal_case.capitalization = pascal_case

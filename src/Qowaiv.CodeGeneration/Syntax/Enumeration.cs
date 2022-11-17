@@ -1,5 +1,6 @@
 ﻿namespace Qowaiv.CodeGeneration.Syntax;
 
+[Inheritable]
 public class Enumeration : ObjectBase
 {
     public Enumeration(

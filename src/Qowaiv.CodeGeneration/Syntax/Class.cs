@@ -2,6 +2,7 @@
 
 namespace Qowaiv.CodeGeneration.Syntax;
 
+[Inheritable]
 public class Class : ObjectBase
 {
     public Class(

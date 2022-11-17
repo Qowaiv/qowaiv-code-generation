@@ -1,6 +1,6 @@
 ﻿namespace Qowaiv.CodeGeneration.Syntax;
 
-public class Documentation : Code
+public sealed class Documentation : Code
 {
     public Documentation(string? summary, string? remarks = null)
     {

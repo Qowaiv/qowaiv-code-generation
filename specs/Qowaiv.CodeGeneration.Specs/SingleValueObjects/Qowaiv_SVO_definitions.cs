@@ -7,7 +7,7 @@ namespace Qowaiv_SVO_definitions;
 
 public class Generation_of
 {
-    private static string Root = @"c:\code\Qowaiv";
+    private static readonly string Root = @"c:\code\Qowaiv";
 
     [TestCase("Date", typeof(DateTime), "date", "Qowaiv", SvoFeatures.Continuous ^ SvoFeatures.Field)]
     [TestCase("DateSpan", typeof(ulong), "date span", "Qowaiv", SvoFeatures.Continuous ^ SvoFeatures.EqualsSvo)]
@@ -20,7 +20,7 @@ public class Generation_of
     [TestCase("Percentage", typeof(decimal), "percentage", "Qowaiv", SvoFeatures.Continuous)]
     [TestCase("PostalCode", typeof(string), "postal code", "Qowaiv", SvoFeatures.Default)]
     [TestCase("Sex", typeof(byte), "sex", "Qowaiv", SvoFeatures.Default)]
-    [TestCase("Uuid", typeof(Guid), "UUID", "Qowaiv", SvoFeatures.DefaultExcludingCulture ^ SvoFeatures.IsUnknown)]
+    [TestCase("Uuid", typeof(Guid), "UUID", "Qowaiv", SvoFeatures.Default ^ SvoFeatures.IsUnknown)]
     [TestCase("WeekDate", typeof(Date), "week date", "Qowaiv", SvoFeatures.Continuous ^ SvoFeatures.Field ^ SvoFeatures.ISerializable)]
     [TestCase("Year", typeof(short), "year", "Qowaiv", SvoFeatures.Default)]
     [TestCase("YesNo", typeof(byte), "yes-no", "Qowaiv", SvoFeatures.Default)]
@@ -48,7 +48,7 @@ public class Generation_of
         ^ SvoFeatures.EqualsSvo
         ^ SvoFeatures.Field)]
 
-    [TestCase("InternetMediaType", typeof(string), "Internet media type", "Qowaiv.Web", SvoFeatures.DefaultExcludingCulture)]
+    [TestCase("InternetMediaType", typeof(string), "Internet media type", "Qowaiv.Web", SvoFeatures.Default)]
     public void Qowaiv(string name, Type underlying, string fulleName, string ns, SvoFeatures features, string formatExceptionMessage = null)
     {
         var sub = ns.Replace("Qowaiv", "").Replace(".", @"\");

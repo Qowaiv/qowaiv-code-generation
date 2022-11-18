@@ -1,6 +1,8 @@
 ﻿public partial struct @TSvo
+#if NET7_0_OR_GREATER
+    : IParsable<@TSvo>
+#endif
 {
-#if !NotCultureDependent // exec
     /// <summary>Converts the <see cref="string"/> to <see cref="@TSvo"/>.</summary>
     /// <param name="s">
     /// A string containing the @FullName to convert.
@@ -67,28 +69,4 @@
     /// </returns>
     [Pure]
     public static bool TryParse(string? s, out @TSvo result) => TryParse(s, null, out result);
-#else // exec
-    /// <summary>Converts the <see cref="string"/> to <see cref="@TSvo"/>.</summary>
-    /// <param name="s">
-    /// A string containing the @FullName to convert.
-    /// </param>
-    /// <returns>
-    /// The parsed @FullName.
-    /// </returns>
-    /// <exception cref="FormatException">
-    /// <paramref name="s"/> is not in the correct format.
-    /// </exception>
-    [Pure]
-    public static @TSvo Parse(string? s) => TryParse(s) ?? throw new FormatException(@FormatExceptionMessage);
-
-    /// <summary>Converts the <see cref="string"/> to <see cref="@TSvo"/>.</summary>
-    /// <param name="s">
-    /// A string containing the @FullName to convert.
-    /// </param>
-    /// <returns>
-    /// The @FullName if the string was converted successfully, otherwise default.
-    /// </returns>
-    [Pure]
-    public static @TSvo? TryParse(string? s) => TryParse(s, out var val) ? val : default(@TSvo?);
-#endif // exec
 }

@@ -239,23 +239,18 @@ public class Has_custom_formatting
 public class Is_comparable
 {
     [Test]
-    public void to_null()
-    {
-        Assert.AreEqual(1, Svo.@TSvo.CompareTo(null));
-    }
+    public void to_null() => Svo.@TSvo.CompareTo(null).Should().Be(1);
 
     [Test]
     public void to_@TSvo_as_object()
     {
         object obj = Svo.@TSvo;
-        Assert.AreEqual(0, Svo.@TSvo.CompareTo(obj));
+        Svo.@TSvo.CompareTo(obj).Should().Be(0);
     }
 
     [Test]
     public void to_@TSvo_only()
-    {
-        Assert.Throws<ArgumentException>(() => Svo.@TSvo.CompareTo(new object()));
-    }
+        => Assert.Throws<ArgumentException>(() => Svo.@TSvo.CompareTo(new object()));
 
     [Test]
     public void can_be_sorted_using_compare()
@@ -272,15 +267,14 @@ public class Is_comparable
 
         var list = new List<@TSvo> { sorted[3], sorted[4], sorted[5], sorted[2], sorted[0], sorted[1] };
         list.Sort();
-
-        Assert.AreEqual(sorted, list);
+        list.Should().BeEquivalentTo(sorted);
     }
 
     [Test]
     public void by_operators_for_different_values()
     {
-        @TSvo smaller = @TSvo.Parse("svoValue");
-        @TSvo bigger = @TSvo.Parse("biggerValue");
+        var smaller = @TSvo.Parse("svoValue");
+        var bigger = @TSvo.Parse("biggerValue");
 
         (smaller < bigger).Should().BeTrue();
         (smaller <= bigger).Should().BeTrue();
@@ -291,8 +285,8 @@ public class Is_comparable
     [Test]
     public void by_operators_for_equal_values()
     {
-        @TSvo left = @TSvo.Parse("svoValue");
-        @TSvo right = @TSvo.Parse("svoValue");
+        var left = @TSvo.Parse("svoValue");
+        var right = @TSvo.Parse("svoValue");
 
         (left < right).Should().BeFalse();
         (left <= right).Should().BeTrue();

@@ -29,7 +29,7 @@ public class Enumeration : ObjectBase, Code
     {
         Guard.NotNull(writer, nameof(writer));
 
-        writer.Write(new NamespaceDeclaration(NameSpace));
+        writer.Write(new NamespaceDeclaration(NameSpace)).Line();
 
         foreach (var attr in AttributeInfos) writer.Write(attr);
         writer.Indent().Write("public enum ").Line(Name);

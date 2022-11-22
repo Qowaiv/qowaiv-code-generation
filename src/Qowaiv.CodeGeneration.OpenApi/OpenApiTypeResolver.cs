@@ -18,14 +18,14 @@ public class OpenApiTypeResolver
     private readonly Decorator Decorator;
 
     [Pure]
-    public IEnumerable<Type> Resolve(FileInfo documentLocation, out OpenApiDiagnostic diagnostic)
+    public IEnumerable<Code> Resolve(FileInfo documentLocation, out OpenApiDiagnostic diagnostic)
     {
         using var stream = documentLocation.OpenRead();
         return Resolve(stream, out diagnostic);
     }
 
     [Pure]
-    public IEnumerable<Type> Resolve(Stream documentStream, out OpenApiDiagnostic diagnostic)
+    public IEnumerable<Code> Resolve(Stream documentStream, out OpenApiDiagnostic diagnostic)
     {
         var reader = new OpenApiStreamReader();
         var document = reader.Read(documentStream, out diagnostic);
@@ -38,10 +38,10 @@ public class OpenApiTypeResolver
     /// <param name="document"></param>
     /// <returns></returns>
     [Pure]
-    public IEnumerable<Type> Resolve(OpenApiDocument document)
+    public IEnumerable<Code> Resolve(OpenApiDocument document)
         => Guard.NotNull(document, nameof(document))
-        .Components.Schemas.Values.Select(schema => Resolve(schema))
-        .OfType<ObjectBase>();
+        .Components.Schemas.Values.Select(Resolve)
+        .OfType<Code>();
 
     [Pure]
     private Type? Resolve(OpenApiSchema schema)
@@ -166,10 +166,15 @@ public class OpenApiTypeResolver
         var propertyType = Resolve(property.Schema);
         if (propertyType is { })
         {
+            if (propertyType.IsValueType && property.Schema.Nullable)
+            {
+                propertyType = typeof(Nullable<>).MakeGenericType(propertyType);
+            }
+
             var attributes = new List<AttributeInfo>();
             var documentation = new XmlDocumentation
             {
-                Summary = "TODO",
+                Summary = property.Schema.Description,
             };
             var prop = new Property(PorpertyName(@class, property), propertyType, @class, Access(property), attributes, documentation);
             attributes.AddRange(Decorator.Property(prop, property));

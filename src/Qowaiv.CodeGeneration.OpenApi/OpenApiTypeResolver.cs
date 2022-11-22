@@ -8,12 +8,14 @@ namespace Qowaiv.CodeGeneration.OpenApi;
 
 public class OpenApiTypeResolver
 {
-    public OpenApiTypeResolver(Namespace defaultNamespace)
+    public OpenApiTypeResolver(Namespace defaultNamespace, Decorator? decorator = null)
     {
         DefaultNamespace = Guard.NotDefault(defaultNamespace, nameof(defaultNamespace));
+        Decorator = decorator ?? new Decorator();
     }
 
     public Namespace DefaultNamespace { get; }
+    private readonly Decorator Decorator;
 
     [Pure]
     public IEnumerable<Type> Resolve(FileInfo documentLocation, out OpenApiDiagnostic diagnostic)
@@ -132,7 +134,7 @@ public class OpenApiTypeResolver
     [Pure]
     protected virtual Type? ResolveEnum(OpenApiSchema schema)
     {
-        var nameType = ResolveName(schema);
+        if (ResolveName(schema) is not { } nameType) return null;
         var fields = new List<EnumerationField>();
         var type = new Enumeration(nameType, fields);
 
@@ -149,7 +151,7 @@ public class OpenApiTypeResolver
     [Pure]
     protected virtual Type ResolveObject(OpenApiSchema schema)
     {
-        var nameType = ResolveName(schema);
+        var nameType = ResolveName(schema)!;
         var properties = new List<Property>();
         var classType = new Class(nameType, properties: properties);
 
@@ -164,7 +166,13 @@ public class OpenApiTypeResolver
         var propertyType = Resolve(property.Schema);
         if (propertyType is { })
         {
-            var prop = new Property(PorpertyName(@class, property), propertyType, @class, Access(property));
+            var attributes = new List<AttributeInfo>();
+            var documentation = new XmlDocumentation
+            {
+                Summary = "TODO",
+            };
+            var prop = new Property(PorpertyName(@class, property), propertyType, @class, Access(property), attributes, documentation);
+            attributes.AddRange(Decorator.Property(prop, property));
             return prop;
         }
         else return null;
@@ -175,9 +183,10 @@ public class OpenApiTypeResolver
         => NamingStrategy.PascalCase(property.Name, @class);
 
     [Pure]
-    protected virtual TypeName ResolveName(OpenApiSchema schema)
+    protected virtual TypeName? ResolveName(OpenApiSchema schema)
     {
-        var name = schema.Reference.Id;
+        if (schema.Reference?.Id is not { } name) return null;
+
         var lastDot = name.LastIndexOf('.');
         var ns = lastDot == -1 ? DefaultNamespace : DefaultNamespace.Child(name[..lastDot]);
         name = NamingStrategy.PascalCase((lastDot == -1 ? name : name[(lastDot + 1)..]).TrimStart('_'));

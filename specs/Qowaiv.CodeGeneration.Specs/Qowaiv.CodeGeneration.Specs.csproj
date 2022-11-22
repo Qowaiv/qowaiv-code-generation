@@ -24,8 +24,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Qowaiv.CodeGeneration.OpenApi\Qowaiv.CodeGeneration.OpenApi.csproj" />
     <ProjectReference Include="..\..\src\Qowaiv.CodeGeneration\Qowaiv.CodeGeneration.csproj" />
     <ProjectReference Include="..\..\src\Qowaiv.CodeGeneration.SingleValueObjects\Qowaiv.CodeGeneration.SingleValueObjects.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="OpenApi\Definitions\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

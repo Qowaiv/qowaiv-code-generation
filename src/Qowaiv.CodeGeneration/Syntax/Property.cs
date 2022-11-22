@@ -12,14 +12,18 @@ public partial class Property : PropertyInfo, Code
         Type propertyType,
         Type declaringClass,
         PropertyAccess access,
-        IReadOnlyCollection<AttributeInfo>? attributes = null)
+        IReadOnlyCollection<AttributeInfo>? attributes = null,
+        XmlDocumentation? documentation = null)
     {
         Name = Guard.NotNullOrEmpty(name, nameof(name));
         PropertyType = Guard.NotNull(propertyType, nameof(propertyType));
         DeclaringType = Guard.NotNull(declaringClass, nameof(declaringClass));
         PropertyAccess = Guard.DefinedEnum(access, nameof(access));
         AttributeInfos = attributes ?? Array.Empty<AttributeInfo>();
+        Documentation = documentation ?? new XmlDocumentation();
     }
+
+    public XmlDocumentation Documentation { get; }
 
     /// <inheritdoc />
     public override string Name { get; }
@@ -86,13 +90,15 @@ public partial class Property : PropertyInfo, Code
         => throw new NotSupportedException();
 
     /// <inheritdoc />
-    [Pure]
     public override void SetValue(object? obj, object? value, BindingFlags invokeAttr, Binder? binder, object?[]? index, CultureInfo? culture) 
         => throw new NotSupportedException();
 
     /// <inheritdoc />
     public virtual void WriteTo(CSharpWriter writer)
     {
+        Guard.NotNull(writer, nameof(writer));
+
+        writer.Write(Documentation);
         foreach (var decoration in AttributeInfos) writer.Write(decoration);
 
         writer.Indent()

@@ -3,7 +3,7 @@
 namespace Qowaiv.CodeGeneration.Syntax;
 
 /// <summary>Represents a base for objects (classes, records, structs, enums).</summary>
-public abstract class ObjectBase : Type, Code
+public abstract class ObjectBase : Type
 {
     protected readonly IReadOnlyCollection<AttributeInfo> AttributeInfos;
     protected readonly IReadOnlyCollection<ConstructorInfo> Constructors;
@@ -17,7 +17,6 @@ public abstract class ObjectBase : Type, Code
     protected ObjectBase(
        TypeName type,
        Type? baseType,
-       bool isArray,
        IReadOnlyCollection<AttributeInfo>? attributes,
        IReadOnlyCollection<ConstructorInfo>? constructors,
        IReadOnlyCollection<EventInfo>? events,
@@ -26,11 +25,8 @@ public abstract class ObjectBase : Type, Code
        IReadOnlyCollection<PropertyInfo>? properties,
        IReadOnlyCollection<Type>? interfaces)
     {
-        NameSpace = Guard.NotNull(type, nameof(type)).Namespace!;
-        Name = type.Name;
+        TypeName = Guard.NotNull(type, nameof(type));
         BaseType = baseType ?? typeof(object);
-        _IsArray = isArray;
-
         AttributeInfos = attributes ?? Array.Empty<AttributeInfo>();
         Constructors = constructors ?? Array.Empty<ConstructorInfo>();
         Events = events ?? Array.Empty<EventInfo>();
@@ -45,7 +41,7 @@ public abstract class ObjectBase : Type, Code
 
     /// <inheritdoc />
     public override string AssemblyQualifiedName => Assembly.GetName().FullName;
-
+  
     /// <inheritdoc />
     public override Type BaseType { get; }
 
@@ -59,22 +55,19 @@ public abstract class ObjectBase : Type, Code
     public override Module Module => Assembly.Modules.First();
 
     /// <inheritdoc />
-    public override string Name { get; }
+    public override string Name => TypeName.Name;
 
     /// <summary>The namespace of the type.</summary>
-    public Namespace NameSpace { get; }
+    public Namespace NameSpace => TypeName.Namespace;
 
     /// <inheritdoc />
     public override string Namespace => NameSpace.ToString();
 
-    /// <summary>Gets the type name of the type.</summary>
-    public TypeName TypeName => new(NameSpace, Name);
+    /// <summary>Gets the type name (name space and name) of the type.</summary>
+    public TypeName TypeName { get; }
 
     /// <inheritdoc />
     public override Type UnderlyingSystemType => this;
-
-    /// <inheritdoc />
-    public abstract void WriteTo(CSharpWriter writer);
 
     /// <inheritdoc />
     [Pure]
@@ -83,7 +76,7 @@ public abstract class ObjectBase : Type, Code
 
     /// <inheritdoc />
     [Pure]
-    public override int GetArrayRank() => IsArray ? 1 : 0;
+    public override int GetArrayRank() => 0;
 
     /// <inheritdoc />
     [Pure]
@@ -157,6 +150,22 @@ public abstract class ObjectBase : Type, Code
 
     /// <inheritdoc />
     [Pure]
+    public override Type MakeArrayType() => MakeArrayType(1);
+
+    /// <inheritdoc />
+    [Pure]
+    public override Type MakeArrayType(int rank) 
+        => new ArrayType(this, rank, 
+            AttributeInfos,
+            Constructors, 
+            Events,
+            Fields,
+            Methods,
+            Properties,
+            Interfaces);
+
+    /// <inheritdoc />
+    [Pure]
     protected override TypeAttributes GetAttributeFlagsImpl() => default;
 
     /// <inheritdoc />
@@ -183,10 +192,7 @@ public abstract class ObjectBase : Type, Code
 
     /// <inheritdoc />
     [Pure]
-    protected override bool IsArrayImpl() => _IsArray;
-
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private readonly bool _IsArray;
+    protected override bool IsArrayImpl() => false;
 
     /// <inheritdoc />
     [Pure]

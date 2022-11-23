@@ -2,8 +2,8 @@
 
 namespace Qowaiv.CodeGeneration.Syntax;
 
-/// <summary>Represents a base for objects (classes, records, structs, enums).</summary>
-public abstract class ObjectBase : Type
+/// <summary>Represents a base for types (classes, records, enums, Array).</summary>
+public abstract class TypeBase : Type
 {
     protected readonly IReadOnlyCollection<AttributeInfo> AttributeInfos;
     protected readonly IReadOnlyCollection<ConstructorInfo> Constructors;
@@ -12,28 +12,26 @@ public abstract class ObjectBase : Type
     protected readonly IReadOnlyCollection<MethodInfo> Methods;
     protected readonly IReadOnlyCollection<PropertyInfo> Properties;
     protected readonly IReadOnlyCollection<Type> Interfaces;
+    private readonly TypeAttributes TypeAttributes = TypeAttributes.Public;
 
-    /// <summary>Creates a new instance of the <see cref="ObjectBase"/> class.</summary>
-    protected ObjectBase(
-       TypeName type,
-       Type? baseType,
-       IReadOnlyCollection<AttributeInfo>? attributes,
-       IReadOnlyCollection<ConstructorInfo>? constructors,
-       IReadOnlyCollection<EventInfo>? events,
-       IReadOnlyCollection<FieldInfo>? fields,
-       IReadOnlyCollection<MethodInfo>? methods,
-       IReadOnlyCollection<PropertyInfo>? properties,
-       IReadOnlyCollection<Type>? interfaces)
+    /// <summary>Creates a new instance of the <see cref="TypeBase"/> class.</summary>
+    protected TypeBase(TypeInfo info)
     {
-        TypeName = Guard.NotNull(type, nameof(type));
-        BaseType = baseType ?? typeof(object);
-        AttributeInfos = attributes ?? Array.Empty<AttributeInfo>();
-        Constructors = constructors ?? Array.Empty<ConstructorInfo>();
-        Events = events ?? Array.Empty<EventInfo>();
-        Fields = fields ?? Array.Empty<FieldInfo>();
-        Methods = methods ?? Array.Empty<MethodInfo>();
-        Properties = properties ?? Array.Empty<PropertyInfo>();
-        Interfaces = interfaces ?? Array.Empty<Type>();
+        Guard.NotNull(info, nameof(info));
+        TypeName = Guard.NotNull(info.TypeName, nameof(info.TypeName));
+        BaseType = info.BaseType ?? typeof(object);
+        AttributeInfos = info.Attributes ?? Array.Empty<AttributeInfo>();
+        Constructors = info.Constructors ?? Array.Empty<ConstructorInfo>();
+        Events = info.Events ?? Array.Empty<EventInfo>();
+        Fields = info.Fields ?? Array.Empty<FieldInfo>();
+        Methods = info.Methods ?? Array.Empty<MethodInfo>();
+        Properties = info.Properties ?? Array.Empty<PropertyInfo>();
+        Interfaces = info.Interfaces ?? Array.Empty<Type>();
+
+        IsPartial = info.IsPartial;
+        TypeAttributes |= info.IsSealed ? TypeAttributes.Sealed : default;
+        TypeAttributes |= info.IsAbstract ? TypeAttributes.Abstract : default;
+        TypeAttributes |= info.IsSealed ? TypeAttributes.Sealed : default;
     }
 
     /// <inheritdoc />
@@ -50,6 +48,9 @@ public abstract class ObjectBase : Type
 
     /// <inheritdoc />
     public override Guid GUID => Uuid.GenerateWithSHA1(Encoding.ASCII.GetBytes(FullName));
+
+    /// <summary>Returns if the type sources are spread over multiple files.</summary>
+    public bool IsPartial { get; }
 
     /// <inheritdoc />
     public override Module Module => Assembly.Modules.First();
@@ -154,19 +155,11 @@ public abstract class ObjectBase : Type
 
     /// <inheritdoc />
     [Pure]
-    public override Type MakeArrayType(int rank) 
-        => new ArrayType(this, rank, 
-            AttributeInfos,
-            Constructors, 
-            Events,
-            Fields,
-            Methods,
-            Properties,
-            Interfaces);
+    public override Type MakeArrayType(int rank) => new ArrayType(this, rank);
 
     /// <inheritdoc />
     [Pure]
-    protected override TypeAttributes GetAttributeFlagsImpl() => default;
+    protected override TypeAttributes GetAttributeFlagsImpl() => TypeAttributes;
 
     /// <inheritdoc />
     [Pure]

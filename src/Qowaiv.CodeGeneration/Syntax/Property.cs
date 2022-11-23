@@ -6,6 +6,7 @@ namespace Qowaiv.CodeGeneration.Syntax;
 public partial class Property : PropertyInfo, Code
 {
     protected readonly IReadOnlyCollection<Code> AttributeInfos;
+    private readonly bool IsNullable;
 
     public Property(
         string name,
@@ -13,7 +14,8 @@ public partial class Property : PropertyInfo, Code
         Type declaringClass,
         PropertyAccess access,
         IReadOnlyCollection<AttributeInfo>? attributes = null,
-        XmlDocumentation? documentation = null)
+        XmlDocumentation? documentation = null,
+        bool nullable = false)
     {
         Name = Guard.NotNullOrEmpty(name, nameof(name));
         PropertyType = Guard.NotNull(propertyType, nameof(propertyType));
@@ -21,6 +23,7 @@ public partial class Property : PropertyInfo, Code
         PropertyAccess = Guard.DefinedEnum(access, nameof(access));
         AttributeInfos = attributes ?? Array.Empty<AttributeInfo>();
         Documentation = documentation ?? new XmlDocumentation();
+        IsNullable = nullable;
     }
 
     public XmlDocumentation Documentation { get; }
@@ -35,7 +38,7 @@ public partial class Property : PropertyInfo, Code
     public override Type DeclaringType { get; }
 
     public PropertyAccess PropertyAccess { get; }
-    
+
     /// <inheritdoc />
     public override bool CanRead => true;
 
@@ -79,7 +82,6 @@ public partial class Property : PropertyInfo, Code
     [Pure]
     public override object[] GetCustomAttributes(bool inherit) => Array.Empty<object>();
 
-
     /// <inheritdoc />
     [Pure]
     public override ParameterInfo[] GetIndexParameters() => Array.Empty<ParameterInfo>();
@@ -90,7 +92,7 @@ public partial class Property : PropertyInfo, Code
         => throw new NotSupportedException();
 
     /// <inheritdoc />
-    public override void SetValue(object? obj, object? value, BindingFlags invokeAttr, Binder? binder, object?[]? index, CultureInfo? culture) 
+    public override void SetValue(object? obj, object? value, BindingFlags invokeAttr, Binder? binder, object?[]? index, CultureInfo? culture)
         => throw new NotSupportedException();
 
     /// <inheritdoc />
@@ -102,7 +104,12 @@ public partial class Property : PropertyInfo, Code
         foreach (var decoration in AttributeInfos) writer.Write(decoration);
 
         writer.Indent()
-            .Write("public ").Write(PropertyType).Write(' ').Write(Name).Write(' ').Write(PropertyAccess.Code())
-            .Line();
+            .Write("public ").Write(PropertyType).Write(IsNullable ? "?" : "").Write(' ').Write(Name).Write(' ').Write(PropertyAccess.Code());
+
+        if (PropertyType.IsArray)
+        {
+            writer.Write(" = ").Write(typeof(Array)).Write(".Empty<").Write(PropertyType.GetElementType()!).Line(">();");
+        }
+        else { writer.Line(); }
     }
 }

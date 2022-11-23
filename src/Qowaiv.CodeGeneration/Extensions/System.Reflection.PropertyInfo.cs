@@ -1,5 +1,4 @@
 ﻿using Qowaiv.CodeGeneration;
-using System.Data.SqlTypes;
 
 namespace System.Reflection;
 

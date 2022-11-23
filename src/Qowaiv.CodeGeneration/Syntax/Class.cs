@@ -1,27 +1,14 @@
-﻿using System.Reflection;
+﻿namespace Qowaiv.CodeGeneration.Syntax;
 
-namespace Qowaiv.CodeGeneration.Syntax;
-
-[Inheritable]
-public class Class : ObjectBase, Code
+public class Class : TypeBase, Code
 {
-    public Class(
-        TypeName type,
-        IReadOnlyCollection<AttributeInfo>? attributes = null,
-        IReadOnlyCollection<ConstructorInfo>? constructors = null,
-        IReadOnlyCollection<EventInfo>? events = null,
-        IReadOnlyCollection<FieldInfo>? fields = null,
-        IReadOnlyCollection<MethodInfo>? methods = null,
-        IReadOnlyCollection<PropertyInfo>? properties = null,
-        IReadOnlyCollection<Type>? interfaces = null,
-        Type? baseType = null) : base(type, baseType, attributes, constructors, events, fields, methods, properties, interfaces) { }
+    public Class(TypeInfo info) : base(info) { }
+
+    protected virtual string Keyword => "class";
 
     /// <inheritdoc />
     [Pure]
-    public override Type? GetElementType()
-        => IsArray
-        ? new Class(TypeName, AttributeInfos, Constructors, Events, Fields, Methods, Properties, Interfaces, BaseType)
-        : null;
+    public override Type? GetElementType() => null;
 
     /// <inheritdoc />
     public void WriteTo(CSharpWriter writer)
@@ -35,7 +22,8 @@ public class Class : ObjectBase, Code
         writer.Indent().Write("public ");
         if (IsAbstract) writer.Write("abstract ");
         if (IsSealed) writer.Write("sealed ");
-        writer.Write("partial class ").Write(Name);
+        if (IsPartial) writer.Write("partial ");
+        writer.Write(Keyword).Write(' ').Write(Name);
         if (BaseType != typeof(object)) writer.Write(" : ").Write(BaseType);
 
         using (writer.Line().CodeBlock())

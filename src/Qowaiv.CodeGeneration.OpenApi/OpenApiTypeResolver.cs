@@ -3,19 +3,22 @@ using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Readers;
 using Qowaiv.CodeGeneration.Syntax;
 using System.IO;
+using System.Reflection;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
 
 public class OpenApiTypeResolver
 {
-    public OpenApiTypeResolver(Namespace defaultNamespace, Decorator? decorator = null)
+    public OpenApiTypeResolver(Namespace defaultNamespace, OpenApiTypeResolverSettings? settings = null, Decorator? decorator = null)
     {
         DefaultNamespace = Guard.NotDefault(defaultNamespace, nameof(defaultNamespace));
+        Settings = settings ?? new OpenApiTypeResolverSettings();
         Decorator = decorator ?? new Decorator();
     }
 
     public Namespace DefaultNamespace { get; }
     private readonly Decorator Decorator;
+    private readonly OpenApiTypeResolverSettings Settings;
 
     [Pure]
     public IEnumerable<Code> Resolve(FileInfo documentLocation, out OpenApiDiagnostic diagnostic)
@@ -67,6 +70,16 @@ public class OpenApiTypeResolver
 
     [Pure]
     protected virtual PropertyAccess Access(OpenApiProperty property) => PropertyAccess.InitOnly;
+
+    /// <remarks>
+    /// Types that are null-able by design will not be transformed to 
+    /// <see cref="Nullable{T}"/>'s when optional.
+    /// </remarks>
+    [Pure]
+    public virtual bool IsNullableByDesign(Type type) 
+        => type.IsValueType && type
+            .GetFields(BindingFlags.Static | BindingFlags.Public)
+            .Any(f => f.FieldType == type && (f.Name == "Empty" || f.Name == "None"));
 
     [Pure]
     protected virtual Type? ResolveType(OpenApiSchema schema)
@@ -136,7 +149,7 @@ public class OpenApiTypeResolver
     {
         if (ResolveName(schema) is not { } nameType) return null;
         var fields = new List<EnumerationField>();
-        var type = new Enumeration(nameType, fields);
+        var type = new Enumeration(new() { TypeName = nameType, Fields = fields });
 
         foreach (var @enum in schema.Enum)
         {
@@ -151,9 +164,18 @@ public class OpenApiTypeResolver
     [Pure]
     protected virtual Type ResolveObject(OpenApiSchema schema)
     {
-        var nameType = ResolveName(schema)!;
         var properties = new List<Property>();
-        var classType = new Class(nameType, properties: properties);
+        var settings = new Syntax.TypeInfo
+        {
+            TypeName = ResolveName(schema)!,
+            IsSealed = Settings.Sealed,
+            IsPartial = Settings.Partial,
+            Properties = properties,
+        };
+
+        Class classType = Settings.ModelType == ModelType.Record
+            ? new Record(settings)
+            : new Class(settings);
 
         properties.AddRange(schema.OpenApiProperties().Select(prop => Resolve(classType, prop)).OfType<Property>());
 
@@ -166,7 +188,10 @@ public class OpenApiTypeResolver
         var propertyType = Resolve(property.Schema);
         if (propertyType is { })
         {
-            if (propertyType.IsValueType && property.Schema.Nullable)
+            // nullablillity is handled on type for structs, and on the property for classes.
+            var nullable = propertyType.IsClass && !propertyType.IsArray;
+
+            if (property.Schema.Nullable && propertyType.IsValueType && !IsNullableByDesign(propertyType))
             {
                 propertyType = typeof(Nullable<>).MakeGenericType(propertyType);
             }
@@ -176,7 +201,15 @@ public class OpenApiTypeResolver
             {
                 Summary = property.Schema.Description,
             };
-            var prop = new Property(PorpertyName(@class, property), propertyType, @class, Access(property), attributes, documentation);
+            var prop = new Property(
+                PorpertyName(@class, property),
+                propertyType,
+                @class, 
+                Access(property), 
+                attributes, 
+                documentation,
+                nullable);
+
             attributes.AddRange(Decorator.Property(prop, property));
             return prop;
         }

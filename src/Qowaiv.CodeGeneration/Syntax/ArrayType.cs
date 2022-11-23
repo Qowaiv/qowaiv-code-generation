@@ -3,29 +3,17 @@
 namespace Qowaiv.CodeGeneration.Syntax;
 
 [DebuggerDisplay("Name = {Name} FullName = {FullName} ArrayRank = {ArrayRank}")]
-internal sealed class ArrayType : ObjectBase
+internal sealed class ArrayType : TypeBase
 {
-    private readonly ObjectBase ElementType;
+    private readonly TypeBase ElementType;
     private readonly int ArrayRank;
 
-    public ArrayType(ObjectBase type,
-        int arrayRank,
-        IReadOnlyCollection<AttributeInfo>? attributes,
-        IReadOnlyCollection<ConstructorInfo>? constructors,
-        IReadOnlyCollection<EventInfo>? events,
-        IReadOnlyCollection<FieldInfo>? fields,
-        IReadOnlyCollection<MethodInfo>? methods,
-        IReadOnlyCollection<PropertyInfo>? properties,
-        IReadOnlyCollection<Type>? interfaces)
-        :base(type.TypeName,
-            type.BaseType,
-            attributes,
-            constructors,
-            events,
-            fields,
-            methods,
-            properties,
-            interfaces)
+    public ArrayType(TypeBase type, int arrayRank)
+        :base(new TypeInfo
+        {
+            TypeName = Guard.NotNull(type, nameof(type)).TypeName,
+            BaseType = typeof(Array),
+        })
     {
         ElementType = type;
         ArrayRank = arrayRank;

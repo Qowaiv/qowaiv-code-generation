@@ -1,28 +1,13 @@
 ﻿namespace Qowaiv.CodeGeneration.Syntax;
 
 [Inheritable]
-public class Enumeration : ObjectBase, Code
+public class Enumeration : TypeBase, Code
 {
-    public Enumeration(
-        TypeName type,
-        IReadOnlyCollection<EnumerationField> fields,
-        IReadOnlyCollection<AttributeInfo>? attributes = null)
-        : base(type: type,
-            baseType: typeof(Enum),
-            attributes: attributes,
-            constructors: null,
-            events: null,
-            fields: fields,
-            methods: null,
-            properties: null,
-            interfaces: null) { }
+    public Enumeration(TypeInfo info) : base(info) { }
 
     /// <inheritdoc />
     [Pure]
-    public override Type? GetElementType()
-        => IsArray
-        ? new Enumeration(TypeName, Fields.OfType<EnumerationField>().ToArray(), AttributeInfos)
-        : null;
+    public override Type? GetElementType() => null;
 
     /// <inheritdoc />
     public void WriteTo(CSharpWriter writer)

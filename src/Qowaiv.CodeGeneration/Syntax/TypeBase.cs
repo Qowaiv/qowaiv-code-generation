@@ -31,7 +31,7 @@ public abstract class TypeBase : Type
         IsPartial = info.IsPartial;
         TypeAttributes |= info.IsSealed ? TypeAttributes.Sealed : default;
         TypeAttributes |= info.IsAbstract ? TypeAttributes.Abstract : default;
-        TypeAttributes |= info.IsSealed ? TypeAttributes.Sealed : default;
+        TypeAttributes |= info.IsStatic ? (TypeAttributes.Sealed | TypeAttributes.Abstract) : default;
     }
 
     /// <inheritdoc />

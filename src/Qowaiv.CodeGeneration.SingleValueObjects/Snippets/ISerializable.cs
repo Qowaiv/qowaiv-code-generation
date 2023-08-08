@@ -6,7 +6,7 @@ public partial struct @TSvo : ISerializable
     /// <param name="context">The streaming context.</param>
     private @TSvo(SerializationInfo info, StreamingContext context)
     {
-        Guard.NotNull(info, nameof(info));
+        Guard.NotNull(info);
         m_Value = info.GetValue("Value", typeof(@type)) is @type val ? val : default(@type);
     }
 
@@ -14,6 +14,6 @@ public partial struct @TSvo : ISerializable
     /// <param name="info">The serialization info.</param>
     /// <param name="context">The streaming context.</param>
     void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
-        => Guard.NotNull(info, nameof(info)).AddValue("Value", m_Value);
+        => Guard.NotNull(info).AddValue("Value", m_Value);
 }
 #endif // exec

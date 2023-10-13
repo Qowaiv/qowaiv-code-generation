@@ -11,7 +11,7 @@
     /// <param name="reader">An XML reader.</param>
     void IXmlSerializable.ReadXml(XmlReader reader)
     {
-        Guard.NotNull(reader, nameof(reader));
+        Guard.NotNull(reader);
         var xml = reader.ReadElementString();
 #if !NotCultureDependent // exec
         System.Runtime.CompilerServices.Unsafe.AsRef(this) = Parse(xml, CultureInfo.InvariantCulture);
@@ -26,5 +26,5 @@
     /// </remarks>
     /// <param name="writer">An XML writer.</param>
     void IXmlSerializable.WriteXml(XmlWriter writer)
-        => Guard.NotNull(writer, nameof(writer)).WriteString(ToXmlString());
+        => Guard.NotNull(writer).WriteString(ToXmlString());
 }

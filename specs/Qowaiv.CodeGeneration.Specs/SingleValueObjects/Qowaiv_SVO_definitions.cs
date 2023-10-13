@@ -41,6 +41,8 @@ public class Generation_of
 
     [TestCase("StreamSize", typeof(long), "stream size", "Qowaiv.IO", SvoFeatures.Continuous ^ SvoFeatures.Field ^ SvoFeatures.IFormattable)]
 
+    [TestCase("EnergyLabel", typeof(int), "EU energy label", "Qowaiv.Sustainability", SvoFeatures.Default)]
+
     [TestCase("Elo", typeof(double), "elo", "Qowaiv.Statistics", SvoFeatures.Continuous)]
 
     [TestCase("Fraction", typeof(long), "fraction", "Qowaiv.Mathematics", (SvoFeatures.Continuous)
@@ -49,14 +51,14 @@ public class Generation_of
         ^ SvoFeatures.Field)]
 
     [TestCase("InternetMediaType", typeof(string), "Internet media type", "Qowaiv.Web", SvoFeatures.Default)]
-    public void Qowaiv(string name, Type underlying, string fulleName, string ns, SvoFeatures features, string formatExceptionMessage = null)
+    public void Qowaiv(string name, Type underlying, string fullName, string ns, SvoFeatures features, string? formatExceptionMessage = null)
     {
         var sub = ns.Replace("Qowaiv", "").Replace(".", @"\");
         var path = $@"{Root}\src\Qowaiv\Generated\{sub}\{name}.generated.cs".Replace(@"\\", @"\");
         var init = $@"{Root}\src\Qowaiv\{sub}\{name}.cs".Replace(@"\\", @"\");
         var json = $@"{Root}\src\Qowaiv\Json\{sub}\{name}JsonConverter.cs".Replace(@"\\", @"\");
         var spec = $@"{Root}\specs\Qowaiv.Specs\{sub}\{name}_specs.cs".Replace(@"\\", @"\");
-        Generate(name, underlying, fulleName, ns, features, path, init, json, spec, formatExceptionMessage);
+        Generate(name, underlying, fullName, ns, features, path, init, json, spec, formatExceptionMessage);
     }
 
     [TestCase("Timestamp", typeof(ulong), "timestamp", "Qowaiv.Sql", SvoFeatures.Continuous)]
@@ -79,7 +81,7 @@ public class Generation_of
         string init,
         string json,
         string spec,
-        string formatExceptionMessage)
+        string? formatExceptionMessage)
     {
         var arguments = new SvoArguments
         {

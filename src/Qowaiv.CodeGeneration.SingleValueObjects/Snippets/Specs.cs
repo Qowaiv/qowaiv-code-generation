@@ -30,6 +30,7 @@ public class With_domain_logic
         => svo.IsUnknown().Should().Be(result);
 }
 
+[Obsolete("Will be dropped")]
 public class Is_valid_for
 {
     [TestCase("?")]
@@ -43,6 +44,7 @@ public class Is_valid_for
         => @TSvo.IsValid(input, culture).Should().BeTrue();
 }
 
+[Obsolete("Will be dropped")]
 public class Is_not_valid_for
 {
     [Test]
@@ -65,8 +67,10 @@ public class Is_not_valid_for
 public class Has_constant
 {
     [Test]
-    public void Empty_represent_default_value()
-        => @TSvo.Empty.Should().Be(default(@TSvo));
+    public void Empty() => @TSvo.Empty.Should().Be(default(@TSvo));
+
+    [Test]
+    public void Unknown() => @TSvo.Unknown.Should().Be(@TSvo.Parse("?"));
 }
 
 public class Is_equal_by_value
@@ -216,11 +220,11 @@ public class Has_custom_formatting
 
     [TestCase("en-GB", null, "svoValue", "SvoFormat")]
     [TestCase("nl-BE", "f", "svoValue", "SvoFormat")]
-    public void culture_dependent(CultureInfo culture, string format, @TSvo svo, string expected)
+    public void culture_dependent(CultureInfo culture, string format, @TSvo svo, string formatted)
     {
         using (culture.Scoped())
         {
-            Assert.AreEqual(expected, svo.ToString(format));
+            svo.ToString(format).Should().Be(formatted);
         }
     }
 
@@ -446,6 +450,10 @@ public class Is_Open_API_data_type
            type: "string",
            format: "format",
            pattern: null));
+
+    [TestCase("svoValue")]
+    public void pattern_matches(string input)
+        => Qowaiv.OpenApi.OpenApiDataType.FromType(typeof(@TSvo))!.Matches(input).Should().BeTrue();
 }
 
 public class Supports_binary_serialization
@@ -469,7 +477,7 @@ public class Supports_binary_serialization
 public class Debugger
 {
     [TestCase("{empty}", "")]
-    [TestCase("?", "?")]
+    [TestCase("{unknown}", "?")]
     [TestCase("DebuggerDisplay", "svoValue")]
     public void has_custom_display(object display, @TSvo svo)
         => svo.Should().HaveDebuggerDisplay(display);

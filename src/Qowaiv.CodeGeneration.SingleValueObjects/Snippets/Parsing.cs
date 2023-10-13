@@ -30,7 +30,9 @@
     /// <paramref name="s"/> is not in the correct format.
     /// </exception>
     [Pure]
-    public static @TSvo Parse(string? s, IFormatProvider? formatProvider) => TryParse(s, formatProvider) ?? throw new FormatException(@FormatExceptionMessage);
+    public static @TSvo Parse(string? s, IFormatProvider? formatProvider) 
+        => TryParse(s, formatProvider) 
+        ?? throw Unparsable.ForValue<@TSvo>(s, @FormatExceptionMessage);
 
     /// <summary>Converts the <see cref="string"/> to <see cref="@TSvo"/>.</summary>
     /// <param name="s">

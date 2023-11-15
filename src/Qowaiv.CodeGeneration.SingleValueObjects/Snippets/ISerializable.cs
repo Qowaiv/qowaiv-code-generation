@@ -1,4 +1,6 @@
 ﻿#if !NotISerializable // exec
+#if NET8_0_OR_GREATER
+#else
 public partial struct @TSvo : ISerializable
 {
     /// <summary>Initializes a new instance of the @FullName based on the serialization info.</summary>
@@ -16,4 +18,6 @@ public partial struct @TSvo : ISerializable
     void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         => Guard.NotNull(info).AddValue("Value", m_Value);
 }
+#endif
 #endif // exec
+

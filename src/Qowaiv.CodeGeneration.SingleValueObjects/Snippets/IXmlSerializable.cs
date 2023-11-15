@@ -14,9 +14,9 @@
         Guard.NotNull(reader);
         var xml = reader.ReadElementString();
 #if !NotCultureDependent // exec
-        System.Runtime.CompilerServices.Unsafe.AsRef(this) = Parse(xml, CultureInfo.InvariantCulture);
+        System.Runtime.CompilerServices.Unsafe.AsRef(in this) = Parse(xml, CultureInfo.InvariantCulture);
 #else // exec
-        System.Runtime.CompilerServices.Unsafe.AsRef(this) = Parse(xml);
+        System.Runtime.CompilerServices.Unsafe.AsRef(in this) = Parse(xml);
 #endif // exec
     }
 

@@ -76,6 +76,7 @@ public sealed class SvoTemplate : Code
         Embedded("IXmlSerializable"),
         Embedded("Parsing"),
         Embedded("Validation"),
+        Embedded("Utf8"),
     }.Concat());
 
     public static SvoTemplate Initial { get; } = new SvoTemplate(Embedded(nameof(Initial)));

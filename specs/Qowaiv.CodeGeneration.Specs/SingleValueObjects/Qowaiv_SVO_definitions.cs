@@ -50,7 +50,7 @@ public class Generation_of
         ^ SvoFeatures.EqualsSvo
         ^ SvoFeatures.Field)]
 
-    [TestCase("InternetMediaType", typeof(string), "Internet media type", "Qowaiv.Web", SvoFeatures.Default)]
+    [TestCase("InternetMediaType", typeof(string), "Internet media type", "Qowaiv.Web", SvoFeatures.All)]
     public void Qowaiv(string name, Type underlying, string fullName, string ns, SvoFeatures features, string? formatExceptionMessage = null)
     {
         var sub = ns.Replace("Qowaiv", "").Replace(".", @"\");

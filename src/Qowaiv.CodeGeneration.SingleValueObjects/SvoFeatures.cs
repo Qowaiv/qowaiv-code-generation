@@ -17,11 +17,13 @@ public enum SvoFeatures
     ComparisonOperators = /*.*/ 0x01000,
     Parsing = /*.............*/ 0x02000,
     Validation  = /*.........*/ 0x04000,
-    Utf8 = /*................*/ 0x08000,
-    All = /*.................*/ 0x0FFFF,
+    All = /*.................*/ 0x07FFF,
+
     Structure = Field | IsEmpty | IsUnknown,
     EqualsSvoAndGetHashCode = EqualsSvo | GetHashCode,
     IsEmptyOrUnknown = IsEmpty | IsUnknown,
-    Default = All ^ ComparisonOperators ^ Utf8,
-    Continuous = All ^ IsEmpty ^ IsUnknown ^ Utf8,
+    Default = All ^ ComparisonOperators,
+    Continuous = All ^ IsEmpty ^ IsUnknown,
+
+    Utf8 = /*................*/ 0x08000,
 }

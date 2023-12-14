@@ -5,7 +5,7 @@
 {
     /// <inheritdoc />
     [Pure]
-    public override bool Equals(object? obj) => obj is @TSvo other && Equals(other);
+    public override bool Equals([NotNullWhen(true)] object? obj) => obj is @TSvo other && Equals(other);
 
 #if !NotEqualsSvo // exec
     /// <summary>Returns true if this instance and the other @FullName are equal, otherwise false.</summary>

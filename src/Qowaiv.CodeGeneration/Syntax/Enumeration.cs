@@ -16,7 +16,8 @@ public class Enumeration : ObjectBase
             fields: fields,
             methods: null,
             properties: null,
-            interfaces: null) { }
+            interfaces: null)
+    { }
 
     /// <inheritdoc />
     [Pure]

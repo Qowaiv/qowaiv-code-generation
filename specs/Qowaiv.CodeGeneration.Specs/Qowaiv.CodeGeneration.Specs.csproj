@@ -14,15 +14,15 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.*" />
-    <PackageReference Include="FluentAssertions.Analyzers" Version="0.*">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
-    <PackageReference Include="NUnit" Version="3.*" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.*" />
-    <PackageReference Include="NUnit.Analyzers" Version="3.*" />
-    <PackageReference Include="coverlet.collector" Version="3.*" />
+    <PackageReference Include="NUnit" Version="4.*" />
+    <PackageReference Include="NUnit3TestAdapter" Version="*" PrivateAssets="all" />
+    <PackageReference Include="coverlet.collector" Version="*" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions.Analyzers" Version="*" PrivateAssets="all" />
+    <PackageReference Include="NUnit.Analyzers" Version="*" PrivateAssets="all"  />
   </ItemGroup>
 
   <ItemGroup>

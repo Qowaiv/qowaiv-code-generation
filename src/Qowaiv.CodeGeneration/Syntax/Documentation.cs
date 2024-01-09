@@ -9,6 +9,7 @@ public class Documentation : Code
     }
 
     public string? Summary { get; }
+
     public string? Remarks { get; }
 
     /// <inheritdoc />

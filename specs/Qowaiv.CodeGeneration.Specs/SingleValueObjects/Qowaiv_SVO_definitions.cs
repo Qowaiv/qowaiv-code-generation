@@ -62,7 +62,7 @@ public class Generation_of
     }
 
     [TestCase("Timestamp", typeof(ulong), "timestamp", "Qowaiv.Sql", SvoFeatures.Continuous)]
-    public void Qowaiv_DataClient(string name, Type underlying, string fulleName, string ns, SvoFeatures features, string formatExceptionMessage = null)
+    public void Qowaiv_DataClient(string name, Type underlying, string fulleName, string ns, SvoFeatures features, string? formatExceptionMessage = null)
     {
         var path = $@"{Root}\src\Qowaiv.Data.SqlClient\Generated\{name}.generated.cs";
         var init = $@"{Root}\src\Qowaiv.Data.SqlClient\Sql\{name}.cs";

@@ -17,47 +17,29 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Title>Qowaiv (Single) Value Object library</Title>
+    <Title>Qowaiv Code Generation</Title>
     <Description>
       Qowaiv is a (Single) Value Object library. It aims to model reusable (Single)
       Value Objects that can be used in a wide variety of modeling scenarios, both
       inside and outside a Domain-driven context.
     </Description>
-    <Authors>Ad van der Hoeven;Corniel Nobel;Erik Ammerlaan;Fons Sonnemans;Jack Kester;Hanif Hafez Nezami;Laura Kramer;Patrick Evers;Vincent Lesierse;Wilko Frieke</Authors>
+    <Authors>Corniel Nobel</Authors>
     <Owners>Qowaiv community</Owners>
-    <PackageTags>
-      DDD;
-      value object;
-      SVO;
-      domain;
-      immutable;
-      amount;
-      date only;
-      date span;
-      email address;
-      IBAN
-      money;
-      percentage;
-      postal code;
-      sex;
-      UUID;
-      year
-    </PackageTags>
+    <PackageTags>Code Generation</PackageTags>
     <Company>Qowaiv community</Company>
-    <Copyright>Copyright © Qowaiv community 2013-current</Copyright>
+    <Copyright>Copyright © Qowaiv community 2022-current</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <LangVersion>12.0</LangVersion>
-    <!-- We ship package versions for obsolete target frameworks too -->
-    <CheckEolTargetFramework>false</CheckEolTargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PolySharp" Version="1.*" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+    <PackageReference Include="PolySharp" Version="1.*" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup Label="Analyzers">
-    <PackageReference Include="AsyncFixer" Version="*" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
-    <PackageReference Include="DotNetProjectFile.Analyzers" Version="*" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="*" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+    <PackageReference Include="AsyncFixer" Version="*" PrivateAssets="all" />
+    <PackageReference Include="DotNetProjectFile.Analyzers" Version="*" PrivateAssets="all" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="*" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup Label="Additional files">

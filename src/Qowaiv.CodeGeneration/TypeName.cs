@@ -3,7 +3,7 @@
 /// <summary>Represents the name of a type and its namespace.</summary>
 public sealed class TypeName
 {
-    /// <summary>Creates a new instance of the <see cref="TypeName"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="TypeName"/> class.</summary>
     public TypeName(Namespace @namespace, string name)
     {
         Namespace = Guard.NotDefault(@namespace, nameof(@namespace));

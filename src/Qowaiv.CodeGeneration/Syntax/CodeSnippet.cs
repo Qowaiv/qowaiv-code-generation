@@ -5,11 +5,11 @@ namespace Qowaiv.CodeGeneration.Syntax;
 /// <summary>Represents a code snippet.</summary>
 public sealed class CodeSnippet : Code
 {
-    /// <summary>Creates a new instance of the <see cref="CodeSnippet"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CodeSnippet"/> class.</summary>
     public CodeSnippet(string? snippet)
         : this(snippet?.Split(new[] { "\r\n", "\n" }, default)) { }
 
-    /// <summary>Creates a new instance of the <see cref="CodeSnippet"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CodeSnippet"/> class.</summary>
     internal CodeSnippet(string[]? lines)
         => Lines = lines ?? Array.Empty<string>();
 
@@ -27,7 +27,6 @@ public sealed class CodeSnippet : Code
     /// <param name="constants">
     /// The available constants.
     /// </param>
-    /// <exception cref="InvalidOperationException"></exception>
     [Pure]
     public CodeSnippet Transform(IReadOnlyCollection<Constant> constants)
     {
@@ -44,7 +43,7 @@ public sealed class CodeSnippet : Code
         {
             nr++;
 
-            if (Matches(mode, nr, line, "#if", Patterns.If, m => m != Mode.None,  out var @if))
+            if (Matches(mode, nr, line, "#if", Patterns.If, m => m != Mode.None, out var @if))
             {
                 enabled = Enabled(@if, constants);
                 mode = Mode.@if;
@@ -82,8 +81,6 @@ public sealed class CodeSnippet : Code
                 : enabled;
         }
 
-        
-
         static bool Matches(Mode mode, int lineNr, string line, string startsWith, Regex pattern, Func<Mode, bool> unexpected, out Match match)
         {
             if (!line.StartsWith(startsWith, StringComparison.Ordinal))
@@ -96,9 +93,10 @@ public sealed class CodeSnippet : Code
                 match = m;
                 var exec = match.Groups["exec"].Value is { Length: > 0 };
 
-                if (exec && unexpected(mode)) throw ParseError.Line(lineNr, line, mode == Mode.None 
-                    ? $"Unexpected {startsWith}."
-                    : $"Unexpected {startsWith} after #{mode}");
+                if (exec && unexpected(mode)) throw ParseError.Line(
+                    lineNr,
+                    line,
+                    mode == Mode.None ? $"Unexpected {startsWith}." : $"Unexpected {startsWith} after #{mode}");
 
                 return exec;
             }
@@ -125,7 +123,7 @@ public sealed class CodeSnippet : Code
         @else,
     }
 
-    static class Patterns
+    private static class Patterns
     {
         public static readonly RegexOptions Options = RegexOptions.Compiled | RegexOptions.CultureInvariant;
         public static readonly TimeSpan Timeout = TimeSpan.FromMilliseconds(1);

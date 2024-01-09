@@ -2,19 +2,19 @@
 
 public enum PropertyAccess
 {
-    /// <summary>{ get; init; }</summary>
+    /// <summary>Init only `{ get; init; }`.</summary>
     InitOnly = 0,
 
-    /// <summary>{ get; set; }</summary>
+    /// <summary>Public set `{ get; set; }`.</summary>
     PublicSet,
 
-    /// <summary>{ get; protected set; }</summary>
+    /// <summary>Protected set `{ get; protected set; }`.</summary>
     ProtectedSet,
 
-    /// <summary>{ get; internal set; }</summary>
+    /// <summary>Internal set `{ get; internal set; }`.</summary>
     InternalSet,
 
-    /// <summary>{ get; }</summary>
+    /// <summary>Get only `{ get; }`.</summary>
     GetOnly,
 }
 
@@ -42,4 +42,3 @@ public static class PropertyAccessExtensions
             });
     }
 }
-

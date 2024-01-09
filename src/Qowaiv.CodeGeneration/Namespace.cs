@@ -5,7 +5,7 @@ namespace Qowaiv.CodeGeneration;
 /// <summary>Represents a .NET namespace.</summary>
 public readonly struct Namespace : IEquatable<Namespace>
 {
-    /// <summary>Creates a new instance of the <see cref="Namespace"/> struct.</summary>
+    /// <summary>Initializes a new instance of the <see cref="Namespace"/> struct.</summary>
     public Namespace(string name) => Name = Guard.NotNullOrEmpty(name, nameof(name));
 
     /// <summary>Gets the name of the namespace.</summary>
@@ -31,16 +31,13 @@ public readonly struct Namespace : IEquatable<Namespace>
         ? new(child)
         : new($"{Name}.{child}");
 
-    /// <summary>Gets the (
-    /// 
-    /// </summary>
-    /// <returns></returns>
+    /// <summary>Gets the code declaration.</summary>
     [Pure]
     public Code Declaration() => new Syntax.NamespaceDeclaration(this);
 
     /// <inheritdoc/>
     [Pure]
-    public override string ToString() => Name ?? "";
+    public override string ToString() => Name ?? string.Empty;
 
     /// <inheritdoc/>
     [Pure]

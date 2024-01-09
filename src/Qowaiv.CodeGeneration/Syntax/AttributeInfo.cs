@@ -3,7 +3,7 @@
 /// <summary>Represents an attribute decoration.</summary>
 public sealed partial class AttributeInfo : Code
 {
-    /// <summary>Creates a new instance of the <see cref="AttributeInfo"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="AttributeInfo"/> class.</summary>
     public AttributeInfo(Type attribute, object[]? ctorArguments = null, params KeyValuePair<string, object>[] propertyValues)
     {
         AttributeType = Guard.NotNull(attribute, nameof(attribute));

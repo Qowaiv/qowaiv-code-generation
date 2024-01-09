@@ -1,5 +1,4 @@
-﻿using Qowaiv.Diagnostics.Contracts;
-using System.IO;
+﻿using System.IO;
 
 namespace Qowaiv.CodeGeneration;
 
@@ -12,10 +11,10 @@ public sealed class CSharpWriter
     private readonly TextWriter Writer;
     private int Indentation;
 
-    /// <summary>Creates a new instance of the <see cref="CSharpWriter"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CSharpWriter"/> class.</summary>
     public CSharpWriter(TextWriter writer) : this(writer, null) { }
 
-    /// <summary>Creates a new instance of the <see cref="CSharpWriter"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CSharpWriter"/> class.</summary>
     public CSharpWriter(TextWriter writer, CSharpWriterSettings? settings)
     {
         Writer = Guard.NotNull(writer, nameof(writer));

@@ -4,17 +4,16 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Version>0.0.1-alpha</Version>
-  <PackageId>Qowaiv.CodeGeneration</PackageId>
-  <PackageReleaseNotes>
+    <PackageId>Qowaiv.CodeGeneration</PackageId>
+    <PackageReleaseNotes>
 ToBeReleased
 - Extend Open API documentation with explicit example. #188
-  </PackageReleaseNotes>
+    </PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

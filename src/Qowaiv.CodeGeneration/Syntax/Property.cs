@@ -31,7 +31,7 @@ public partial class Property : PropertyInfo, Code
     public override Type DeclaringType { get; }
 
     public PropertyAccess PropertyAccess { get; }
-    
+
     /// <inheritdoc />
     public override bool CanRead => true;
 
@@ -75,7 +75,6 @@ public partial class Property : PropertyInfo, Code
     [Pure]
     public override object[] GetCustomAttributes(bool inherit) => Array.Empty<object>();
 
-
     /// <inheritdoc />
     [Pure]
     public override ParameterInfo[] GetIndexParameters() => Array.Empty<ParameterInfo>();
@@ -87,7 +86,7 @@ public partial class Property : PropertyInfo, Code
 
     /// <inheritdoc />
     [Pure]
-    public override void SetValue(object? obj, object? value, BindingFlags invokeAttr, Binder? binder, object?[]? index, CultureInfo? culture) 
+    public override void SetValue(object? obj, object? value, BindingFlags invokeAttr, Binder? binder, object?[]? index, CultureInfo? culture)
         => throw new NotSupportedException();
 
     /// <inheritdoc />

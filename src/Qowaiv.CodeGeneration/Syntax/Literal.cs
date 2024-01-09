@@ -3,7 +3,7 @@
 /// <summary>Represents a code literal.</summary>
 public sealed class Literal : Code
 {
-    /// <summary>Creates a new instance of the <see cref="Literal"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="Literal"/> class.</summary>
     public Literal(object? value) => Value = value;
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]

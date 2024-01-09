@@ -4,7 +4,7 @@ namespace System.Reflection;
 
 public static class QowaivPropertyInfoExtensions
 {
-    [Pure]  
+    [Pure]
     public static BindingFlags Bindings(this PropertyInfo property)
     {
         Guard.NotNull(property, nameof(property));

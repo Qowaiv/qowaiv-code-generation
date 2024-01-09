@@ -13,7 +13,7 @@ public abstract class ObjectBase : Type, Code
     protected readonly IReadOnlyCollection<PropertyInfo> Properties;
     protected readonly IReadOnlyCollection<Type> Interfaces;
 
-    /// <summary>Creates a new instance of the <see cref="ObjectBase"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ObjectBase"/> class.</summary>
     protected ObjectBase(
        TypeName type,
        Type? baseType,

@@ -5,7 +5,10 @@ namespace Qowaiv.CodeGeneration;
 /// <summary>Represents a .NET namespace.</summary>
 public readonly struct Namespace : IEquatable<Namespace>
 {
-    /// <summary>Initializes a new instance of the <see cref="Namespace"/> struct.</summary>
+    /// <summary>Empty/non-existent namespace.</summary>
+    public static readonly Namespace Empty;
+
+    /// <summary>Creates a new instance of the <see cref="Namespace"/> struct.</summary>
     public Namespace(string name) => Name = Guard.NotNullOrEmpty(name, nameof(name));
 
     /// <summary>Gets the name of the namespace.</summary>
@@ -31,13 +34,16 @@ public readonly struct Namespace : IEquatable<Namespace>
         ? new(child)
         : new($"{Name}.{child}");
 
-    /// <summary>Gets the code declaration.</summary>
+    /// <summary>Gets the (
+    /// 
+    /// </summary>
+    /// <returns></returns>
     [Pure]
     public Code Declaration() => new Syntax.NamespaceDeclaration(this);
 
     /// <inheritdoc/>
     [Pure]
-    public override string ToString() => Name ?? string.Empty;
+    public override string ToString() => Name ?? "";
 
     /// <inheritdoc/>
     [Pure]
@@ -62,12 +68,12 @@ public readonly struct Namespace : IEquatable<Namespace>
 
     [Pure]
     public static IEnumerable<Namespace> Globals(FileInfo file)
-        => Globals(Guard.NotNull(file, nameof(file)).OpenRead());
+        => Globals(Guard.Exists(file).OpenRead());
 
     [Pure]
     public static IEnumerable<Namespace> Globals(Stream stream)
     {
-        Guard.NotNull(stream, nameof(Stream));
+        Guard.NotNull(stream);
         using var reader = new StreamReader(stream);
         while (reader.ReadLine() is { } line)
         {

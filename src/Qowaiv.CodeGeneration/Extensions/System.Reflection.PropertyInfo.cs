@@ -23,4 +23,9 @@ public static class QowaivPropertyInfoExtensions
     [Pure]
     public static bool IsPublic(this PropertyInfo property)
         => Guard.NotNull(property, nameof(property)).GetAccessors(nonPublic: true).Any(m => m.IsPublic);
+
+    [Pure]
+    public static bool IsNullable(this PropertyInfo property)
+        => Guard.NotNull(property, nameof(property))
+        .GetCustomAttributes().Any(a=> a.GetType().FullName == "System.Runtime.CompilerServices.NullableAttribute");
 }

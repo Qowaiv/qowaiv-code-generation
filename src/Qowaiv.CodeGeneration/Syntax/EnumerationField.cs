@@ -4,15 +4,22 @@ namespace Qowaiv.CodeGeneration.Syntax;
 
 public class EnumerationField : FieldInfo, Code
 {
-    public EnumerationField(Type enumType, string name, object? value)
+    protected readonly IReadOnlyCollection<Code> AttributeInfos;
+
+    public EnumerationField(
+        Type enumType,
+        string name,
+        object? value,
+        IReadOnlyCollection<AttributeInfo>? attributes = null)
     {
-        Name = Guard.NotNullOrEmpty(name, nameof(name));
+        Name = Guard.NotNullOrEmpty(name);
         Value = value;
         FieldType = enumType;
+        AttributeInfos = attributes ?? Array.Empty<AttributeInfo>();
     }
 
     /// <inheritdoc />
-    public override FieldAttributes Attributes => default;
+    public override FieldAttributes Attributes => FieldAttributes.Public | FieldAttributes.Static | FieldAttributes.Literal | FieldAttributes.HasDefault;
 
     /// <inheritdoc />
     public override RuntimeFieldHandle FieldHandle => default;
@@ -34,6 +41,10 @@ public class EnumerationField : FieldInfo, Code
     /// <inheritdoc />
     public virtual void WriteTo(CSharpWriter writer)
     {
+        Guard.NotNull(writer);
+
+        foreach (var decoration in AttributeInfos) writer.Write(decoration);
+
         writer.Indent().Write(Name);
         if (Value is { })
         {

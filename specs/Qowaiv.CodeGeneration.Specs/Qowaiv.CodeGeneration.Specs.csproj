@@ -23,11 +23,24 @@
   <ItemGroup>
     <PackageReference Include="FluentAssertions.Analyzers" Version="*" PrivateAssets="all" />
     <PackageReference Include="NUnit.Analyzers" Version="*" PrivateAssets="all"  />
+    <PackageReference Include="FluentAssertions.Analyzers" Version="0.*" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
+    <PackageReference Include="NUnit" Version="3.*" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.*" PrivateAssets="all" />
+    <PackageReference Include="NUnit.Analyzers" Version="3.*" />
+    <PackageReference Include="coverlet.collector" Version="*" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Qowaiv.CodeGeneration.OpenApi\Qowaiv.CodeGeneration.OpenApi.csproj" />
     <ProjectReference Include="..\..\src\Qowaiv.CodeGeneration\Qowaiv.CodeGeneration.csproj" />
     <ProjectReference Include="..\..\src\Qowaiv.CodeGeneration.SingleValueObjects\Qowaiv.CodeGeneration.SingleValueObjects.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="OpenApi\Definitions\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

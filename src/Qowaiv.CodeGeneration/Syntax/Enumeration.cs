@@ -1,37 +1,38 @@
-﻿namespace Qowaiv.CodeGeneration.Syntax;
+namespace Qowaiv.CodeGeneration.Syntax;
 
-public class Enumeration : ObjectBase
+[Inheritable]
+public class Enumeration : TypeBase, Code
 {
-    public Enumeration(
-        TypeName type,
-        IReadOnlyCollection<EnumerationField> fields,
-        IReadOnlyCollection<AttributeInfo>? attributes = null,
-        bool isArray = false)
-        : base(type: type,
-            baseType: typeof(Enum),
-            isArray: isArray,
-            attributes: attributes,
-            constructors: null,
-            events: null,
-            fields: fields,
-            methods: null,
-            properties: null,
-            interfaces: null)
-    { }
+    public Enumeration(TypeInfo info) : base(Enrich(info)) { }
+
+    private static TypeInfo Enrich(TypeInfo info) => Guard.NotNull(info) with
+    {
+        BaseType = typeof(Enum),
+        IsSealed = true,
+        IsAbstract = false,
+        IsStatic = false,
+    };
 
     /// <inheritdoc />
     [Pure]
-    public override Type? GetElementType()
-        => IsArray
-        ? new Enumeration(TypeName, Fields.OfType<EnumerationField>().ToArray(), AttributeInfos, isArray: false)
-        : null;
+    public sealed override Type? GetElementType() => null;
 
     /// <inheritdoc />
-    public override void WriteTo(CSharpWriter writer)
-    {
-        Guard.NotNull(writer, nameof(writer));
+    public sealed override Type BaseType => typeof(Enum);
 
-        writer.Write(new NamespaceDeclaration(NameSpace));
+    /// <inheritdoc />
+    public sealed override bool IsEnum => true;
+
+    /// <inheritdoc />
+    [Pure]
+    protected sealed override bool IsValueTypeImpl() => true;
+
+    /// <inheritdoc />
+    public void WriteTo(CSharpWriter writer)
+    {
+        Guard.NotNull(writer);
+
+        writer.Write(new NamespaceDeclaration(NameSpace)).Line();
 
         foreach (var attr in AttributeInfos) writer.Write(attr);
         writer.Indent().Write("public enum ").Line(Name);

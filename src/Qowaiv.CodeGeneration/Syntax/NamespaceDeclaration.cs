@@ -9,7 +9,7 @@ public sealed class NamespaceDeclaration : Code
 
     /// <inheritdoc />
     public void WriteTo(CSharpWriter writer)
-        => Guard.NotNull(writer, nameof(writer)).Write($"namespace {Namespace};");
+        => Guard.NotNull(writer, nameof(writer)).Line($"namespace {Namespace};");
 
     /// <inheritdoc />
     [Pure]

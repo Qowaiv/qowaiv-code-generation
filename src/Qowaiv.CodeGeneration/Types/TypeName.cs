@@ -1,13 +1,16 @@
 ﻿namespace Qowaiv.CodeGeneration;
 
 /// <summary>Represents the name of a type and its namespace.</summary>
-public sealed class TypeName
+public sealed record TypeName
 {
-    /// <summary>Initializes a new instance of the <see cref="TypeName"/> class.</summary>
+    /// <summary>Creates a new instance of the <see cref="TypeName"/> class.</summary>
+    public TypeName(Type type) : this(Guard.NotNull(type).Namespace!, type.Name) { }
+
+    /// <summary>Creates a new instance of the <see cref="TypeName"/> class.</summary>
     public TypeName(Namespace @namespace, string name)
     {
-        Namespace = Guard.NotDefault(@namespace, nameof(@namespace));
-        Name = Guard.NotNullOrEmpty(name, nameof(name));
+        Namespace = Guard.NotDefault(@namespace);
+        Name = Guard.NotNullOrEmpty(name);
     }
 
     /// <summary>The namespace of the type.</summary>

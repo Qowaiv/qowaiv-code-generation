@@ -1,5 +1,4 @@
-﻿using Qowaiv.CodeGeneration;
-using System.IO;
+﻿using System.IO;
 
 namespace FluentAssertions;
 
@@ -21,14 +20,15 @@ public class CodeAssertions
         writer.Flush();
 
         var csharp = Encoding.UTF8.GetString(stream.ToArray());
-        csharp.Should().Be(Normalize(content, settings ?? new()), because, becauseArgs);
+        settings ??= new();
+        csharp.Should().Be(Normalize(content, settings), because, becauseArgs);
 
         return new(this);
 
         static string Normalize(string content, CSharpWriterSettings settings)
         {
             var lines = content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
-            content = string.Join((settings).NewLine, lines);
+            content = string.Join(settings.NewLine, lines);
             return content;
         }
     }

@@ -28,6 +28,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\build-test.yaml = .github\workflows\build-test.yaml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "props", "props", "{8C1F30B9-BC96-42D3-9592-0375F87F7F77}"
+	ProjectSection(SolutionItems) = preProject
+		props\common.props = props\common.props
+		props\nopackage.props = props\nopackage.props
+		props\package.props = props\package.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +61,7 @@ Global
 		{10275478-1E52-4C16-97D2-AF143DAB5754} = {9FC998BC-71B3-4298-9160-AD89C82A407D}
 		{8AF500FB-8B0B-4E40-B140-2E93FBDD0DCB} = {3881024E-D041-4197-A734-3664F103ABC4}
 		{F438C0C5-754D-4EB3-A310-B6A59F7076A6} = {8AF500FB-8B0B-4E40-B140-2E93FBDD0DCB}
+		{8C1F30B9-BC96-42D3-9592-0375F87F7F77} = {3881024E-D041-4197-A734-3664F103ABC4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7B1E843-44FB-453A-93BF-09607421A182}

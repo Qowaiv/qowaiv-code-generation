@@ -1,0 +1,11 @@
+trigger:
+  branches:
+    include:
+      - 'main'
+
+extends:
+  template: ${{variables['System.DefaultWorkingDirectory']}}/.build/build-package-template-v2.yaml
+  parameters:
+    app: 'qowaiv-code-generation'
+    sonarCloudProjectKey: 'tjip_TJIP_qowaiv-code-generation'
+      

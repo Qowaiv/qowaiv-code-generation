@@ -28,7 +28,7 @@ public static class PropertyAccessExtensions
         private readonly PropertyAccess PropertyAccess;
 
         public Snippet(PropertyAccess propertyAccess)
-            => PropertyAccess = Guard.DefinedEnum(propertyAccess, nameof(propertyAccess));
+            => PropertyAccess = Guard.DefinedEnum(propertyAccess);
 
         public void WriteTo(CSharpWriter writer)
             => writer.Write(PropertyAccess switch

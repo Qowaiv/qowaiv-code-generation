@@ -1,4 +1,4 @@
-﻿global using Qowaiv.Conversion;
+global using Qowaiv.Conversion;
 global using Qowaiv.Diagnostics;
 global using Qowaiv.Diagnostics.Contracts;
 global using Qowaiv.Formatting;
@@ -19,7 +19,4 @@ global using System.Numerics;
 global using System.Resources;
 global using System.Runtime.Serialization;
 global using System.Text;
-global using System.Text.RegularExpressions;
-global using System.Xml;
-global using System.Xml.Schema;
-global using System.Xml.Serialization;
+global using Qowaiv.Diagnostics.Contracts;

@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration.Syntax;
+﻿namespace Qowaiv.CodeGeneration;
 
 /// <summary>Represents an attribute decoration.</summary>
 public sealed partial class AttributeInfo : Code
@@ -6,7 +6,7 @@ public sealed partial class AttributeInfo : Code
     /// <summary>Initializes a new instance of the <see cref="AttributeInfo"/> class.</summary>
     public AttributeInfo(Type attribute, object[]? ctorArguments = null, params KeyValuePair<string, object>[] propertyValues)
     {
-        AttributeType = Guard.NotNull(attribute, nameof(attribute));
+        AttributeType = Guard.NotNull(attribute);
         CtorArguments = ctorArguments ?? Array.Empty<object>();
         PropertyValues = propertyValues ?? Array.Empty<KeyValuePair<string, object>>();
     }
@@ -24,7 +24,7 @@ public sealed partial class AttributeInfo : Code
     /// <inheritdoc />
     public void WriteTo(CSharpWriter writer)
     {
-        writer
+        Guard.NotNull(writer)
             .Indent()
             .Write('[')
             .Write(AttributeType, attribute: true);

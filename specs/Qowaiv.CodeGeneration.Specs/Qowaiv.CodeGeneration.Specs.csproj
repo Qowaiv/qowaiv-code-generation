@@ -1,13 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\props\nopackage.props" />
-  
+
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <RootNamespace>Specs</RootNamespace>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <Compile Include="..\..\shared\Guard.cs" Link="Guard.cs" />
   </ItemGroup>
@@ -16,18 +15,33 @@
     <PackageReference Include="FluentAssertions" Version="6.*" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
     <PackageReference Include="NUnit" Version="4.*" />
-    <PackageReference Include="NUnit3TestAdapter" Version="*" PrivateAssets="all" />
+    <PackageReference Include="Qowaiv.Validation.TestTools" Version="0.*" />
+  </ItemGroup>
+
+  <ItemGroup Label="Tools">
     <PackageReference Include="coverlet.collector" Version="*" PrivateAssets="all" />
+    <PackageReference Include="NUnit3TestAdapter" Version="*" PrivateAssets="all" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Label="Analyzers">
     <PackageReference Include="FluentAssertions.Analyzers" Version="*" PrivateAssets="all" />
-    <PackageReference Include="NUnit.Analyzers" Version="*" PrivateAssets="all"  />
+    <PackageReference Include="NUnit.Analyzers" Version="*" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Qowaiv.CodeGeneration.OpenApi\Qowaiv.CodeGeneration.OpenApi.csproj" />
     <ProjectReference Include="..\..\src\Qowaiv.CodeGeneration\Qowaiv.CodeGeneration.csproj" />
     <ProjectReference Include="..\..\src\Qowaiv.CodeGeneration.SingleValueObjects\Qowaiv.CodeGeneration.SingleValueObjects.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="OpenApi\Definitions\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Generated\" />
   </ItemGroup>
 
 </Project>

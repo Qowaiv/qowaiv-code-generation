@@ -1,6 +1,6 @@
 ﻿using Qowaiv.CodeGeneration.Syntax;
 
-namespace Specs.Syntax.Literal_specs;
+namespace Syntax.Literal_specs;
 
 internal class Suports
 {
@@ -8,10 +8,11 @@ internal class Suports
     [TestCase(null, "null")]
     [TestCase(true, "true")]
     [TestCase(false, "false")]
-    [TestCase(@"Qowaiv ""quoted""", @"""Qowaiv \""quoted\""""")]
+    [TestCase(@"Qowaiv ""quoted""", @"@""Qowaiv ""quoted""""")]
+    [TestCase(@"\d{9}", @"@""\d{9}""")]
     [TestCase(typeof(Guid), "typeof(System.Guid)")]
-    [TestCase(123d, "123d")]
-    [TestCase(123.17, "123.17d")]
+    [TestCase(123d, "123")]
+    [TestCase(123.17, "123.17")]
     public void Primitives(object? value, string content)
         => new Literal(value).Should().HaveContent(content);
 

@@ -1,6 +1,6 @@
 ﻿namespace Qowaiv.CodeGeneration;
 
-public record CSharpWriterSettings
+public sealed record CSharpWriterSettings
 {
     /// <summary>Available (global) namespace usings.</summary>
     public IReadOnlyCollection<Namespace> GlobalUsings { get; init; } = Array.Empty<Namespace>();

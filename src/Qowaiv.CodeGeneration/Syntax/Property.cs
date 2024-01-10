@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 namespace Qowaiv.CodeGeneration.Syntax;
 
@@ -6,20 +6,27 @@ namespace Qowaiv.CodeGeneration.Syntax;
 public partial class Property : PropertyInfo, Code
 {
     protected readonly IReadOnlyCollection<Code> AttributeInfos;
+    private readonly bool IsNullable;
 
     public Property(
         string name,
         Type propertyType,
         Type declaringClass,
         PropertyAccess access,
-        IReadOnlyCollection<AttributeInfo>? attributes = null)
+        IReadOnlyCollection<AttributeInfo>? attributes = null,
+        XmlDocumentation? documentation = null,
+        bool nullable = false)
     {
-        Name = Guard.NotNullOrEmpty(name, nameof(name));
-        PropertyType = Guard.NotNull(propertyType, nameof(propertyType));
-        DeclaringType = Guard.NotNull(declaringClass, nameof(declaringClass));
-        PropertyAccess = Guard.DefinedEnum(access, nameof(access));
+        Name = Guard.NotNullOrEmpty(name);
+        PropertyType = Guard.NotNull(propertyType);
+        DeclaringType = Guard.NotNull(declaringClass);
+        PropertyAccess = Guard.DefinedEnum(access);
         AttributeInfos = attributes ?? Array.Empty<AttributeInfo>();
+        Documentation = documentation ?? new XmlDocumentation();
+        IsNullable = nullable;
     }
+
+    public XmlDocumentation Documentation { get; }
 
     /// <inheritdoc />
     public override string Name { get; }
@@ -85,17 +92,24 @@ public partial class Property : PropertyInfo, Code
         => throw new NotSupportedException();
 
     /// <inheritdoc />
-    [Pure]
     public override void SetValue(object? obj, object? value, BindingFlags invokeAttr, Binder? binder, object?[]? index, CultureInfo? culture)
         => throw new NotSupportedException();
 
     /// <inheritdoc />
     public virtual void WriteTo(CSharpWriter writer)
     {
+        Guard.NotNull(writer);
+
+        writer.Write(Documentation);
         foreach (var decoration in AttributeInfos) writer.Write(decoration);
 
         writer.Indent()
-            .Write("public ").Write(PropertyType).Write(' ').Write(Name).Write(' ').Write(PropertyAccess.Code())
-            .Line();
+            .Write("public ").Write(PropertyType).Write(IsNullable ? "?" : "").Write(' ').Write(Name).Write(' ').Write(PropertyAccess.Code());
+
+        if (PropertyType.IsArray)
+        {
+            writer.Write(" = ").Write(typeof(Array)).Write(".Empty<").Write(PropertyType.GetElementType()!).Line(">();");
+        }
+        else { writer.Line(); }
     }
 }

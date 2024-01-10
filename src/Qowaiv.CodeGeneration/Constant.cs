@@ -5,7 +5,7 @@ public readonly struct Constant : IEquatable<Constant>
 {
     public readonly string? Name;
 
-    public Constant(string name) => Name = Guard.NotNullOrEmpty(name, nameof(name));
+    public Constant(string name) => Name = Guard.NotNullOrEmpty(name);
 
     /// <inheritdoc />
     [Pure]

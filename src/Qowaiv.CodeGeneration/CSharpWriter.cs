@@ -17,7 +17,7 @@ public sealed class CSharpWriter
     /// <summary>Initializes a new instance of the <see cref="CSharpWriter"/> class.</summary>
     public CSharpWriter(TextWriter writer, CSharpWriterSettings? settings)
     {
-        Writer = Guard.NotNull(writer, nameof(writer));
+        Writer = Guard.NotNull(writer);
         Settings = settings ?? new();
     }
 
@@ -48,8 +48,8 @@ public sealed class CSharpWriter
     [FluentSyntax]
     public CSharpWriter Write(IEnumerable<Action<CSharpWriter>> writes, Action<CSharpWriter> split)
     {
-        Guard.NotNull(writes, nameof(writes));
-        Guard.NotNull(split, nameof(split));
+        Guard.NotNull(writes);
+        Guard.NotNull(split);
 
         var first = true;
 
@@ -69,6 +69,7 @@ public sealed class CSharpWriter
     [FluentSyntax]
     public CSharpWriter Write(Type type, bool attribute)
     {
+        Guard.NotNull(type);
         var name = type.ToCSharpString(withNamespace: !Settings.GlobalUsings.Contains(type.Namespace!));
         return attribute && name.EndsWith("Attribute")
             ? Write(name[..^9])
@@ -106,6 +107,7 @@ public sealed class CSharpWriter
     [Pure]
     public IDisposable CodeBlock(string markers = "{}")
     {
+        Guard.NotNullOrEmpty(markers);
         Line(markers[0]);
         Indentation++;
         return new ScopedCodeBlock(this, markers[1]);

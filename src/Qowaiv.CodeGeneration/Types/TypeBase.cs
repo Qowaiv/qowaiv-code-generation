@@ -1,9 +1,11 @@
-﻿using System.Reflection;
+﻿using Qowaiv.CodeGeneration.Syntax;
+using System.Collections.Generic;
+using System.Reflection;
 
-namespace Qowaiv.CodeGeneration.Syntax;
+namespace Qowaiv.CodeGeneration;
 
-/// <summary>Represents a base for objects (classes, records, structs, enums).</summary>
-public abstract class ObjectBase : Type, Code
+/// <summary>Represents a base for types (classes, records, enums, Array).</summary>
+public abstract class TypeBase : Type
 {
     protected readonly IReadOnlyCollection<AttributeInfo> AttributeInfos;
     protected readonly IReadOnlyCollection<ConstructorInfo> Constructors;
@@ -12,32 +14,28 @@ public abstract class ObjectBase : Type, Code
     protected readonly IReadOnlyCollection<MethodInfo> Methods;
     protected readonly IReadOnlyCollection<PropertyInfo> Properties;
     protected readonly IReadOnlyCollection<Type> Interfaces;
+    private readonly IReadOnlyCollection<Type> DerivedTypes;
+    private readonly TypeAttributes TypeAttributes = TypeAttributes.Public;
 
-    /// <summary>Initializes a new instance of the <see cref="ObjectBase"/> class.</summary>
-    protected ObjectBase(
-       TypeName type,
-       Type? baseType,
-       bool isArray,
-       IReadOnlyCollection<AttributeInfo>? attributes,
-       IReadOnlyCollection<ConstructorInfo>? constructors,
-       IReadOnlyCollection<EventInfo>? events,
-       IReadOnlyCollection<FieldInfo>? fields,
-       IReadOnlyCollection<MethodInfo>? methods,
-       IReadOnlyCollection<PropertyInfo>? properties,
-       IReadOnlyCollection<Type>? interfaces)
+    /// <summary>Creates a new instance of the <see cref="TypeBase"/> class.</summary>
+    protected TypeBase(TypeInfo info)
     {
-        NameSpace = Guard.NotNull(type, nameof(type)).Namespace!;
-        Name = type.Name;
-        BaseType = baseType ?? typeof(object);
-        _IsArray = isArray;
+        Guard.NotNull(info);
+        TypeName = Guard.NotNull(info.TypeName);
+        BaseType = info.BaseType ?? typeof(object);
+        AttributeInfos = info.Attributes ?? Array.Empty<AttributeInfo>();
+        Constructors = info.Constructors ?? Array.Empty<ConstructorInfo>();
+        Events = info.Events ?? Array.Empty<EventInfo>();
+        Fields = info.Fields ?? Array.Empty<FieldInfo>();
+        Methods = info.Methods ?? Array.Empty<MethodInfo>();
+        Properties = info.Properties ?? Array.Empty<PropertyInfo>();
+        Interfaces = info.Interfaces ?? Array.Empty<Type>();
+        DerivedTypes = info.DerivedTypes ?? Array.Empty<Type>();
 
-        AttributeInfos = attributes ?? Array.Empty<AttributeInfo>();
-        Constructors = constructors ?? Array.Empty<ConstructorInfo>();
-        Events = events ?? Array.Empty<EventInfo>();
-        Fields = fields ?? Array.Empty<FieldInfo>();
-        Methods = methods ?? Array.Empty<MethodInfo>();
-        Properties = properties ?? Array.Empty<PropertyInfo>();
-        Interfaces = interfaces ?? Array.Empty<Type>();
+        IsPartial = info.IsPartial;
+        TypeAttributes |= info.IsSealed ? TypeAttributes.Sealed : default;
+        TypeAttributes |= info.IsAbstract ? TypeAttributes.Abstract : default;
+        TypeAttributes |= info.IsStatic ? (TypeAttributes.Sealed | TypeAttributes.Abstract) : default;
     }
 
     /// <inheritdoc />
@@ -55,26 +53,27 @@ public abstract class ObjectBase : Type, Code
     /// <inheritdoc />
     public override Guid GUID => Uuid.GenerateWithSHA1(Encoding.ASCII.GetBytes(FullName));
 
+    /// <summary>Returns if the type sources are spread over multiple files.</summary>
+    public bool IsPartial { get; }
+
     /// <inheritdoc />
     public override Module Module => Assembly.Modules.First();
 
     /// <inheritdoc />
-    public override string Name { get; }
+    public override string Name => TypeName.Name;
 
     /// <summary>The namespace of the type.</summary>
-    public Namespace NameSpace { get; }
+    public Namespace NameSpace => TypeName.Namespace;
 
     /// <inheritdoc />
     public override string Namespace => NameSpace.ToString();
 
-    /// <summary>Gets the type name of the type.</summary>
-    public TypeName TypeName => new(NameSpace, Name);
+    /// <summary>Gets the type name (name space and name) of the type.</summary>
+    public TypeName TypeName { get; }
 
     /// <inheritdoc />
     public override Type UnderlyingSystemType => this;
 
-    /// <inheritdoc />
-    public abstract void WriteTo(CSharpWriter writer);
 
     /// <inheritdoc />
     [Pure]
@@ -83,7 +82,7 @@ public abstract class ObjectBase : Type, Code
 
     /// <inheritdoc />
     [Pure]
-    public override int GetArrayRank() => IsArray ? 1 : 0;
+    public override int GetArrayRank() => 0;
 
     /// <inheritdoc />
     [Pure]
@@ -106,6 +105,14 @@ public abstract class ObjectBase : Type, Code
 
     /// <inheritdoc />
     [Pure]
+    public IReadOnlyCollection<AttributeInfo> GetAttributeInfos() => AttributeInfos;
+
+    /// <summary>Gets the (explicitly added) derived types.</summary>
+    [Pure]
+    public IReadOnlyCollection<Type> GetDerivedTypes() => DerivedTypes;
+
+    /// <inheritdoc />
+    [Pure]
     public override EventInfo? GetEvent(string name, BindingFlags bindingAttr)
         => GetEvents(bindingAttr).FirstOrDefault(e => e.Name == name);
 
@@ -123,6 +130,10 @@ public abstract class ObjectBase : Type, Code
     [Pure]
     public override FieldInfo[] GetFields(BindingFlags bindingAttr)
         => Fields.Where(f => (f.Bindings() & bindingAttr) != default).ToArray();
+
+    /// <inheritdoc />
+    [Pure]
+    public override Type[] GetGenericArguments() => Array.Empty<Type>();
 
     /// <inheritdoc />
     [Pure]
@@ -157,7 +168,15 @@ public abstract class ObjectBase : Type, Code
 
     /// <inheritdoc />
     [Pure]
-    protected override TypeAttributes GetAttributeFlagsImpl() => default;
+    public override Type MakeArrayType() => MakeArrayType(1);
+
+    /// <inheritdoc />
+    [Pure]
+    public override Type MakeArrayType(int rank) => new ArrayType(this, rank);
+
+    /// <inheritdoc />
+    [Pure]
+    protected override TypeAttributes GetAttributeFlagsImpl() => TypeAttributes;
 
     /// <inheritdoc />
     [Pure]
@@ -183,10 +202,7 @@ public abstract class ObjectBase : Type, Code
 
     /// <inheritdoc />
     [Pure]
-    protected override bool IsArrayImpl() => _IsArray;
-
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private readonly bool _IsArray;
+    protected override bool IsArrayImpl() => false;
 
     /// <inheritdoc />
     [Pure]

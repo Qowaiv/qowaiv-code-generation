@@ -22,8 +22,8 @@ public enum SvoFeatures
     Structure = Field | IsEmpty | IsUnknown,
     EqualsSvoAndGetHashCode = EqualsSvo | GetHashCode,
     IsEmptyOrUnknown = IsEmpty | IsUnknown,
-    Default = All ^ ComparisonOperators,
-    Continuous = All ^ IsEmpty ^ IsUnknown,
+    Default = All ^ ComparisonOperators ^ Validation,
+    Continuous = All ^ IsEmpty ^ IsUnknown ^ Validation,
 
     Utf8 = /*................*/ 0x08000,
 }

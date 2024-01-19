@@ -75,7 +75,7 @@ public sealed class SvoTemplate : Code
         Embedded("IJsonSerializable"),
         Embedded("IXmlSerializable"),
         Embedded("Parsing"),
-        Embedded("Validation"),
+        //Embedded("Validation"),
         //Embedded("Utf8"),
     }.Concat());
 

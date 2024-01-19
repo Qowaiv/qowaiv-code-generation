@@ -1,5 +1,5 @@
 ﻿public partial struct @TSvo : IEquatable<@TSvo>
-#if NET7_0_OR_GREATER
+#if NET8_0_OR_GREATER
     , IEqualityOperators<@TSvo, @TSvo, bool>
 #endif
 {

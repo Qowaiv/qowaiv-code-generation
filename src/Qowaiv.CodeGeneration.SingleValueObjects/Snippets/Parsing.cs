@@ -1,5 +1,5 @@
 ﻿public partial struct @TSvo
-#if NET7_0_OR_GREATER
+#if NET8_0_OR_GREATER
     : IParsable<@TSvo>
 #endif
 {
@@ -20,7 +20,7 @@
     /// <param name="s">
     /// A string containing the @FullName to convert.
     /// </param>
-    /// <param name="formatProvider">
+    /// <param name="provider">
     /// The specified format provider.
     /// </param>
     /// <returns>
@@ -30,8 +30,8 @@
     /// <paramref name="s"/> is not in the correct format.
     /// </exception>
     [Pure]
-    public static @TSvo Parse(string? s, IFormatProvider? formatProvider) 
-        => TryParse(s, formatProvider) 
+    public static @TSvo Parse(string? s, IFormatProvider? provider) 
+        => TryParse(s, provider) 
         ?? throw Unparsable.ForValue<@TSvo>(s, @FormatExceptionMessage);
 
     /// <summary>Converts the <see cref="string"/> to <see cref="@TSvo"/>.</summary>
@@ -48,14 +48,14 @@
     /// <param name="s">
     /// A string containing the @FullName to convert.
     /// </param>
-    /// <param name="formatProvider">
+    /// <param name="provider">
     /// The specified format provider.
     /// </param>
     /// <returns>
     /// The @FullName if the string was converted successfully, otherwise default.
     /// </returns>
     [Pure]
-    public static @TSvo? TryParse(string? s, IFormatProvider? formatProvider) => TryParse(s, formatProvider, out var val) ? val : default(@TSvo?);
+    public static @TSvo? TryParse(string? s, IFormatProvider? provider) => TryParse(s, provider, out var val) ? val : default(@TSvo?);
 
     /// <summary>Converts the <see cref="string"/> to <see cref="@TSvo"/>.
     /// A return value indicates whether the conversion succeeded.

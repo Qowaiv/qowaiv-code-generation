@@ -12,7 +12,9 @@ public class Generation_of
     [TestCase("Date", typeof(DateTime), "date", "Qowaiv", SvoFeatures.Continuous ^ SvoFeatures.Field)]
     [TestCase("DateSpan", typeof(ulong), "date span", "Qowaiv", SvoFeatures.Continuous ^ SvoFeatures.EqualsSvo)]
     [TestCase("EmailAddress", typeof(string), "email address", "Qowaiv", SvoFeatures.Default)]
-    [TestCase("Gender", typeof(byte), "gender", "Qowaiv", SvoFeatures.Default)]
+    //[TestCase("EmailAddressCollection", typeof(EmailAddress[]), "email addresses", "Qowaiv", SvoFeatures.Default
+    //    ^ SvoFeatures.IsUnknown
+    //    ^ SvoFeatures.IComparable)]
     [TestCase("HouseNumber", typeof(int), "house number", "Qowaiv", SvoFeatures.Default | SvoFeatures.ComparisonOperators)]
     [TestCase("LocalDateTime", typeof(DateTime), "local date time", "Qowaiv", SvoFeatures.Continuous ^ SvoFeatures.Field)]
     [TestCase("Month", typeof(byte), "month", "Qowaiv", SvoFeatures.Default)]

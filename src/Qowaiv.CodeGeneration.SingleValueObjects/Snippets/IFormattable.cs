@@ -3,7 +3,7 @@ public partial struct @TSvo : IFormattable
 {
     /// <summary>Returns a <see cref="string"/> that represents the @FullName.</summary>
     [Pure]
-    public override string ToString() => ToString(provider: null);
+    public override string ToString() => ToString(format: null, formatProvider: null);
 
     /// <summary>Returns a formatted <see cref="string"/> that represents the @FullName.</summary>
     /// <param name="format">

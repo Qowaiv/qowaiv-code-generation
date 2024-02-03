@@ -1,5 +1,6 @@
 ﻿namespace Qowaiv.CodeGeneration.Syntax;
 
+/// <summary>Extensions on <see cref="CodeSnippet"/>.</summary>
 public static class CodeSnippetExtensions
 {
     /// <summary>Concatenates multiple code snippets.</summary>

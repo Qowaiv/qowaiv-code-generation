@@ -91,11 +91,8 @@ public sealed class SvoTemplate : Code
 
         using var stream = typeof(SvoTemplate).Assembly.GetManifestResourceStream(path);
 
-        if (stream is { })
-        {
-            using var reader = new StreamReader(stream);
-            return new CodeSnippet(reader.ReadToEnd());
-        }
-        else throw new ArgumentException($"The path '{path}' is not a stream.", nameof(name));
+        return stream is { }
+            ? CodeSnippet.Load(stream)
+            : throw new ArgumentException($"The path '{path}' is not a stream.", nameof(name));
     }
 }

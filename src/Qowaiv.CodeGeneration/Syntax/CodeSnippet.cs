@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Qowaiv.CodeGeneration.Syntax;
 
@@ -6,20 +7,16 @@ namespace Qowaiv.CodeGeneration.Syntax;
 public sealed class CodeSnippet : Code
 {
     /// <summary>Initializes a new instance of the <see cref="CodeSnippet"/> class.</summary>
-    public CodeSnippet(string? snippet)
-        : this(snippet?.Split(new[] { "\r\n", "\n" }, default)) { }
-
-    /// <summary>Initializes a new instance of the <see cref="CodeSnippet"/> class.</summary>
-    internal CodeSnippet(string[]? lines)
-        => Lines = lines ?? Array.Empty<string>();
+    internal CodeSnippet(string[] lines) => Lines = lines;
 
     /// <summary>Gets the individual lines of the code snippet.</summary>
     public IReadOnlyList<string> Lines { get; }
 
+    /// <summary>Returns a transformed code snippet.</summary>
     [Pure]
     public CodeSnippet Transform(Func<string, string> transformLine)
     {
-        Guard.NotNull(transformLine, nameof(transformLine));
+        Guard.NotNull(transformLine);
         return new(Lines.Select(transformLine).ToArray());
     }
 
@@ -30,7 +27,7 @@ public sealed class CodeSnippet : Code
     [Pure]
     public CodeSnippet Transform(IReadOnlyCollection<Constant> constants)
     {
-        Guard.NotNull(constants, nameof(constants));
+        Guard.NotNull(constants);
 
         var lines = new List<string>();
 
@@ -63,20 +60,23 @@ public sealed class CodeSnippet : Code
                 enabled = true;
                 mode = Mode.None;
             }
-            else if (enabled)
+            else if (enabled && (line != string.Empty || lines.LastOrDefault() != string.Empty))
             {
-                if (line != string.Empty || lines.LastOrDefault() != string.Empty)
-                {
-                    lines.Add(line);
-                }
+                lines.Add(line);
             }
         }
-        return new(lines.ToArray());
+
+        if (mode != Mode.None)
+        {
+            throw ParseError.Line(nr, Lines[^1], "Missing closing #endif statement.");
+        }
+
+        return new([.. lines]);
 
         static bool Enabled(Match match, IReadOnlyCollection<Constant> constants)
         {
             var enabled = constants.Contains(match.Groups["constant"].Value);
-            return match.Groups["negate"].Value is { }
+            return match.Groups["negate"].Value is { Length: 1 }
                 ? !enabled
                 : enabled;
         }
@@ -107,6 +107,7 @@ public sealed class CodeSnippet : Code
     /// <inheritdoc />
     public void WriteTo(CSharpWriter writer)
     {
+        Guard.NotNull(writer);
         writer.Write(Lines.Select(Line), writer => writer.Line());
         static Action<CSharpWriter> Line(string line) => writer => writer.Write(line);
     }
@@ -114,6 +115,34 @@ public sealed class CodeSnippet : Code
     /// <inheritdoc />
     [Pure]
     public override string ToString() => this.Stringify();
+
+    /// <summary>Creates a code snippet from a stream.</summary>
+    [Pure]
+    public static CodeSnippet Load(Stream stream)
+    {
+        using var reader = new StreamReader(stream);
+        var lines = new List<string>();
+        while (reader.ReadLine() is { } line)
+        {
+            lines.Add(line);
+        }
+        return new(lines.ToArray());
+    }
+
+    /// <summary>Parses the code snippet for a string.</summary>
+    [Pure]
+    public static CodeSnippet Parse(string s)
+    {
+        Guard.NotNullOrEmpty(s);
+
+        using var reader = new StringReader(s);
+        var lines = new List<string>();
+        while (reader.ReadLine() is { } line)
+        {
+            lines.Add(line);
+        }
+        return new(lines.ToArray());
+    }
 
     private enum Mode
     {

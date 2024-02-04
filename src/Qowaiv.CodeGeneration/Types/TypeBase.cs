@@ -28,6 +28,9 @@ public abstract class TypeBase : Type
     /// <summary>Collection of interface <see cref="Type"/>s.</summary>
     protected readonly IReadOnlyCollection<Type> Interfaces;
 
+    /// <summary>The (optional) documentation.</summary>
+    protected readonly XmlDocumentation? Documentation;
+
     private readonly IReadOnlyCollection<Type> DerivedTypes;
 
     private readonly TypeAttributes TypeAttributes = TypeAttributes.Public;
@@ -46,6 +49,7 @@ public abstract class TypeBase : Type
         Properties = info.Properties ?? Array.Empty<PropertyInfo>();
         Interfaces = info.Interfaces ?? Array.Empty<Type>();
         DerivedTypes = info.DerivedTypes ?? Array.Empty<Type>();
+        Documentation = info.Documentation;
 
         IsPartial = info.IsPartial;
         TypeAttributes |= info.IsSealed ? TypeAttributes.Sealed : default;

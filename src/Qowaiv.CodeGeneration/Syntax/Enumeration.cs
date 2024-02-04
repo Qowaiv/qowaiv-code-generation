@@ -1,10 +1,13 @@
 namespace Qowaiv.CodeGeneration.Syntax;
 
+/// <summary>Represents an enum.</summary>
 [Inheritable]
 public class Enumeration : TypeBase, Code
 {
+    /// <summary>Initializes a new instance of the <see cref="Enumeration"/> class.</summary>
     public Enumeration(TypeInfo info) : base(Enrich(info)) { }
 
+    [Pure]
     private static TypeInfo Enrich(TypeInfo info) => Guard.NotNull(info) with
     {
         BaseType = typeof(Enum),
@@ -34,7 +37,10 @@ public class Enumeration : TypeBase, Code
 
         writer.Write(new NamespaceDeclaration(NameSpace)).Line();
 
+        Documentation?.WriteTo(writer);
+
         foreach (var attr in AttributeInfos) writer.Write(attr);
+
         writer.Indent().Write("public enum ").Line(Name);
 
         using (writer.CodeBlock())

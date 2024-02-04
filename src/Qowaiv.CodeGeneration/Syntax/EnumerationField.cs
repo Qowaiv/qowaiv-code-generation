@@ -2,20 +2,28 @@
 
 namespace Qowaiv.CodeGeneration.Syntax;
 
+/// <summary>Represents the filed of an enum.</summary>
 public class EnumerationField : FieldInfo, Code
 {
+    /// <summary>Collection of <see cref="AttributeInfo"/>s.</summary>
     protected readonly IReadOnlyCollection<Code> AttributeInfos;
 
+    /// <summary>The (optional) documentation.</summary>
+    protected readonly XmlDocumentation? Documentation;
+
+    /// <summary>Initializes a new instance of the <see cref="EnumerationField"/> class.</summary>
     public EnumerationField(
         Type enumType,
         string name,
         object? value,
-        IReadOnlyCollection<AttributeInfo>? attributes = null)
+        IReadOnlyCollection<AttributeInfo>? attributes = null,
+        XmlDocumentation? documentation = null)
     {
         Name = Guard.NotNullOrEmpty(name);
         Value = value;
         FieldType = enumType;
         AttributeInfos = attributes ?? Array.Empty<AttributeInfo>();
+        Documentation = documentation;
     }
 
     /// <inheritdoc />
@@ -27,6 +35,7 @@ public class EnumerationField : FieldInfo, Code
     /// <inheritdoc />
     public override string Name { get; }
 
+    /// <summary>The (optional) value.</summary>
     public object? Value { get; }
 
     /// <inheritdoc />
@@ -42,6 +51,8 @@ public class EnumerationField : FieldInfo, Code
     public virtual void WriteTo(CSharpWriter writer)
     {
         Guard.NotNull(writer);
+
+        Documentation?.WriteTo(writer);
 
         foreach (var decoration in AttributeInfos) writer.Write(decoration);
 
@@ -73,6 +84,5 @@ public class EnumerationField : FieldInfo, Code
     public override object? GetValue(object? obj) => throw new NotSupportedException();
 
     /// <inheritdoc />
-    [Pure]
     public override void SetValue(object? obj, object? value, BindingFlags invokeAttr, Binder? binder, CultureInfo? culture) => throw new NotSupportedException();
 }

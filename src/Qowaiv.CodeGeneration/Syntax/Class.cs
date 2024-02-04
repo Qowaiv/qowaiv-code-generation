@@ -1,9 +1,12 @@
 ﻿namespace Qowaiv.CodeGeneration.Syntax;
 
+/// <summary>Represents a class.</summary>
 public class Class : TypeBase, Code
 {
+    /// <summary>Initializes a new instance of the <see cref="Class"/> class.</summary>
     public Class(TypeInfo info) : base(info) { }
 
+    /// <summary>The class keyword.</summary>
     protected virtual string Keyword => "class";
 
     /// <inheritdoc />
@@ -16,6 +19,8 @@ public class Class : TypeBase, Code
         Guard.NotNull(writer);
 
         writer.Write(new NamespaceDeclaration(NameSpace)).Line();
+
+        Documentation?.WriteTo(writer);
 
         foreach (var attr in AttributeInfos) writer.Write(attr);
 

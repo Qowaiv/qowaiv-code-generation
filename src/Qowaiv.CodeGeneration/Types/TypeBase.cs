@@ -1,23 +1,38 @@
 ﻿using Qowaiv.CodeGeneration.Syntax;
-using System.Collections.Generic;
 using System.Reflection;
 
 namespace Qowaiv.CodeGeneration;
 
 /// <summary>Represents a base for types (classes, records, enums, Array).</summary>
+[DebuggerDisplay("{DebuggerDisplay}")]
 public abstract class TypeBase : Type
 {
+    /// <summary>Collection of <see cref="AttributeInfo"/>s.</summary>
     protected readonly IReadOnlyCollection<AttributeInfo> AttributeInfos;
+
+    /// <summary>Collection of <see cref="ConstructorInfo"/>s.</summary>
     protected readonly IReadOnlyCollection<ConstructorInfo> Constructors;
+
+    /// <summary>Collection of <see cref="EventInfo"/>s.</summary>
     protected readonly IReadOnlyCollection<EventInfo> Events;
+
+    /// <summary>Collection of <see cref="FieldInfo"/>s.</summary>
     protected readonly IReadOnlyCollection<FieldInfo> Fields;
+
+    /// <summary>Collection of <see cref="MethodInfo"/>s.</summary>
     protected readonly IReadOnlyCollection<MethodInfo> Methods;
+
+    /// <summary>Collection of <see cref="PropertyInfo"/>.s</summary>
     protected readonly IReadOnlyCollection<PropertyInfo> Properties;
+
+    /// <summary>Collection of interface <see cref="Type"/>s.</summary>
     protected readonly IReadOnlyCollection<Type> Interfaces;
+
     private readonly IReadOnlyCollection<Type> DerivedTypes;
+
     private readonly TypeAttributes TypeAttributes = TypeAttributes.Public;
 
-    /// <summary>Creates a new instance of the <see cref="TypeBase"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="TypeBase"/> class.</summary>
     protected TypeBase(TypeInfo info)
     {
         Guard.NotNull(info);
@@ -74,7 +89,6 @@ public abstract class TypeBase : Type
     /// <inheritdoc />
     public override Type UnderlyingSystemType => this;
 
-
     /// <inheritdoc />
     [Pure]
     public override bool IsDefined(Type attributeType, bool inherit)
@@ -103,7 +117,9 @@ public abstract class TypeBase : Type
         .Where(a => (a is AttributeInfo d && d.AttributeType == attributeType) || a.GetType() == attributeType)
         .ToArray();
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Gets the <see cref="AttributeInfos"/> linked to the type.
+    /// </summary>
     [Pure]
     public IReadOnlyCollection<AttributeInfo> GetAttributeInfos() => AttributeInfos;
 
@@ -229,4 +245,7 @@ public abstract class TypeBase : Type
     /// <inheritdoc />
     [Pure]
     public override Type[] GetNestedTypes(BindingFlags bindingAttr) => Array.Empty<Type>();
+
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private string DebuggerDisplay => this.ToCSharpString(withNamespace: true);
 }

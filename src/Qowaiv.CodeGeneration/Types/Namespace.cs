@@ -3,16 +3,13 @@
 namespace Qowaiv.CodeGeneration;
 
 /// <summary>Represents a .NET namespace.</summary>
-public readonly struct Namespace : IEquatable<Namespace>
+public readonly struct Namespace(string name) : IEquatable<Namespace>
 {
     /// <summary>Empty/non-existent namespace.</summary>
     public static readonly Namespace Empty;
 
-    /// <summary>Creates a new instance of the <see cref="Namespace"/> struct.</summary>
-    public Namespace(string name) => Name = Guard.NotNullOrEmpty(name, nameof(name));
-
     /// <summary>Gets the name of the namespace.</summary>
-    public string Name { get; }
+    public string Name { get; } = Guard.NotNullOrEmpty(name);
 
     /// <summary>Get the parent namespace of the namespace.</summary>
     public Namespace Parent
@@ -28,22 +25,20 @@ public readonly struct Namespace : IEquatable<Namespace>
     [Pure]
     public bool IsEmpty() => string.IsNullOrEmpty(Name);
 
+    /// <summary>Returns a child namespace based on this one.</summary>
     [Pure]
     public Namespace Child(string child)
         => IsEmpty()
-        ? new(child)
-        : new($"{Name}.{child}");
+            ? new(child)
+            : new($"{Name}.{child}");
 
-    /// <summary>Gets the (
-    /// 
-    /// </summary>
-    /// <returns></returns>
+    /// <summary>Gets the namespace declaration representation of this namespace.</summary>
     [Pure]
     public Code Declaration() => new Syntax.NamespaceDeclaration(this);
 
     /// <inheritdoc/>
     [Pure]
-    public override string ToString() => Name ?? "";
+    public override string ToString() => Name ?? string.Empty;
 
     /// <inheritdoc/>
     [Pure]
@@ -66,10 +61,12 @@ public readonly struct Namespace : IEquatable<Namespace>
     /// <summary>Implicitly casts a string to a namespace.</summary>
     public static implicit operator Namespace(string value) => new(value);
 
+    /// <summary>Creates a collection of global namespaces based on file.</summary>
     [Pure]
     public static IEnumerable<Namespace> Globals(FileInfo file)
         => Globals(Guard.Exists(file).OpenRead());
 
+    /// <summary>Creates a collection of global namespaces based on stream.</summary>
     [Pure]
     public static IEnumerable<Namespace> Globals(Stream stream)
     {

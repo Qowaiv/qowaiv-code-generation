@@ -1,4 +1,5 @@
-﻿using Qowaiv.CodeGeneration.Syntax;
+﻿using Microsoft.VisualBasic;
+using Qowaiv.CodeGeneration.Syntax;
 using System.Reflection;
 
 namespace Qowaiv.CodeGeneration;
@@ -83,6 +84,17 @@ public abstract class TypeBase : Type
 
     /// <summary>The namespace of the type.</summary>
     public Namespace NameSpace => TypeName.Namespace;
+
+    /// <summary>The namespace of the type.</summary>
+    /// <remarks>
+    /// THis method exists to prevent unintended usage of the extension method
+    /// on <see cref="System.Type"/>.
+    /// </remarks>
+#pragma warning disable S1133 // Deprecated code should be removed
+    [Obsolete("Use NameSpace instead.")]
+#pragma warning restore S1133 // Deprecated code should be removed
+    [Pure]
+    public Namespace NS() => NameSpace;
 
     /// <inheritdoc />
     public override string Namespace => NameSpace.ToString();

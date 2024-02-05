@@ -1,4 +1,6 @@
-﻿namespace Qowaiv.CodeGeneration.Syntax;
+﻿using System.Xml.Linq;
+
+namespace Qowaiv.CodeGeneration.Syntax;
 
 /// <summary>The XML documentation.</summary>
 public sealed class XmlDocumentation : Code
@@ -35,12 +37,12 @@ public sealed class XmlDocumentation : Code
 
             if (lines.Length == 1)
             {
-                writer.Indent().Line($"/// <{tag}>{lines[0].TrimEnd()}</{tag}>");
+                writer.Indent().Line($"/// <{tag}>{Escape(lines[0]).TrimEnd()}</{tag}>");
             }
             else
             {
                 writer.Indent().Line($"/// <{tag}>");
-                foreach (var line in lines)
+                foreach (var line in lines.Select(Escape))
                 {
                     writer.Indent().Line($"/// {line.TrimEnd()}");
                 }
@@ -48,4 +50,7 @@ public sealed class XmlDocumentation : Code
             }
         }
     }
+
+    [Pure]
+    private static string Escape(string s) => new XText(s).ToString();
 }

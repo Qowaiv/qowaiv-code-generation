@@ -47,7 +47,7 @@ public class Enumeration : TypeBase, Code
         {
             writer.Write(
                 writes: Fields.OfType<Code>().Select(WriteField),
-                split: writer => writer.Line(','))
+                split: writer => writer.Line(',').Line())
                 .Line();
         }
 

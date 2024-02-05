@@ -69,8 +69,10 @@ public enum TypeCode
 {
     [System.Xml.Serialization.XmlEnum(null)]
     None = 0,
+
     [System.Xml.Serialization.XmlEnum(""1"")]
     One = 1,
+
     /// <summary>Other options.</summary>
     [System.Xml.Serialization.XmlEnum(""x"")]
     Other

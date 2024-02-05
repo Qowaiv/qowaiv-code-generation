@@ -15,10 +15,13 @@ public enum Status
 {
     [System.Runtime.Serialization.EnumMember(Value = "")]
     None = 0,
+
     [System.Runtime.Serialization.EnumMember(Value = "placed")]
     placed,
+
     [System.Runtime.Serialization.EnumMember(Value = "approved")]
     approved,
+
     [System.Runtime.Serialization.EnumMember(Value = "delivered")]
     delivered
 }

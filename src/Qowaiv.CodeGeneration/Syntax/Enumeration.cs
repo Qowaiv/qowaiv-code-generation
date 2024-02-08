@@ -41,7 +41,7 @@ public class Enumeration : TypeBase, Code
 
         foreach (var attr in AttributeInfos) writer.Write(attr);
 
-        writer.Indent().Write("public enum ").Line(Name);
+        writer.Indent().Write(Visibility).Write(" enum ").Line(Name);
 
         using (writer.CodeBlock())
         {

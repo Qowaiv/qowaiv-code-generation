@@ -24,7 +24,7 @@ public class Class : TypeBase, Code
 
         foreach (var attr in AttributeInfos) writer.Write(attr);
 
-        writer.Indent().Write("public ");
+        writer.Indent().Write(Visibility).Write(' ');
         if (IsAbstract) writer.Write("abstract ");
         if (IsSealed) writer.Write("sealed ");
         if (IsPartial) writer.Write("partial ");

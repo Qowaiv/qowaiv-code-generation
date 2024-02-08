@@ -4,6 +4,7 @@
   <PropertyGroup>
     <IsPublishable>false</IsPublishable>
     <NuGetAudit>true</NuGetAudit>
+    <Nullable>enable</Nullable>
     <OutputType>library</OutputType>
   </PropertyGroup>
 

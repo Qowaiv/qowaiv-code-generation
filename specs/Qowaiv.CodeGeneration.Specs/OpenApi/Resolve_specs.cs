@@ -30,17 +30,17 @@ public class Generates
     [Test]
     public void code_with_custom_types()
     {
-        typeof(PetShopBoys.Address).GetProperty("Zip").PropertyType.Should().Be(typeof(PostalCode));
-        typeof(PetShopBoys.User).GetProperty("Email").PropertyType.Should().Be(typeof(EmailAddress));
+        typeof(PetShopBoys.Address).GetProperty("Zip")!.PropertyType.Should().Be(typeof(PostalCode));
+        typeof(PetShopBoys.User).GetProperty("Email")!.PropertyType.Should().Be(typeof(EmailAddress));
     }
 
     private sealed class PetShopBoysResolver() : OpenApiTypeResolver("PetShopBoys")
     {
-        protected override Type ResolveCustom(ResolveOpenApiSchema schema) => schema.Path.Last switch
+        protected override Type? ResolveCustomization(ResolveOpenApiSchema schema) => schema.Path.Last switch
         {
             "zip" => typeof(PostalCode),
             "email" => typeof(EmailAddress),
-            _ => base.ResolveCustom(schema),
+            _ => null,
         };
     }
 }

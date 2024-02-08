@@ -44,6 +44,13 @@ public sealed class CSharpWriter
         code?.WriteTo(this);
         return this;
     }
+    /// <summary>Writes the visibility to the code file.</summary>
+    [FluentSyntax]
+    public CSharpWriter Write(CodeVisibility visibility)
+    {
+        Writer.Write(visibility.ToString().ToLowerInvariant());
+        return this;
+    }
 
     [FluentSyntax]
     public CSharpWriter Write(IEnumerable<Action<CSharpWriter>> writes, Action<CSharpWriter> split)

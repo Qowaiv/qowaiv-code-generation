@@ -1,11 +1,10 @@
 ﻿namespace Qowaiv.CodeGeneration;
 
 /// <summary>Represents a constant.</summary>
-public readonly struct Constant : IEquatable<Constant>
+public readonly struct Constant(string name) : IEquatable<Constant>
 {
-    public readonly string? Name;
-
-    public Constant(string name) => Name = Guard.NotNullOrEmpty(name);
+    /// <summary>The name of the constant.</summary>
+    public readonly string? Name = Guard.NotNullOrEmpty(name);
 
     /// <inheritdoc />
     [Pure]

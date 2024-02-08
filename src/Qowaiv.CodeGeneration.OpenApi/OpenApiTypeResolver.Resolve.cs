@@ -8,6 +8,10 @@ public partial class OpenApiTypeResolver
     [Pure]
     protected virtual PropertyAccess ResolveAccess(ResolveOpenApiSchema property) => Settings.PropertyAccess;
 
+    /// <summary>Resolves the preferred property access.</summary>
+    [Pure]
+    protected virtual CodeVisibility ResolveVisibility(ResolveOpenApiSchema property) => CodeVisibility.Public;
+
     [Pure]
     protected virtual TypeName? ResolveName(ResolveOpenApiSchema schema, ResolveTypeName type)
     {

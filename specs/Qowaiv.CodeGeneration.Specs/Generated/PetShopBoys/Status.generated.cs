@@ -11,6 +11,7 @@
 
 namespace PetShopBoys;
 
+/// <summary>Order Status</summary>
 public enum Status
 {
     [System.Runtime.Serialization.EnumMember(Value = "")]

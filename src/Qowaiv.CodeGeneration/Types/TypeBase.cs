@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using Qowaiv.CodeGeneration.Syntax;
+﻿using Qowaiv.CodeGeneration.Syntax;
 using System.Reflection;
 
 namespace Qowaiv.CodeGeneration;
@@ -51,6 +50,7 @@ public abstract class TypeBase : Type
         Interfaces = info.Interfaces ?? Array.Empty<Type>();
         DerivedTypes = info.DerivedTypes ?? Array.Empty<Type>();
         Documentation = info.Documentation;
+        Visibility = info.Visibility;
 
         IsPartial = info.IsPartial;
         TypeAttributes |= info.IsSealed ? TypeAttributes.Sealed : default;
@@ -104,6 +104,9 @@ public abstract class TypeBase : Type
 
     /// <inheritdoc />
     public override Type UnderlyingSystemType => this;
+
+    /// <summary>Gets the visibility of the code.</summary>
+    public CodeVisibility Visibility { get; }
 
     /// <inheritdoc />
     [Pure]

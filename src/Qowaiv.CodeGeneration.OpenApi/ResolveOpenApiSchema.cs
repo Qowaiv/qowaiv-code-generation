@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Models;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
 
-public readonly struct ResolveOpenApiSchema
+public readonly partial struct ResolveOpenApiSchema
 {
     public readonly OpenApiPath Path;
     public readonly OpenApiSchema Schema;

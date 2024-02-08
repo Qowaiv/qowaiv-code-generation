@@ -27,6 +27,9 @@ public record TypeInfo
     /// <summary>True if the type is partial.</summary>
     public bool IsPartial { get; init; }
 
+    /// <summary>The viability of the type.</summary>
+    public CodeVisibility Visibility { get; init; } = CodeVisibility.Public;
+
     /// <summary>Collection of <see cref="AttributeInfo"/>s.</summary>
     public IReadOnlyCollection<AttributeInfo> Attributes { get; init; } = Array.Empty<AttributeInfo>();
 

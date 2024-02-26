@@ -77,7 +77,7 @@ public partial class OpenApiTypeResolver
         }
         if (!fields.Exists(IsNone))
         {
-            fields.Insert(0, new(type, "None", 0, new[] { AttributeInfo.System_Runtime_Serialization_EnumMember(string.Empty) }));
+            fields.Insert(0, new(type, "None", 0, [AttributeInfo.System_Runtime_Serialization_EnumMember(null)]));
         }
 
         return type;
@@ -160,15 +160,16 @@ public partial class OpenApiTypeResolver
 
         schema = schema.WithModel(classType);
 
-        properties.AddRange(schema.Properties.Select(ResolveProperty).OfType<Property>());
+        properties.AddRange(schema.Properties.Select(p => ResolveProperty(p, schema.Schema.Required)).OfType<Property>());
 
         if (schema.AllOf.Count > 1)
         {
             foreach (var reference in schema.AllOf)
             {
                 schema = schema.With(reference);
-
-                properties.AddRange(reference.OpenApiProperties().Select(prop => ResolveProperty(schema.With(prop))).OfType<Property>());
+                properties.AddRange(reference.OpenApiProperties()
+                    .Select(prop => ResolveProperty(schema.With(prop), schema.Required))
+                    .OfType<Property>());
             }
         }
 

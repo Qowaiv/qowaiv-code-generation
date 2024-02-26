@@ -22,10 +22,10 @@ public readonly partial struct ResolveOpenApiSchema
     public string? ReferenceId => Reference?.Id;
 
     /// <inheritdoc cref="OpenApiSchema.AllOf"/>
-    public IList<OpenApiSchema> AllOf => Schema?.AllOf ?? Array.Empty<OpenApiSchema>();
+    public IList<OpenApiSchema> AllOf => Schema?.AllOf ?? [];
 
     /// <inheritdoc cref="OpenApiSchema.AnyOf"/>
-    public IList<OpenApiSchema> AnyOf => Schema?.AnyOf ?? Array.Empty<OpenApiSchema>();
+    public IList<OpenApiSchema> AnyOf => Schema?.AnyOf ?? [];
 
     /// <inheritdoc cref="OpenApiSchema.OneOf"/>
     public IEnumerable<ResolveOpenApiSchema> OneOf
@@ -34,7 +34,7 @@ public readonly partial struct ResolveOpenApiSchema
         {
             var self = this;
             return Schema?.OneOf?.Select(self.With)
-            ?? Array.Empty<ResolveOpenApiSchema>();
+            ?? [];
         }
     }
 
@@ -42,7 +42,10 @@ public readonly partial struct ResolveOpenApiSchema
     public string? Description => Schema?.Description;
 
     /// <inheritdoc cref="OpenApiSchema.Enum"/>
-    public IList<IOpenApiAny> Enum => Schema?.Enum ?? Array.Empty<IOpenApiAny>();
+    public IList<IOpenApiAny> Enum => Schema?.Enum ?? [];
+
+    /// <inheritdoc cref="OpenApiSchema.Required"/>
+    public ISet<string> Required => Schema?.Required ?? new HashSet<string>();
 
     /// <inheritdoc cref="OpenApiSchema.Format"/>
     public string? Format => Schema?.Format;

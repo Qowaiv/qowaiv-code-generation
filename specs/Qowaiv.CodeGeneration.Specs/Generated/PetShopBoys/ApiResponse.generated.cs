@@ -14,14 +14,14 @@ namespace PetShopBoys;
 public sealed partial record ApiResponse
 {
     [System.Text.Json.Serialization.JsonPropertyName("code")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public int Code { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("type")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public string? Type { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("message")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public string? Message { get; init; }
 }

@@ -14,6 +14,8 @@ public sealed class XmlDocumentation : Code
     /// <summary>The collection with parameters.</summary>
     public IReadOnlyDictionary<string, string> Params { get; init; } = new Dictionary<string, string>();
 
+    private static readonly string[] NewLineChars = ["\r\n", "\n"];
+
     /// <inheritdoc />
     public void WriteTo(CSharpWriter writer)
     {
@@ -33,7 +35,7 @@ public sealed class XmlDocumentation : Code
     {
         if (text is { Length: > 0 })
         {
-            var lines = text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+            var lines = Trim(text.Split(NewLineChars, StringSplitOptions.None));
 
             if (lines.Length == 1)
             {
@@ -50,6 +52,13 @@ public sealed class XmlDocumentation : Code
             }
         }
     }
+
+    [Pure]
+    private static string[] Trim(string[] lines)
+        => lines
+            .SkipWhile(l => l.Trim().Length == 0)
+            .TakeWhile(l => l.Trim().Length > 0)
+            .ToArray();
 
     [Pure]
     private static string Escape(string s) => new XText(s).ToString();

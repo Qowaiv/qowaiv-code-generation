@@ -9,7 +9,7 @@ public partial class AttributeInfo
     public static readonly AttributeInfo Qowaiv_Validation_DataAnnotations_Mandatory = new(typeof(Qowaiv.Validation.DataAnnotations.MandatoryAttribute));
 
     public static readonly AttributeInfo Qowaiv_Validation_DataAnnotations_Optional = new(typeof(Qowaiv.Validation.DataAnnotations.OptionalAttribute));
-    
+
     public static readonly AttributeInfo System_ComponentModel_DataAnnotations_Required = new(typeof(System.ComponentModel.DataAnnotations.RequiredAttribute));
 
     public static readonly AttributeInfo System_Flags = new(typeof(System.FlagsAttribute));
@@ -46,12 +46,12 @@ public partial class AttributeInfo
     [Pure]
     public static AttributeInfo System_Text_Json_Serialization_JsonDerivedTypeAttribute(Type type)
         => new(typeof(System.Text.Json.Serialization.JsonDerivedTypeAttribute), new object[] { type });
-    
+
     [Pure]
     public static AttributeInfo System_Text_Json_Serialization_JsonPropertyName(string name)
         => new(typeof(System.Text.Json.Serialization.JsonPropertyNameAttribute), new[] { name });
 
     [Pure]
-    public static AttributeInfo System_Runtime_Serialization_EnumMember(string value) 
-        => new(typeof(System.Runtime.Serialization.EnumMemberAttribute), null, KeyValuePair.Create("Value", (object) value));
+    public static AttributeInfo System_Runtime_Serialization_EnumMember(string? value)
+        => new(typeof(System.Runtime.Serialization.EnumMemberAttribute), null, KeyValuePair.Create("Value", (object?)value));
 }

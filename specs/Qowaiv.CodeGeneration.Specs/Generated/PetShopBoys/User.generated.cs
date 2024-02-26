@@ -14,35 +14,35 @@ namespace PetShopBoys;
 public sealed partial record User
 {
     [System.Text.Json.Serialization.JsonPropertyName("id")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public long Id { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("username")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public string? Username { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("firstName")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public string? FirstName { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("lastName")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public string? LastName { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("email")]
-    [Qowaiv.Validation.DataAnnotations.Mandatory]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public Qowaiv.EmailAddress Email { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("password")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public string? Password { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("phone")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public string? Phone { get; init; }
 
     /// <summary>User Status</summary>
     [System.Text.Json.Serialization.JsonPropertyName("userStatus")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public int UserStatus { get; init; }
 }

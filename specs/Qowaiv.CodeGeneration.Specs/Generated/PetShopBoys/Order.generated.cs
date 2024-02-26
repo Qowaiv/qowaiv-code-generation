@@ -14,27 +14,27 @@ namespace PetShopBoys;
 public sealed partial record Order
 {
     [System.Text.Json.Serialization.JsonPropertyName("id")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public long Id { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("petId")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public long PetId { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("quantity")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public int Quantity { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("shipDate")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public System.DateTime ShipDate { get; init; }
 
     /// <summary>Order Status</summary>
     [System.Text.Json.Serialization.JsonPropertyName("status")]
-    [Qowaiv.Validation.DataAnnotations.Mandatory]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public PetShopBoys.Status Status { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("complete")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public bool Complete { get; init; }
 }

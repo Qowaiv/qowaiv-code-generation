@@ -14,7 +14,7 @@ namespace PetShopBoys;
 public sealed partial record Pet
 {
     [System.Text.Json.Serialization.JsonPropertyName("id")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public long Id { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("name")]
@@ -22,7 +22,7 @@ public sealed partial record Pet
     public string? Name { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("category")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public PetShopBoys.Category? Category { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("photoUrls")]
@@ -30,11 +30,11 @@ public sealed partial record Pet
     public string[] PhotoUrls { get; init; } = System.Array.Empty<string>();
 
     [System.Text.Json.Serialization.JsonPropertyName("tags")]
-    [Qowaiv.Validation.DataAnnotations.Any]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public PetShopBoys.Tag[] Tags { get; init; } = System.Array.Empty<PetShopBoys.Tag>();
 
     /// <summary>pet status in the store</summary>
     [System.Text.Json.Serialization.JsonPropertyName("status")]
-    [Qowaiv.Validation.DataAnnotations.Mandatory]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public PetShopBoys.Status Status { get; init; }
 }

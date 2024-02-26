@@ -53,7 +53,7 @@ public partial class OpenApiTypeResolver
     {
         Guard.NotNull(property);
 
-        if (!schema.Schema.Nullable)
+        if (property.IsRequired)
         {
             if (property.PropertyType.IsArray)
             {

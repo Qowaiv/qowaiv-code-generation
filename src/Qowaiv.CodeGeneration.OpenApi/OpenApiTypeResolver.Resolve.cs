@@ -23,7 +23,7 @@ public partial class OpenApiTypeResolver
     }
 
     [Pure]
-    private Property? ResolveProperty(ResolveOpenApiSchema schema)
+    private Property? ResolveProperty(ResolveOpenApiSchema schema, ISet<string> required)
     {
         if (schema.Model is Class @class && Resolve(schema) is { } propertyType)
         {
@@ -47,7 +47,8 @@ public partial class OpenApiTypeResolver
                 ResolveAccess(schema),
                 attributes,
                 documentation,
-                nullable);
+                nullable,
+                required.Contains(schema.Path.Last));
 
             attributes.AddRange(DecorateProperty(prop, schema));
             return prop;

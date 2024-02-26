@@ -15,7 +15,8 @@ public partial class Property : PropertyInfo, Code
         PropertyAccess access,
         IReadOnlyCollection<AttributeInfo>? attributes = null,
         XmlDocumentation? documentation = null,
-        bool nullable = false)
+        bool nullable = false,
+        bool required = false)
     {
         Name = Guard.NotNullOrEmpty(name);
         PropertyType = Guard.NotNull(propertyType);
@@ -24,12 +25,16 @@ public partial class Property : PropertyInfo, Code
         AttributeInfos = attributes ?? Array.Empty<AttributeInfo>();
         Documentation = documentation ?? new XmlDocumentation();
         IsNullable = nullable;
+        IsRequired = required;
     }
 
     public XmlDocumentation Documentation { get; }
 
     /// <inheritdoc />
     public override string Name { get; }
+
+    /// <summary>True if the property is required.</summary>
+    public bool IsRequired { get; }
 
     /// <inheritdoc />
     public override Type PropertyType { get; }

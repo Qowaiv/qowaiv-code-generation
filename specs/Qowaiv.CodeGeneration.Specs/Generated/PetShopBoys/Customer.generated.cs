@@ -14,14 +14,14 @@ namespace PetShopBoys;
 public sealed partial record Customer
 {
     [System.Text.Json.Serialization.JsonPropertyName("id")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public long Id { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("username")]
-    [System.ComponentModel.DataAnnotations.Required]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public string? Username { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("address")]
-    [Qowaiv.Validation.DataAnnotations.Any]
+    [Qowaiv.Validation.DataAnnotations.Optional]
     public PetShopBoys.Address[] Address { get; init; } = System.Array.Empty<PetShopBoys.Address>();
 }

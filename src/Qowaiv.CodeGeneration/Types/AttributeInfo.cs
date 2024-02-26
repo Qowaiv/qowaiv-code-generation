@@ -4,18 +4,19 @@
 public sealed partial class AttributeInfo : Code
 {
     /// <summary>Initializes a new instance of the <see cref="AttributeInfo"/> class.</summary>
-    public AttributeInfo(Type attribute, object[]? ctorArguments = null, params KeyValuePair<string, object>[] propertyValues)
+    public AttributeInfo(Type attribute, object[]? ctorArguments = null, params KeyValuePair<string, object?>[] propertyValues)
     {
         AttributeType = Guard.NotNull(attribute);
-        CtorArguments = ctorArguments ?? Array.Empty<object>();
-        PropertyValues = propertyValues ?? Array.Empty<KeyValuePair<string, object>>();
+        CtorArguments = ctorArguments ?? [];
+        PropertyValues = propertyValues ?? [];
     }
 
+    /// <summary>The type of the attribute.</summary>
     public Type AttributeType { get; }
 
     private readonly IReadOnlyCollection<object> CtorArguments;
 
-    private readonly IReadOnlyCollection<KeyValuePair<string, object>> PropertyValues;
+    private readonly IReadOnlyCollection<KeyValuePair<string, object?>> PropertyValues;
 
     /// <inheritdoc />
     [Pure]
@@ -44,6 +45,6 @@ public sealed partial class AttributeInfo : Code
 
         Action<CSharpWriter> CtorArgument(object arg) => (writer) => writer.Literal(arg);
 
-        Action<CSharpWriter> PropertyValue(KeyValuePair<string, object> assignment) => (writer) => writer.Write($"{assignment.Key} = ").Literal(assignment.Value);
+        Action<CSharpWriter> PropertyValue(KeyValuePair<string, object?> assignment) => (writer) => writer.Write($"{assignment.Key} = ").Literal(assignment.Value);
     }
 }

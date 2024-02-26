@@ -4,16 +4,15 @@ using System.Reflection;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
 
-public partial class OpenApiTypeResolver
+public partial class OpenApiTypeResolver(
+    Namespace defaultNamespace,
+    OpenApiTypeResolverSettings? settings = null)
 {
-    public OpenApiTypeResolver(Namespace defaultNamespace, OpenApiTypeResolverSettings? settings = null)
-    {
-        DefaultNamespace = Guard.NotDefault(defaultNamespace);
-        Settings = settings ?? new OpenApiTypeResolverSettings();
-    }
+    /// <summary>The default namespace for the resolved code.</summary>
+    public Namespace DefaultNamespace { get; } = Guard.NotDefault(defaultNamespace);
 
-    public Namespace DefaultNamespace { get; }
-    private readonly OpenApiTypeResolverSettings Settings;
+    /// <summary>The resolver settings to apply.</summary>
+    private readonly OpenApiTypeResolverSettings Settings = settings ?? new OpenApiTypeResolverSettings();
 
     /// <remarks>
     /// Types that are null-able by design will not be transformed to 
@@ -24,9 +23,11 @@ public partial class OpenApiTypeResolver
         => type is { IsValueType: true }
         && (type.IsNullableValueType() || HasNoneOrEmptyField(type));
 
+    [Pure]
     private static bool HasNoneOrEmptyField(Type type)
-        => type.GetFields(BindingFlags.Static | BindingFlags.Public)
-            .Any(f => f.FieldType == type && (f.Name == "Empty" || f.Name == "None"));
+        => Array.Exists(
+            array: type.GetFields(BindingFlags.Static | BindingFlags.Public),
+            match: f => f.FieldType == type && (f.Name == "Empty" || f.Name == "None"));
 
     [Pure]
     protected virtual EnumerationField ResolveEnumField(OpenApiString @enum, Enumeration type)

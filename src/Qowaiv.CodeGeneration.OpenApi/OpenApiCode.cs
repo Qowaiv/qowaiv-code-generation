@@ -7,10 +7,12 @@ using System.IO;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
 
+/// <summary>A (read-only) collection of Open API code.</summary>
 [DebuggerDisplay("Count = {Count}")]
 [DebuggerTypeProxy(typeof(Diagnostics.CollectionDebugView))]
 public sealed class OpenApiCode : IReadOnlyCollection<Code>
 {
+    /// <summary>Represents an empty collection.</summary>
     public static readonly OpenApiCode Empty = new(Array.Empty<Code>());
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -23,7 +25,7 @@ public sealed class OpenApiCode : IReadOnlyCollection<Code>
 
     /// <summary>Only keep code that the matches the predicate or is used by it.</summary>
     [Pure]
-    public OpenApiCode Filter(Predicate<TypeBase> predicate) 
+    public OpenApiCode Filter(Predicate<TypeBase> predicate)
         => new(Code
             .OfType<TypeBase>()
             .Where(t => predicate(t))
@@ -31,6 +33,13 @@ public sealed class OpenApiCode : IReadOnlyCollection<Code>
             .Cast<Code>()
             .ToArray());
 
+    /// <summary>Saves the code.</summary>
+    /// <param name="codeFileSettings">
+    /// The code file settings to apply.
+    /// </param>
+    /// <param name="csharpSettings">
+    /// The optional C# writer settings.
+    /// </param>
     public void Save(CodeFileWriterSettings codeFileSettings, CSharpWriterSettings? csharpSettings = null)
     {
         Guard.NotNull(codeFileSettings).RootDirectory.Ensure();
@@ -55,7 +64,7 @@ public sealed class OpenApiCode : IReadOnlyCollection<Code>
         }
 
         var file = new FileInfo(Path.Combine(codeFileSettings.RootDirectory.FullName, fileName));
-        
+
         file.Directory.Ensure();
 
         using var textWriter = new StreamWriter(file.FullName, new FileStreamOptions
@@ -66,7 +75,7 @@ public sealed class OpenApiCode : IReadOnlyCollection<Code>
 
         var writer = new CSharpWriter(textWriter, csharpSettings);
 
-        foreach(var header in codeFileSettings.Headers)
+        foreach (var header in codeFileSettings.Headers)
         {
             writer.Write(header);
         }
@@ -85,9 +94,11 @@ public sealed class OpenApiCode : IReadOnlyCollection<Code>
     }
 
     /// <inheritdoc />
-    public IEnumerator<Code> GetEnumerator()=> Code.GetEnumerator();
+    [Pure]
+    public IEnumerator<Code> GetEnumerator() => Code.GetEnumerator();
 
     /// <inheritdoc />
+    [Pure]
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>Resolves the code defined in the <see cref="OpenApiDocument"/>.</summary>

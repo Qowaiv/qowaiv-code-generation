@@ -24,5 +24,14 @@ public enum Status
     approved,
 
     [System.Runtime.Serialization.EnumMember(Value = "delivered")]
-    delivered
+    delivered,
+
+    [System.Runtime.Serialization.EnumMember(Value = "available")]
+    available,
+
+    [System.Runtime.Serialization.EnumMember(Value = "pending")]
+    pending,
+
+    [System.Runtime.Serialization.EnumMember(Value = "sold")]
+    sold
 }

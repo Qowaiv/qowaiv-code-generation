@@ -18,6 +18,6 @@ public sealed partial record Tag
     public long Id { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("name")]
-    [Qowaiv.Validation.DataAnnotations.Optional]
+    [System.ComponentModel.DataAnnotations.Required]
     public string? Name { get; init; }
 }

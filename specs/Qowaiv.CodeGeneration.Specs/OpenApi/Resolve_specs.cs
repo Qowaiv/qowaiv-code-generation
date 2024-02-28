@@ -34,7 +34,8 @@ public class Generates
         typeof(PetShopBoys.User).GetProperty("Email")!.PropertyType.Should().Be(typeof(EmailAddress));
     }
 
-    private sealed class PetShopBoysResolver() : OpenApiTypeResolver("PetShopBoys")
+    private sealed class PetShopBoysResolver()
+        : OpenApiTypeResolver("PetShopBoys", new() { RequiredType = RequiredTypes.Nullabillity })
     {
         protected override Type? ResolveCustomization(ResolveOpenApiSchema schema) => schema.Path.Last switch
         {

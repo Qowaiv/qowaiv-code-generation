@@ -22,7 +22,7 @@ public sealed partial record Pet
     public string? Name { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("category")]
-    [Qowaiv.Validation.DataAnnotations.Optional]
+    [System.ComponentModel.DataAnnotations.Required]
     public PetShopBoys.Category? Category { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("photoUrls")]
@@ -30,11 +30,12 @@ public sealed partial record Pet
     public string[] PhotoUrls { get; init; } = System.Array.Empty<string>();
 
     [System.Text.Json.Serialization.JsonPropertyName("tags")]
-    [Qowaiv.Validation.DataAnnotations.Optional]
+    [Qowaiv.Validation.DataAnnotations.Any]
     public PetShopBoys.Tag[] Tags { get; init; } = System.Array.Empty<PetShopBoys.Tag>();
 
     /// <summary>pet status in the store</summary>
     [System.Text.Json.Serialization.JsonPropertyName("status")]
     [Qowaiv.Validation.DataAnnotations.Optional]
+    [Qowaiv.Validation.DataAnnotations.AllowedValues("available", "pending", "sold")]
     public PetShopBoys.Status Status { get; init; }
 }

@@ -18,10 +18,10 @@ public sealed partial record Customer
     public long Id { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("username")]
-    [Qowaiv.Validation.DataAnnotations.Optional]
+    [System.ComponentModel.DataAnnotations.Required]
     public string? Username { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("address")]
-    [Qowaiv.Validation.DataAnnotations.Optional]
+    [Qowaiv.Validation.DataAnnotations.Any]
     public PetShopBoys.Address[] Address { get; init; } = System.Array.Empty<PetShopBoys.Address>();
 }

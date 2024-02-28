@@ -18,6 +18,9 @@ public class OpenApiTypeResolverSettings
     /// <summary>Property access to generate (default is <see cref="PropertyAccess.InitOnly"/>).</summary>
     public PropertyAccess PropertyAccess { get; init; }
 
+    /// <summary>Property required type (default is <see cref="RequiredTypes.IsRequired"/>).</summary>
+    public RequiredTypes RequiredType { get; init; } = RequiredTypes.IsRequired;
+
     /// <summary>Indicates that all properties that hare value types should be nullable (default is false).</summary>
     /// <remarks>
     /// Value types like <see cref="Guid"/> and <see cref="EmailAddress"/> that

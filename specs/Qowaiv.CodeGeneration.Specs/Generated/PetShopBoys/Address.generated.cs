@@ -14,15 +14,15 @@ namespace PetShopBoys;
 public sealed partial record Address
 {
     [System.Text.Json.Serialization.JsonPropertyName("street")]
-    [Qowaiv.Validation.DataAnnotations.Optional]
+    [System.ComponentModel.DataAnnotations.Required]
     public string? Street { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("city")]
-    [Qowaiv.Validation.DataAnnotations.Optional]
+    [System.ComponentModel.DataAnnotations.Required]
     public string? City { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("state")]
-    [Qowaiv.Validation.DataAnnotations.Optional]
+    [System.ComponentModel.DataAnnotations.Required]
     public string? State { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("zip")]

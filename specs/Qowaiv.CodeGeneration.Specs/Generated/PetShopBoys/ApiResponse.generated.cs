@@ -18,10 +18,10 @@ public sealed partial record ApiResponse
     public int Code { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("type")]
-    [Qowaiv.Validation.DataAnnotations.Optional]
+    [System.ComponentModel.DataAnnotations.Required]
     public string? Type { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("message")]
-    [Qowaiv.Validation.DataAnnotations.Optional]
+    [System.ComponentModel.DataAnnotations.Required]
     public string? Message { get; init; }
 }

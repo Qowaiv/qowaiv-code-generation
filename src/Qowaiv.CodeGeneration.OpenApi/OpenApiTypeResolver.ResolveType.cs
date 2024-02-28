@@ -1,6 +1,7 @@
 ﻿using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Qowaiv.CodeGeneration.Syntax;
+using System.ComponentModel.Design;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
 
@@ -59,20 +60,34 @@ public partial class OpenApiTypeResolver
     {
         if (ResolveName(schema, ResolveTypeName.Enum) is not { } nameType) return null;
 
-        var fields = new List<EnumerationField>();
-        var type = new Enumeration(new()
+        if (!EnumerationFields.TryGetValue(nameType, out var fields))
         {
-            TypeName = nameType,
-            Fields = fields,
-            Visibility = ResolveVisibility(schema),
-            Documentation = new XmlDocumentation() { Summary = schema.Description },
-        });
+            fields = new List<EnumerationField>();
+            EnumerationFields[nameType] = fields;
+        }
+
+        if (!Enumerations.TryGetValue(nameType, out var type))
+        {
+            type = new Enumeration(new()
+            {
+                TypeName = nameType,
+                Fields = fields,
+                Visibility = ResolveVisibility(schema),
+                Documentation = new XmlDocumentation() { Summary = schema.Description },
+            });
+
+            Enumerations[nameType] = type;
+        }
 
         foreach (var @enum in schema.Enum)
         {
             if (@enum is OpenApiString str)
             {
-                fields.Add(ResolveEnumField(str, type));
+                var field = ResolveEnumField(str, type);
+                if (!fields.Exists(f => f.Name == field.Name))
+                {
+                    fields.Add(field);
+                }
             }
         }
         if (!fields.Exists(IsNone))
@@ -86,6 +101,9 @@ public partial class OpenApiTypeResolver
             => 0.Equals(field.Value)
             || (field.Name == "None" && field.Value is null);
     }
+
+    private readonly Dictionary<TypeName, Enumeration> Enumerations = new();
+    private readonly Dictionary<TypeName, List<EnumerationField>> EnumerationFields = new();
 
     /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.boolean"/>.</summary>
     [Pure]
@@ -160,7 +178,7 @@ public partial class OpenApiTypeResolver
 
         schema = schema.WithModel(classType);
 
-        properties.AddRange(schema.Properties.Select(p => ResolveProperty(p, schema.Schema.Required)).OfType<Property>());
+        properties.AddRange(schema.Properties.Select(p => ResolveProperty(p, schema.Required)).OfType<Property>());
 
         if (schema.AllOf.Count > 1)
         {

@@ -48,12 +48,20 @@ public partial class OpenApiTypeResolver
                 attributes,
                 documentation,
                 nullable,
-                required.Contains(schema.Path.Last));
+                IsRequired(schema, propertyType));
 
             attributes.AddRange(DecorateProperty(prop, schema));
             return prop;
         }
         else return null;
+
+        bool IsRequired(ResolveOpenApiSchema schema, Type propertyType)
+        {
+            var isRequired = Settings.RequiredType.HasFlag(RequiredTypes.All);
+            isRequired |= Settings.RequiredType.HasFlag(RequiredTypes.IsRequired) && required.Contains(schema.Path.Last);
+            isRequired |= Settings.RequiredType.HasFlag(RequiredTypes.Nullabillity) && !schema.Nullable && !propertyType.IsValueType;
+            return isRequired;
+        }
     }
 
     private Type AsNullable(Type type)

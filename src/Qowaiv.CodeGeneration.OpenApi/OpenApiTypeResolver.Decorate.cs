@@ -120,13 +120,11 @@ public partial class OpenApiTypeResolver
     {
         Guard.NotNull(property);
 
-        if (schema.Enum.Any() 
-            && !Reflection.QowaivType.GetNotNullableType(property.PropertyType).IsEnum
-            && schema.Enum.All(val => val is OpenApiString))
-        {
-            var tp = property.PropertyType;
-            var nt = Reflection.QowaivType.GetNotNullableType(property.PropertyType);
+        var nt = Reflection.QowaivType.GetNotNullableType(property.PropertyType);
 
+        if (IsEnumMetOnlyOpenApiStrings(schema)
+            && (!nt.IsEnum || OnlySubsetIsAllowed(nt, schema)))
+        {
             var values = schema.Enum
                 .Cast<OpenApiString>()
                 .Select(str => str.Value)
@@ -135,5 +133,15 @@ public partial class OpenApiTypeResolver
             return AttributeInfo.Qowaiv_Validation_DataAnnotations_AllowedValues(values);
         }
         else return null;
+
+        static bool IsEnumMetOnlyOpenApiStrings(ResolveOpenApiSchema schema) 
+            => schema.Enum.Any() && schema.Enum.All(val => val is OpenApiString);
+
+        static bool OnlySubsetIsAllowed(Type type, ResolveOpenApiSchema schema)
+            => type is Enumeration enumeration
+            && enumeration
+                .GetFields()
+                .OfType<EnumerationField>()
+                .Count(f => f.Name != "None" && !0.Equals(f.Value)) > schema.Enum.Count;
     }
 }

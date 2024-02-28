@@ -1,7 +1,6 @@
 ﻿using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Qowaiv.CodeGeneration.Syntax;
-using System.ComponentModel.Design;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
 

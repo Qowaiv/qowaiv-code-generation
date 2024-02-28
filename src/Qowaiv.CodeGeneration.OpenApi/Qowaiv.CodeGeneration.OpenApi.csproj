@@ -8,7 +8,7 @@
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.0.1-alpha-008</Version>
+    <Version>0.0.1-alpha-009</Version>
     <PackageId>Qowaiv.CodeGeneration.OpenApi</PackageId>
     <PackageReleaseNotes>
 ToBeReleased

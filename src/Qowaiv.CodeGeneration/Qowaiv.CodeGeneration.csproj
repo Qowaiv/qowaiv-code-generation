@@ -22,25 +22,13 @@ ToBeReleased
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.*" />
     <PackageReference Include="Qowaiv" Version="6.*" />
     <PackageReference Include="Qowaiv.Validation.DataAnnotations" Version="1.*" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.*" />
-    <PackageReference Include="Qowaiv" Version="6.4.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <PackageReference Include="Qowaiv" Version="6.4.3" />
-    <PackageReference Include="Qowaiv" Version="6.4.4" />
-    <PackageReference Include="Qowaiv" Version="6.5.3" />
-    <PackageReference Include="Qowaiv" Version="6.5.1" />
-    <PackageReference Include="Qowaiv" Version="6.5.4" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Qowaiv.Analyzers.CSharp" Version="*">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Qowaiv.Validation.DataAnnotations" Version="1.4.0" />
+  <ItemGroup Label="Analyzers">
+    <PackageReference Include="Qowaiv.Analyzers.CSharp" Version="*" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>

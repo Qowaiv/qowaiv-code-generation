@@ -109,7 +109,7 @@ public partial class Property : PropertyInfo, Code
         foreach (var decoration in AttributeInfos) writer.Write(decoration);
 
         writer.Indent()
-            .Write("public ").Write(PropertyType).Write(IsNullable ? "?" : "").Write(' ').Write(Name).Write(' ').Write(PropertyAccess.Code());
+            .Write("public ").Write(PropertyType).Write(IsNullable ? "?" : string.Empty).Write(' ').Write(Name).Write(' ').Write(PropertyAccess.Code());
 
         if (PropertyType.IsArray)
         {

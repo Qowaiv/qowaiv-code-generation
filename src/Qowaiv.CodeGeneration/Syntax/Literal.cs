@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Qowaiv.CodeGeneration.Syntax;
+﻿namespace Qowaiv.CodeGeneration.Syntax;
 
 /// <summary>Represents a code literal.</summary>
 public sealed class Literal : Code
@@ -24,7 +22,6 @@ public sealed class Literal : Code
         else if (Value is decimal dec) writer.Write(dec.ToString(CultureInfo.InvariantCulture)).Write('m');
         else if (Value is string str) writer.Write(String(str));
         else throw new NotSupportedException($"Literals of type {Value.GetType()} are not supported");
-    
     }
 
     [Pure]

@@ -1,21 +1,15 @@
 ﻿namespace Qowaiv.CodeGeneration;
 
 [DebuggerDisplay("Name = {Name} FullName = {FullName} ArrayRank = {ArrayRank}")]
-internal sealed class ArrayType : TypeBase
-{
-    private readonly TypeBase ElementType;
-    private readonly int ArrayRank;
-
-    public ArrayType(TypeBase type, int arrayRank)
-        :base(new TypeInfo
-        {
-            TypeName = Guard.NotNull(type).TypeName,
-            BaseType = typeof(Array),
-        })
+internal sealed class ArrayType(TypeBase type, int arrayRank)
+    : TypeBase(new TypeInfo
     {
-        ElementType = type;
-        ArrayRank = arrayRank;
-    }
+        TypeName = Guard.NotNull(type).TypeName,
+        BaseType = typeof(Array),
+    })
+{
+    private readonly TypeBase ElementType = type;
+    private readonly int ArrayRank = arrayRank;
 
     /// <inheritdoc />
     [Pure]
@@ -27,5 +21,5 @@ internal sealed class ArrayType : TypeBase
 
     /// <inheritdoc />
     [Pure]
-    public override int GetArrayRank()=> ArrayRank;
+    public override int GetArrayRank() => ArrayRank;
 }

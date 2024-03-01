@@ -23,7 +23,7 @@ public partial class OpenApiTypeResolver
     }
 
     [Pure]
-    private Property? ResolveProperty(ResolveOpenApiSchema schema, ISet<string> required)
+    private Property? ResolveProperty(ResolveOpenApiSchema schema, IReadOnlySet<string> required)
     {
         if (schema.Model is Class @class && Resolve(schema) is { } propertyType)
         {
@@ -64,6 +64,7 @@ public partial class OpenApiTypeResolver
         }
     }
 
+    [Pure]
     private Type AsNullable(Type type)
         => !type.IsValueType || type.IsNullableValueType() || IsNullableByDesign(type)
         ? type

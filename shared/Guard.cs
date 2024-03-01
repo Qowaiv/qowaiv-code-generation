@@ -439,7 +439,6 @@ internal static partial class Guard
         ? throw new ArgumentOutOfRangeException(paramName, Messages.ArgumentOutOfRangeException_Negative)
         : parameter;
 
-
     /// <summary>Throws an ArgumentException if the parameter is negative, otherwise the parameter is passed.</summary>
     /// <param name="parameter">The parameter to guard.</param>
     /// <param name="paramName">The name of the parameter.</param>

@@ -21,10 +21,4 @@ public static class QowaivOpenApiSchemaExtensions
         }
         else return default;
     }
-
-    /// <summary>Gets <see cref="OpenApiProperty"/>'s of the schema.</summary>
-    [Pure]
-    public static IEnumerable<OpenApiProperty> OpenApiProperties(this OpenApiSchema? schema)
-        => schema?.Properties.Select(kvp => new OpenApiProperty(kvp.Key, kvp.Value))
-        ?? [];
 }

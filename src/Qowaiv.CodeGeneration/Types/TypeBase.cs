@@ -22,7 +22,7 @@ public abstract class TypeBase : Type
     /// <summary>Collection of <see cref="MethodInfo"/>s.</summary>
     protected readonly IReadOnlyCollection<MethodInfo> Methods;
 
-    /// <summary>Collection of <see cref="PropertyInfo"/>.s</summary>
+    /// <summary>Collection of <see cref="PropertyInfo"/>s.</summary>
     protected readonly IReadOnlyCollection<PropertyInfo> Properties;
 
     /// <summary>Collection of interface <see cref="Type"/>s.</summary>
@@ -149,7 +149,7 @@ public abstract class TypeBase : Type
     /// <inheritdoc />
     [Pure]
     public override EventInfo? GetEvent(string name, BindingFlags bindingAttr)
-        => GetEvents(bindingAttr).FirstOrDefault(e => e.Name == name);
+        => GetEvents(bindingAttr).Find(e => e.Name == name);
 
     /// <inheritdoc />
     [Pure]
@@ -159,7 +159,7 @@ public abstract class TypeBase : Type
     /// <inheritdoc />
     [Pure]
     public override FieldInfo? GetField(string name, BindingFlags bindingAttr)
-        => GetFields(bindingAttr).FirstOrDefault(f => f.Name == name);
+        => GetFields(bindingAttr).Find(f => f.Name == name);
 
     /// <inheritdoc />
     [Pure]
@@ -217,19 +217,19 @@ public abstract class TypeBase : Type
     [Pure]
     protected override ConstructorInfo? GetConstructorImpl(BindingFlags bindingAttr, Binder? binder, CallingConventions callConvention, Type[] types, ParameterModifier[]? modifiers)
         => GetConstructors(bindingAttr)
-        .FirstOrDefault(c => c.GetParameters().Select(p => p.ParameterType).SequenceEqual(types));
+        .Find(c => c.GetParameters().Select(p => p.ParameterType).SequenceEqual(types));
 
     /// <inheritdoc />
     [Pure]
     protected override MethodInfo? GetMethodImpl(string name, BindingFlags bindingAttr, Binder? binder, CallingConventions callConvention, Type[]? types, ParameterModifier[]? modifiers)
         => GetMethods(bindingAttr)
-        .FirstOrDefault(m => m.Name == name);
+        .Find(m => m.Name == name);
 
     /// <inheritdoc />
     [Pure]
     protected override PropertyInfo? GetPropertyImpl(string name, BindingFlags bindingAttr, Binder? binder, Type? returnType, Type[]? types, ParameterModifier[]? modifiers)
         => GetProperties(bindingAttr)
-        .FirstOrDefault(p => p.Name == name && (returnType is null || p.PropertyType == returnType));
+        .Find(p => p.Name == name && (returnType is null || p.PropertyType == returnType));
 
     /// <inheritdoc />
     [Pure]
@@ -259,7 +259,7 @@ public abstract class TypeBase : Type
     [Pure]
     public override Type? GetNestedType(string name, BindingFlags bindingAttr)
         => GetNestedTypes(bindingAttr)
-        .FirstOrDefault(t => t.Name == name);
+        .Find(t => t.Name == name);
 
     /// <inheritdoc />
     [Pure]

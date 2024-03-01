@@ -44,6 +44,7 @@ public sealed class CSharpWriter
         code?.WriteTo(this);
         return this;
     }
+
     /// <summary>Writes the visibility to the code file.</summary>
     [FluentSyntax]
     public CSharpWriter Write(CodeVisibility visibility)
@@ -60,7 +61,7 @@ public sealed class CSharpWriter
 
         var first = true;
 
-        foreach(var write in writes)
+        foreach (var write in writes)
         {
             if (!first) split(this);
             write(this);

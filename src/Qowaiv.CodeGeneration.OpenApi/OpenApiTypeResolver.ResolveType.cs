@@ -1,5 +1,4 @@
 ﻿using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
 using Qowaiv.CodeGeneration.Syntax;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
@@ -142,6 +141,8 @@ public partial class OpenApiTypeResolver
         ? type
         : typeof(string);
 
+    [Pure]
+    [Obsolete("Will become private. Use ResolveCustomization(schema) instead.")]
     protected virtual Type? ResolveArray(ResolveOpenApiSchema schema)
         => Resolve(schema.Items)?.MakeArrayType();
 
@@ -154,8 +155,8 @@ public partial class OpenApiTypeResolver
         var derivedTypes = new List<Type>();
         var attributes = new List<AttributeInfo>();
 
-        var baseType = schema.AllOf.Count == 1
-            ? ResolveObject(schema.With(schema.AllOf[0]))
+        var baseType = schema.AllOf.Count() == 1
+            ? ResolveObject(schema.AllOf.First())
             : schema.Base;
 
         var settings = new TypeInfo
@@ -179,13 +180,12 @@ public partial class OpenApiTypeResolver
 
         properties.AddRange(schema.Properties.Select(p => ResolveProperty(p, schema.Required)).OfType<Property>());
 
-        if (schema.AllOf.Count > 1)
+        if (schema.AllOf.Count() > 1)
         {
             foreach (var reference in schema.AllOf)
             {
-                schema = schema.With(reference);
-                properties.AddRange(reference.OpenApiProperties()
-                    .Select(prop => ResolveProperty(schema.With(prop), schema.Required))
+                properties.AddRange(reference.Properties
+                    .Select(prop => ResolveProperty(prop, reference.Required))
                     .OfType<Property>());
             }
         }
@@ -218,7 +218,7 @@ public partial class OpenApiTypeResolver
         if (allOff.Count == 1)
         {
             var child = allOff.Single();
-            var type = Resolve(schema.With(child));
+            var type = Resolve(child);
 
             if (type is Class @class
                 && @class.GetDerivedTypes() is List<Type> derivedTypes
@@ -239,13 +239,26 @@ public partial class OpenApiTypeResolver
     [Obsolete("Will become private. Use ResolveCustomization(schema) instead.")]
     protected virtual Type? ResolveAllOf(ResolveOpenApiSchema schema)
     {
-        return Resolve(schema.With(schema.AllOf[0]));
+        if (schema.AllOf.Count() == 1)
+        {
+            return ResolveDerivedFrom(schema, schema.AllOf.First());
+        }
+        else throw new NotSupportedException($"Schema with type multiple all-off is not supported.");
+    }
 
-        //if (schema.AllOf.Count == 1)
-        //{
-        //    return Resolve(schema.With(schema.AllOf[0]));
-        //}
-        //else throw new NotSupportedException($"Schema with type multiple all-off is not supported.");
+    [Pure]
+    private Type? ResolveDerivedFrom(ResolveOpenApiSchema schema, ResolveOpenApiSchema parent)
+    {
+        var type = Resolve(parent);
+
+        if (type is Class @class
+                && @class.GetDerivedTypes() is List<Type> derivedTypes
+                && @class.GetAttributeInfos() is List<AttributeInfo> infos)
+        {
+            derivedTypes.AddRange(schema.OneOf.Select(Resolve).OfType<Type>());
+            infos.AddRange(derivedTypes.Select(d => DecorateDerivedType(d, schema)).OfType<AttributeInfo>());
+        }
+        return type;
     }
 
     /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.None"/>.</summary>

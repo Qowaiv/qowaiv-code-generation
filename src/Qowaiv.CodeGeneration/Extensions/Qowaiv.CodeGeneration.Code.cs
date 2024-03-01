@@ -29,7 +29,6 @@ public static class CodeExtensions
 
         return types;
 
-
         static void Visit(TypeBase type, ISet<TypeBase> visited)
         {
             foreach (var prop in type

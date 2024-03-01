@@ -3,29 +3,41 @@ using Microsoft.OpenApi.Models;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
 
-public readonly partial struct ResolveOpenApiSchema
+public readonly partial struct ResolveOpenApiSchema(
+    OpenApiPath path,
+    OpenApiSchema schema,
+    Type? model,
+    Type? @base = null)
 {
-    public readonly OpenApiPath Path;
-    public readonly OpenApiSchema Schema;
-    public readonly Type? Model;
-    public readonly Type? Base;
-
-    public ResolveOpenApiSchema(OpenApiPath path, OpenApiSchema schema, Type? model, Type? @base = null)
-    {
-        Path = path;
-        Schema = schema;
-        Model = model;
-        Base = @base;
-    }
+    public readonly OpenApiPath Path = path;
+    public readonly OpenApiSchema Schema = schema;
+    public readonly Type? Model = model;
+    public readonly Type? Base = @base;
 
     /// <inheritdoc cref="OpenApiReference.Id" />
     public string? ReferenceId => Reference?.Id;
 
     /// <inheritdoc cref="OpenApiSchema.AllOf"/>
-    public IList<OpenApiSchema> AllOf => Schema?.AllOf ?? [];
+    public IEnumerable<ResolveOpenApiSchema> AllOf
+    {
+        get
+        {
+            var self = this;
+            return Schema?.AllOf?.Select(self.With)
+            ?? [];
+        }
+    }
 
     /// <inheritdoc cref="OpenApiSchema.AnyOf"/>
-    public IList<OpenApiSchema> AnyOf => Schema?.AnyOf ?? [];
+    public IEnumerable<ResolveOpenApiSchema> AnyOf
+    {
+        get
+        {
+            var self = this;
+            return Schema?.AnyOf?.Select(self.With)
+            ?? [];
+        }
+    }
 
     /// <inheritdoc cref="OpenApiSchema.OneOf"/>
     public IEnumerable<ResolveOpenApiSchema> OneOf
@@ -42,10 +54,10 @@ public readonly partial struct ResolveOpenApiSchema
     public string? Description => Schema?.Description;
 
     /// <inheritdoc cref="OpenApiSchema.Enum"/>
-    public IList<IOpenApiAny> Enum => Schema?.Enum ?? [];
+    public IReadOnlyList<IOpenApiAny> Enum => Schema?.Enum.AsReadOnlyList() ?? [];
 
     /// <inheritdoc cref="OpenApiSchema.Required"/>
-    public ISet<string> Required => Schema?.Required ?? new HashSet<string>();
+    public IReadOnlySet<string> Required => Schema?.Required.AsReadOnlySet() ?? new HashSet<string>();
 
     /// <inheritdoc cref="OpenApiSchema.Format"/>
     public string? Format => Schema?.Format;
@@ -74,13 +86,15 @@ public readonly partial struct ResolveOpenApiSchema
     /// <inheritdoc cref="OpenApiSchema.Type"/>
     public string? Type => Schema?.Type;
 
+    /// <summary>Gets the Properties.</summary>
+    [Pure]
     public IEnumerable<ResolveOpenApiSchema> Properties
     {
         get
         {
             var self = this;
             return Schema?.Properties.Select(p => new ResolveOpenApiSchema(self.Path.Child(p.Key), p.Value, self.Model))
-                ?? Array.Empty<ResolveOpenApiSchema>();
+                ?? [];
         }
     }
 
@@ -89,10 +103,6 @@ public readonly partial struct ResolveOpenApiSchema
 
     [Pure]
     public ResolveOpenApiSchema With(OpenApiSchema schema) => new(Path, schema, Model, Base);
-
-    [Pure]
-    public ResolveOpenApiSchema With(OpenApiProperty property) 
-        => new(Path.Child(property.Name), property.Schema, Model, Base);
 
     [Pure]
     public ResolveOpenApiSchema WithModel(Type model) => new(Path, Schema, model, Base);

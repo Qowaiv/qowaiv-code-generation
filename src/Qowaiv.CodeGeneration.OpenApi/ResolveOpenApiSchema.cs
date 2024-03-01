@@ -18,37 +18,13 @@ public readonly partial struct ResolveOpenApiSchema(
     public string? ReferenceId => Reference?.Id;
 
     /// <inheritdoc cref="OpenApiSchema.AllOf"/>
-    public IEnumerable<ResolveOpenApiSchema> AllOf
-    {
-        get
-        {
-            var self = this;
-            return Schema?.AllOf?.Select(self.With)
-            ?? [];
-        }
-    }
+    public IEnumerable<ResolveOpenApiSchema> AllOf => Schema?.AllOf?.Select(SelectionOf) ?? [];
 
     /// <inheritdoc cref="OpenApiSchema.AnyOf"/>
-    public IEnumerable<ResolveOpenApiSchema> AnyOf
-    {
-        get
-        {
-            var self = this;
-            return Schema?.AnyOf?.Select(self.With)
-            ?? [];
-        }
-    }
+    public IEnumerable<ResolveOpenApiSchema> AnyOf => Schema?.AnyOf?.Select(SelectionOf) ?? [];
 
     /// <inheritdoc cref="OpenApiSchema.OneOf"/>
-    public IEnumerable<ResolveOpenApiSchema> OneOf
-    {
-        get
-        {
-            var self = this;
-            return Schema?.OneOf?.Select(self.With)
-            ?? [];
-        }
-    }
+    public IEnumerable<ResolveOpenApiSchema> OneOf => Schema?.OneOf?.Select(SelectionOf) ?? [];
 
     /// <inheritdoc cref="OpenApiSchema.Description"/>
     public string? Description => Schema?.Description;
@@ -142,4 +118,11 @@ public readonly partial struct ResolveOpenApiSchema(
             return sb.ToString();
         }
     }
+
+    [Pure]
+    private ResolveOpenApiSchema SelectionOf(OpenApiSchema s)
+    => s.Reference is { } r
+        ? new ResolveOpenApiSchema(new(r.ReferenceV3 ?? r.ReferenceV2), s, null)
+        : With(s);
+
 }

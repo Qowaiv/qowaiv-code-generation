@@ -28,7 +28,6 @@ public partial class OpenApiTypeResolver
         return AttributeInfo.System_Text_Json_Serialization_JsonDerivedTypeAttribute(derivedType);
     }
 
-
     [Pure]
     protected virtual IEnumerable<AttributeInfo> DecorateProperty(Property property, ResolveOpenApiSchema schema)
     {

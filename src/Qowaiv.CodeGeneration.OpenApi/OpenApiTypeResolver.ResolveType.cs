@@ -43,8 +43,8 @@ public partial class OpenApiTypeResolver
         OpenApiType.@string => ResolveString(schema),
         OpenApiType.array => ResolveArray(schema),
         OpenApiType.@object => ResolveObject(schema),
-        _ when schema.OneOf.Any() => ResolveOneOf(schema),
         _ when schema.AllOf.Any() => ResolveAllOf(schema),
+        _ when schema.OneOf.Any() => ResolveOneOf(schema),
         _ => ResolveOther(schema),
     };
 
@@ -236,33 +236,46 @@ public partial class OpenApiTypeResolver
     /// Resolves the <see cref="Type"/> when there is at least one <see cref="ResolveOpenApiSchema.AllOf"/>'s.
     /// </summary>
     [Pure]
-    [Obsolete("Will become private. Use ResolveCustomization(schema) instead.")]
-    protected virtual Type? ResolveAllOf(ResolveOpenApiSchema schema)
+    private Type? ResolveAllOf(ResolveOpenApiSchema schema)
     {
-        if (schema.AllOf.Count() == 1)
+        var bases = schema.AllOf.Where(b => b.Reference is { }).ToArray();
+        var inherit = schema.AllOf.Where(b => b.Reference is null).ToArray();
+
+        if (bases.Length == 1)
         {
-            return ResolveDerivedFrom(schema, schema.AllOf.First());
+            if (inherit.Length == 0)
+            {
+                return Resolve(bases[0]);
+            }
+            else if (inherit.Length == 1
+                && Resolve(bases[0]) is { } @base
+                && Resolve(inherit[0].WithBase(@base)) is { } type)
+            {
+                AddDerivedType(@base, type, schema);
+
+                return type;
+            }
         }
-        else throw new NotSupportedException($"Schema with type multiple all-off is not supported.");
-    }
+        throw new NotSupportedException($"Schema '{schema.Path}' with type multiple all-off is not supported.");
 
-    [Pure]
-    private Type? ResolveDerivedFrom(ResolveOpenApiSchema schema, ResolveOpenApiSchema parent)
-    {
-        var type = Resolve(parent);
-
-        if (type is Class @class
+        void AddDerivedType(Type @base, Type type, ResolveOpenApiSchema schema)
+        {
+            if (@base is Class @class
                 && @class.GetDerivedTypes() is List<Type> derivedTypes
-                && @class.GetAttributeInfos() is List<AttributeInfo> infos)
-        {
-            derivedTypes.AddRange(schema.OneOf.Select(Resolve).OfType<Type>());
-            infos.AddRange(derivedTypes.Select(d => DecorateDerivedType(d, schema)).OfType<AttributeInfo>());
+                && @class.GetAttributeInfos() is List<AttributeInfo> infos
+                && !derivedTypes.Exists(t => t.FullName == type.FullName))
+            {
+                derivedTypes.Add(type);
+                if (DecorateDerivedType(type, schema) is { } attr)
+                {
+                    infos.Add(attr);
+                }
+            }
         }
-        return type;
     }
 
     /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.None"/>.</summary>
     [Pure]
     protected virtual Type? ResolveOther(ResolveOpenApiSchema schema)
-        => throw new NotSupportedException($"Schema with type '{schema.Type}' is not supported.");
+        => throw new NotSupportedException($"Schema '{schema.Path}' with type '{schema.Type}' is not supported.");
 }

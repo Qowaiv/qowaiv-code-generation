@@ -32,6 +32,35 @@
             }
           }
         ]
+      },
+      "AllOfChildClass": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AllOf1"
+          },
+          {
+            "$ref": "#/components/schemas/AllOf2"
+          }
+        ]
+      },
+      "AllOf1": {
+        "type": "object",
+        "properties": {
+          "property1": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          }
+        }
+      },
+      "AllOf2": {
+        "type": "object",
+        "properties": {
+          "property2": {
+            "type": "string",
+            "example": "example 2"
+          }
+        }
       }
     }
   }

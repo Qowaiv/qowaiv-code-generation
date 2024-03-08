@@ -1,5 +1,6 @@
 ﻿using Microsoft.OpenApi.Any;
 using Qowaiv.CodeGeneration.Syntax;
+using System.Reflection;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
 
@@ -256,6 +257,16 @@ public partial class OpenApiTypeResolver
                 return type;
             }
         }
+
+        if (inherit.Length == 0 && ResolveObject(schema) is Class @class && Properties(@class) is { } properties)
+        {
+            foreach (var @base in bases.Select(Resolve).OfType<Class>())
+            {
+                properties.AddRange(Properties(@base) ?? []);
+            }
+            return @class;
+        }
+
         throw new NotSupportedException($"Schema '{schema.Path}' with type multiple all-off is not supported.");
 
         void AddDerivedType(Type @base, Type type, ResolveOpenApiSchema schema)
@@ -272,6 +283,10 @@ public partial class OpenApiTypeResolver
                 }
             }
         }
+
+        List<Property>? Properties(Class @class) => typeof(Class)
+            .GetField(nameof(Properties), (BindingFlags)36)?
+            .GetValue(@class) as List<Property>;
     }
 
     /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.None"/>.</summary>

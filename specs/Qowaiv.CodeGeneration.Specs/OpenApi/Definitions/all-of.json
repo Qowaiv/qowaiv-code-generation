@@ -40,6 +40,9 @@
           },
           {
             "$ref": "#/components/schemas/AllOf2"
+          },
+          {
+            "type": "object"
           }
         ]
       },

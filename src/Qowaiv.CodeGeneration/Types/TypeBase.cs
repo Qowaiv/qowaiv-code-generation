@@ -213,7 +213,7 @@ public abstract class TypeBase : Type
     [Pure]
     protected override TypeAttributes GetAttributeFlagsImpl()
         => DerivedTypes.Any()
-            ? TypeAttributes ^ TypeAttributes.Sealed
+            ? (TypeAttributes & ~TypeAttributes.Sealed)
             : TypeAttributes;
 
     /// <inheritdoc />

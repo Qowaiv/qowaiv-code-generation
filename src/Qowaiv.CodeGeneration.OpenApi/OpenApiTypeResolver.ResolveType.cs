@@ -258,7 +258,9 @@ public partial class OpenApiTypeResolver
             }
         }
 
-        if (inherit.Length == 0 && ResolveObject(schema) is Class @class && Properties(@class) is { } properties)
+        if (inherit.Sum(i => i.Properties.Count()) == 0
+            && ResolveObject(schema) is Class @class
+            && Properties(@class) is { } properties)
         {
             foreach (var @base in bases.Select(Resolve).OfType<Class>())
             {

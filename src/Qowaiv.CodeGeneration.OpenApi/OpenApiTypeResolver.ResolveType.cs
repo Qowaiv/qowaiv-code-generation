@@ -15,7 +15,7 @@ public partial class OpenApiTypeResolver
         }
         else
         {
-            type = ResolveCustomization(schema) ?? ResolveCustom(schema) ?? ResolveType(schema);
+            type = ResolveCustomization(schema) ?? ResolveType(schema);
             if (schema.ReferenceId is { })
             {
                 resolved.TryAdd(schema.ReferenceId, type);
@@ -27,11 +27,6 @@ public partial class OpenApiTypeResolver
     /// <summary>Custom resolving.</summary>
     [Pure]
     protected virtual Type? ResolveCustomization(ResolveOpenApiSchema schema) => null;
-
-    /// <summary>Custom resolving.</summary>
-    [Obsolete("Will be dropped. Use ResolveCustomization(schema) instead.")]
-    [Pure]
-    protected virtual Type? ResolveCustom(ResolveOpenApiSchema schema) => null;
 
     /// <summary>Resolves the <see cref="Type"/> based on the <see cref="ResolveOpenApiSchema.OpenApiType"/>.</summary>
     [Pure]
@@ -54,8 +49,7 @@ public partial class OpenApiTypeResolver
     /// contains any items.
     /// </summary>
     [Pure]
-    [Obsolete("Will become private. Use ResolveCustomization(schema) instead.")]
-    protected virtual Type? ResolveEnum(ResolveOpenApiSchema schema)
+    protected Type? ResolveEnum(ResolveOpenApiSchema schema)
     {
         if (ResolveName(schema, ResolveTypeName.Enum) is not { } nameType) return null;
 
@@ -106,13 +100,11 @@ public partial class OpenApiTypeResolver
 
     /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.boolean"/>.</summary>
     [Pure]
-    [Obsolete("Will become private. Use ResolveCustomization(schema) instead.")]
-    protected virtual Type? ResolveBoolean(ResolveOpenApiSchema schema) => typeof(bool);
+    private static Type? ResolveBoolean(ResolveOpenApiSchema schema) => typeof(bool);
 
     /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.integer"/>.</summary>
     [Pure]
-    [Obsolete("Will become private. Use ResolveCustomization(schema) instead.")]
-    protected virtual Type? ResolveInteger(ResolveOpenApiSchema schema) => NormalizeFormat(schema.Format) switch
+    private Type? ResolveInteger(ResolveOpenApiSchema schema) => NormalizeFormat(schema.Format) switch
     {
         "YEAR" => typeof(Year),
         "INT16" => typeof(short),
@@ -122,8 +114,7 @@ public partial class OpenApiTypeResolver
 
     /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.number"/>.</summary>
     [Pure]
-    [Obsolete("Will become private. Use ResolveCustomization(schema) instead.")]
-    protected virtual Type? ResolveNumber(ResolveOpenApiSchema schema) => NormalizeFormat(schema.Format) switch
+    private Type? ResolveNumber(ResolveOpenApiSchema schema) => NormalizeFormat(schema.Format) switch
     {
         "INT16" => typeof(short),
         "INT32" => typeof(int),
@@ -136,21 +127,19 @@ public partial class OpenApiTypeResolver
 
     /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.@string"/>.</summary>
     [Pure]
-    [Obsolete("Will become private. Use ResolveCustomization(schema) instead.")]
-    protected virtual Type? ResolveString(ResolveOpenApiSchema schema)
+    private Type? ResolveString(ResolveOpenApiSchema schema)
         => Formats.TryGetValue(NormalizeFormat(schema.Format), out var type)
         ? type
         : typeof(string);
 
+    /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.array"/>.</summary>
     [Pure]
-    [Obsolete("Will become private. Use ResolveCustomization(schema) instead.")]
-    protected virtual Type? ResolveArray(ResolveOpenApiSchema schema)
+    private Type? ResolveArray(ResolveOpenApiSchema schema)
         => Resolve(schema.Items)?.MakeArrayType();
 
     /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.@object"/>.</summary>
     [Pure]
-    [Obsolete("Will become private. Use ResolveCustomization(schema) instead.")]
-    protected virtual Type? ResolveObject(ResolveOpenApiSchema schema)
+    private Type? ResolveObject(ResolveOpenApiSchema schema)
     {
         var properties = new List<Property>();
         var derivedTypes = new List<Type>();
@@ -160,7 +149,7 @@ public partial class OpenApiTypeResolver
             ? ResolveObject(schema.AllOf.First())
             : schema.Base;
 
-        var settings = new TypeInfo
+        var info = new TypeInfo
         {
             BaseType = baseType,
             TypeName = ResolveName(schema, ResolveTypeName.Object)!,
@@ -174,8 +163,8 @@ public partial class OpenApiTypeResolver
         };
 
         Class classType = Settings.ModelType == ModelType.Record
-            ? new Record(settings)
-            : new Class(settings);
+            ? new Record(info)
+            : new Class(info);
 
         schema = schema.WithModel(classType);
 
@@ -211,8 +200,7 @@ public partial class OpenApiTypeResolver
     /// Resolves the <see cref="Type"/> when there are multiple <see cref="ResolveOpenApiSchema.OneOf"/>'s.
     /// </summary>
     [Pure]
-    [Obsolete("Will become private. Use ResolveCustomization(schema) instead.")]
-    protected virtual Type? ResolveOneOf(ResolveOpenApiSchema schema)
+    private Type? ResolveOneOf(ResolveOpenApiSchema schema)
     {
         var allOff = schema.OneOf.SelectMany(o => o.AllOf).ToHashSet();
 
@@ -269,7 +257,8 @@ public partial class OpenApiTypeResolver
             return @class;
         }
 
-        throw new NotSupportedException($"Schema '{schema.Path}' with type multiple all-off is not supported.");
+        throw new NotSupportedException(
+            $"Schema '{schema.Path}' with type multiple all-off is not supported for {{ {string.Join(", ", schema.AllOf.Select(s => $"'{s.Path}'"))} }}.");
 
         void AddDerivedType(Type @base, Type type, ResolveOpenApiSchema schema)
         {

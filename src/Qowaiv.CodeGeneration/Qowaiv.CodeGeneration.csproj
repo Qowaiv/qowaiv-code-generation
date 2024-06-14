@@ -8,7 +8,7 @@
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.0.1-alpha-013</Version>
+    <Version>0.0.1-alpha-014</Version>
     <PackageId>Qowaiv.CodeGeneration</PackageId>
     <PackageReleaseNotes>
 ToBeReleased
@@ -25,10 +25,6 @@ ToBeReleased
     <PackageReference Include="Newtonsoft.Json" Version="13.*" />
     <PackageReference Include="Qowaiv" Version="6.*" />
     <PackageReference Include="Qowaiv.Validation.DataAnnotations" Version="1.*" />
-  </ItemGroup>
-
-  <ItemGroup Label="Analyzers">
-    <PackageReference Include="Qowaiv.Analyzers.CSharp" Version="*" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>

@@ -87,7 +87,7 @@ public abstract class TypeBase : Type
 
     /// <summary>The namespace of the type.</summary>
     /// <remarks>
-    /// THis method exists to prevent unintended usage of the extension method
+    /// This method exists to prevent unintended usage of the extension method
     /// on <see cref="System.Type"/>.
     /// </remarks>
 #pragma warning disable S1133 // Deprecated code should be removed

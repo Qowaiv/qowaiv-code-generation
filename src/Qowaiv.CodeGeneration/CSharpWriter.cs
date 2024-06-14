@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using Qowaiv.CodeGeneration.Syntax;
+using System.IO;
 
 namespace Qowaiv.CodeGeneration;
 
+/// <summary>Writer to generate C# code.</summary>
 public sealed class CSharpWriter
 {
     /// <summary>UTF-8 BOM.</summary>
@@ -53,6 +55,7 @@ public sealed class CSharpWriter
         return this;
     }
 
+    /// <summary>Writes multiple instructions separated by a split action.</summary>
     [FluentSyntax]
     public CSharpWriter Write(IEnumerable<Action<CSharpWriter>> writes, Action<CSharpWriter> split)
     {
@@ -71,9 +74,11 @@ public sealed class CSharpWriter
         return this;
     }
 
+    /// <summary>Writes a type declaration to the code file.</summary>
     [FluentSyntax]
     public CSharpWriter Write(Type type) => Write(type, attribute: false);
 
+    /// <summary>Writes a type declaration to the code file.</summary>
     [FluentSyntax]
     public CSharpWriter Write(Type type, bool attribute)
     {

@@ -18,8 +18,8 @@ public partial class OpenApiTypeResolver
         var name = schema.ReferenceId ?? schema.Path.Last;
         var lastDot = name.LastIndexOf('.');
         var ns = lastDot == -1 ? DefaultNamespace : DefaultNamespace.Child(name[..lastDot]);
-        name = NamingStrategy.PascalCase((lastDot == -1 ? name : name[(lastDot + 1)..]).TrimStart('_'));
-        return new(ns, name);
+        var codeName = CodeName.Create(lastDot == -1 ? name : name[(lastDot + 1)..], CodeNameConvention.PascalCase);
+        return new(ns, codeName.ToString());
     }
 
     [Pure]

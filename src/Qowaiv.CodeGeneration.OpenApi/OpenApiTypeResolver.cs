@@ -47,13 +47,14 @@ public partial class OpenApiTypeResolver(
 
     [Pure]
     protected virtual string PropertyName(ResolveOpenApiSchema schema)
-        => NamingStrategy.PascalCase(schema.Path.Last, schema.Model!);
+        => CodeName.Create(schema.Path.Last, CodeNameConvention.PascalCase).PropertyFor(schema.Model!);
 
     [Pure]
-    protected virtual string EnumValueName(Enumeration @enum, OpenApiString enumValue)
-        => NamingStrategy.Enum(Guard.NotNull(enumValue).Value);
+    protected virtual string EnumValueName(Enumeration @enum, OpenApiString enumValue) => CodeName
+            .Create(Guard.NotNull(enumValue).Value, OpenApiEnumNameConvention.Instance)
+            .ToString();
 
     [Pure]
     protected virtual string NormalizeFormat(string? str)
-        => (str ?? string.Empty).ToUpperInvariant().Replace("-", "");
+        => (str ?? string.Empty).ToUpperInvariant().Replace("-", string.Empty);
 }

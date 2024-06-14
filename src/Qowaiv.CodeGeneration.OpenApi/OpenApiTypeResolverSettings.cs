@@ -13,7 +13,7 @@ public class OpenApiTypeResolverSettings
     public bool Partial { get; init; } = true;
 
     /// <summary>Model type to generate (default is <see cref="ModelType.Record"/>).</summary>
-    public ModelType ModelType { get; init; }
+    public ModelType ModelType { get; init; } = ModelType.Record;
 
     /// <summary>Property access to generate (default is <see cref="PropertyAccess.InitOnly"/>).</summary>
     public PropertyAccess PropertyAccess { get; init; }

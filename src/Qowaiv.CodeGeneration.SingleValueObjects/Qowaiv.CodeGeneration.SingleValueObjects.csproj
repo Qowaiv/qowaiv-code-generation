@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Qowaiv.Diagnostics.Contracts" Version="1.0.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Qowaiv.CodeGeneration\Qowaiv.CodeGeneration.csproj" />
   </ItemGroup>
 

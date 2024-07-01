@@ -6,6 +6,8 @@ public partial class AttributeInfo
 
     public static readonly AttributeInfo Qowaiv_Validation_DataAnnotations_Any = new(typeof(Qowaiv.Validation.DataAnnotations.AnyAttribute));
 
+    public static readonly AttributeInfo Qowaiv_Validation_DataAnnotations_IsFinate = new(typeof(Qowaiv.Validation.DataAnnotations.IsFiniteAttribute));
+
     public static readonly AttributeInfo Qowaiv_Validation_DataAnnotations_Mandatory = new(typeof(Qowaiv.Validation.DataAnnotations.MandatoryAttribute));
 
     public static readonly AttributeInfo Qowaiv_Validation_DataAnnotations_Optional = new(typeof(Qowaiv.Validation.DataAnnotations.OptionalAttribute));

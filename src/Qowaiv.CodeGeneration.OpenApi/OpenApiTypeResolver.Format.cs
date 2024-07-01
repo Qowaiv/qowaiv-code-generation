@@ -1,6 +1,6 @@
 ﻿namespace Qowaiv.CodeGeneration.OpenApi;
 
-partial class OpenApiTypeResolver
+public partial class OpenApiTypeResolver
 {
     private static readonly IReadOnlyDictionary<string, Type> Formats = new Dictionary<string, Type>
     {
@@ -13,7 +13,6 @@ partial class OpenApiTypeResolver
         ["DATETIME"] = typeof(System.DateTime),
         ["DATEWEEKBASED"] = typeof(Qowaiv.WeekDate),
         ["EMAIL"] = typeof(Qowaiv.EmailAddress),
-        ["EMAILCOLLECTION"] = typeof(Qowaiv.EmailAddressCollection),
         ["ENERGYLABEL"] = typeof(Qowaiv.Sustainability.EnergyLabel),
         ["FRACTION"] = typeof(Qowaiv.Mathematics.Fraction),
         ["GUID"] = typeof(System.Guid),
@@ -31,6 +30,6 @@ partial class OpenApiTypeResolver
         ["STREAMSIZE"] = typeof(Qowaiv.IO.StreamSize),
         ["URI"] = typeof(System.Uri),
         ["UUIDBASE64"] = typeof(Qowaiv.Uuid),
-        ["YESNO"] = typeof(Qowaiv.YesNo)
+        ["YESNO"] = typeof(Qowaiv.YesNo),
     };
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.OpenApi.Any;
 using Qowaiv.CodeGeneration.Syntax;
+using Qowaiv.Reflection;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
 
@@ -39,6 +40,7 @@ public partial class OpenApiTypeResolver
         if (DecoratePropertyMinLength(property, schema) is { } min) yield return min;
         if (DecoratePropertyMaxLength(property, schema) is { } max) yield return max;
         if (DecoratePropertyRange(property, schema) is { } range) yield return range;
+        if (DecorateIsFinate(property, schema) is { } finate) yield return finate;
     }
 
     [Pure]
@@ -90,6 +92,7 @@ public partial class OpenApiTypeResolver
         }
         else return null;
     }
+
     [Pure]
     protected virtual AttributeInfo? DecoratePropertyMaxLength(Property property, ResolveOpenApiSchema schema)
     {
@@ -115,13 +118,27 @@ public partial class OpenApiTypeResolver
     }
 
     [Pure]
+    protected virtual AttributeInfo? DecorateIsFinate(Property property, ResolveOpenApiSchema schema)
+    {
+        Guard.NotNull(property);
+
+        var type = QowaivType.GetNotNullableType(property.PropertyType);
+
+        if (type == typeof(double) || type == typeof(float))
+        {
+            return AttributeInfo.Qowaiv_Validation_DataAnnotations_IsFinate;
+        }
+        else return null;
+    }
+
+    [Pure]
     protected virtual AttributeInfo? DecoratePropertyAllowedValues(Property property, ResolveOpenApiSchema schema)
     {
         Guard.NotNull(property);
 
         var nt = Reflection.QowaivType.GetNotNullableType(property.PropertyType);
 
-        if (IsEnumMetOnlyOpenApiStrings(schema)
+        if (IsEnumWithOnlyOpenApiStrings(schema)
             && (!nt.IsEnum || OnlySubsetIsAllowed(nt, schema)))
         {
             var values = schema.Enum
@@ -133,7 +150,7 @@ public partial class OpenApiTypeResolver
         }
         else return null;
 
-        static bool IsEnumMetOnlyOpenApiStrings(ResolveOpenApiSchema schema) 
+        static bool IsEnumWithOnlyOpenApiStrings(ResolveOpenApiSchema schema) 
             => schema.Enum.Any() && schema.Enum.All(val => val is OpenApiString);
 
         static bool OnlySubsetIsAllowed(Type type, ResolveOpenApiSchema schema)

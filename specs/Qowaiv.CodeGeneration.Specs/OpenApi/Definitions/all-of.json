@@ -14,6 +14,11 @@
             "type": "integer",
             "format": "int64",
             "example": 1
+          },
+          "number": {
+            "type": "number",
+            "format":  "double",
+            "example": 3.14159265359
           }
         }
       },

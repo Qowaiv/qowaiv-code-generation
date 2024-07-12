@@ -15,7 +15,7 @@ public partial class OpenApiTypeResolver(
     private readonly OpenApiTypeResolverSettings Settings = settings ?? new OpenApiTypeResolverSettings();
 
     /// <remarks>
-    /// Types that are null-able by design will not be transformed to 
+    /// Types that are null-able by design will not be transformed to
     /// <see cref="Nullable{T}"/>'s when optional.
     /// </remarks>
     [Pure]
@@ -27,7 +27,10 @@ public partial class OpenApiTypeResolver(
     private static bool HasNoneOrEmptyField(Type type)
         => Array.Exists(
             array: type.GetFields(BindingFlags.Static | BindingFlags.Public),
-            match: f => f.FieldType == type && (f.Name == "Empty" || f.Name == "None"));
+            match: f => f.FieldType == type && (f.Name == "Empty" || f.Name == "None"))
+        || Array.Exists(
+            array: type.GetProperties(BindingFlags.Static | BindingFlags.Public),
+            match: p => p.PropertyType == type && (p.Name == "Empty" || p.Name == "None"));
 
     [Pure]
     protected virtual EnumerationField ResolveEnumField(OpenApiString @enum, Enumeration type)

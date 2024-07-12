@@ -1,4 +1,5 @@
 ﻿using Qowaiv.CodeGeneration.Syntax;
+using Qowaiv.Reflection;
 using System.IO;
 
 namespace Qowaiv.CodeGeneration;
@@ -83,7 +84,8 @@ public sealed class CSharpWriter
     public CSharpWriter Write(Type type, bool attribute)
     {
         Guard.NotNull(type);
-        var name = type.ToCSharpString(withNamespace: !Settings.GlobalUsings.Contains(type.Namespace!));
+        var withoutNamespace = Settings.GlobalUsings.Contains(QowaivType.GetNotNullableType(type).Namespace!);
+        var name = type.ToCSharpString(!withoutNamespace);
         return attribute && name.EndsWith("Attribute")
             ? Write(name[..^9])
             : Write(name);

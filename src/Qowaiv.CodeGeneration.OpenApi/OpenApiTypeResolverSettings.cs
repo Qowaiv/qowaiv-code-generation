@@ -21,7 +21,7 @@ public class OpenApiTypeResolverSettings
     /// <summary>Property required type (default is <see cref="RequiredTypes.IsRequired"/>).</summary>
     public RequiredTypes RequiredType { get; init; } = RequiredTypes.IsRequired;
 
-    /// <summary>Indicates that all properties that hare value types should be nullable (default is false).</summary>
+    /// <summary>Indicates that all properties that are value types should be nullable (default is false).</summary>
     /// <remarks>
     /// Value types like <see cref="Guid"/> and <see cref="EmailAddress"/> that
     /// nullable by design are excluded from this setting.

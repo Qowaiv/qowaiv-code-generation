@@ -116,7 +116,6 @@ public partial class OpenApiTypeResolver
     [Pure]
     private Type? ResolveNumber(ResolveOpenApiSchema schema) => NormalizeFormat(schema.Format) switch
     {
-        "DOUBLE" => typeof(double),
         "INT16" => typeof(short),
         "INT32" => typeof(int),
         "INT64" => typeof(long),

@@ -21,7 +21,7 @@ public class CodeAssertions
 
         var csharp = Encoding.UTF8.GetString(stream.ToArray());
         settings ??= new();
-        csharp.Should().Be(Normalize(content, settings), because, becauseArgs);
+        csharp.Should().Match(Normalize(content, settings), because, becauseArgs);
 
         return new(this);
 

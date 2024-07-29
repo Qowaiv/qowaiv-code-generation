@@ -108,11 +108,55 @@ public sealed class OpenApiCode : IReadOnlyCollection<Code>
     /// <param name="resolver">
     /// The resolver to interpreter the <see cref="OpenApiDocument"/>.
     /// </param>
+    /// <param name="readerOptions">
+    /// The options used for reading.
+    /// </param>
     [Pure]
-    public static Result<OpenApiCode> Resolve(FileInfo documentLocation, OpenApiTypeResolver resolver)
+    public static Result<OpenApiCode> Resolve(FileInfo documentLocation, OpenApiTypeResolver resolver, OpenApiReaderOptions? readerOptions)
     {
         using var stream = Guard.Exists(documentLocation).OpenRead();
-        return Resolve(stream, resolver);
+        return Resolve(stream, resolver, readerOptions);
+    }
+
+    /// <summary>Resolves the code defined in the <see cref="OpenApiDocument"/>.</summary>
+    /// <param name="documentLocation">
+    /// The file location representing an <see cref="OpenApiDocument"/>.
+    /// </param>
+    /// <param name="resolver">
+    /// The resolver to interpreter the <see cref="OpenApiDocument"/>.
+    /// </param>
+    [Pure]
+    public static Result<OpenApiCode> Resolve(FileInfo documentLocation, OpenApiTypeResolver resolver)
+        => Resolve(documentLocation, resolver, null);
+
+    /// <summary>Resolves the code defined in the <see cref="OpenApiDocument"/>.</summary>
+    /// <param name="documentStream">
+    /// The stream representing an <see cref="OpenApiDocument"/>.
+    /// </param>
+    /// <param name="resolver">
+    /// The resolver to interpreter the <see cref="OpenApiDocument"/>.
+    /// </param>
+    /// <param name="readerOptions">
+    /// The options used for reading.
+    /// </param>
+    [Pure]
+    public static Result<OpenApiCode> Resolve(Stream documentStream, OpenApiTypeResolver resolver, OpenApiReaderOptions? readerOptions)
+    {
+        readerOptions ??= new();
+        var reader = new OpenApiStreamReader();
+        var document = reader.Read(documentStream, out var diagnostic);
+
+        return Result.For(Empty, Messages(diagnostic))
+            .Act(_ => Result.For(Resolve(document, resolver)));
+
+        IEnumerable<IValidationMessage> Messages(OpenApiDiagnostic diagnostic)
+            => diagnostic.Errors
+                .Select(e => readerOptions.IgnoreErrors
+                           ? ValidationMessage.Warn(e.Message, e.Pointer)
+                           : ValidationMessage.Error(e.Message, e.Pointer))
+                .Concat(diagnostic.Warnings
+                    .Where(e => e.Message != "Data and type mismatch found.")
+                    .Select(e => ValidationMessage.Warn(e.Message, e.Pointer)));
     }
 
     /// <summary>Resolves the code defined in the <see cref="OpenApiDocument"/>.</summary>
@@ -124,20 +168,7 @@ public sealed class OpenApiCode : IReadOnlyCollection<Code>
     /// </param>
     [Pure]
     public static Result<OpenApiCode> Resolve(Stream documentStream, OpenApiTypeResolver resolver)
-    {
-        var reader = new OpenApiStreamReader();
-        var document = reader.Read(documentStream, out var diagnostic);
-
-        return Result.For(Empty, Messages(diagnostic))
-            .Act(_ => Result.For(Resolve(document, resolver)));
-
-        IEnumerable<IValidationMessage> Messages(OpenApiDiagnostic diagnostic)
-            => diagnostic.Errors
-                .Select(e => ValidationMessage.Error(e.Message, e.Pointer))
-                .Concat(diagnostic.Warnings
-                    .Where(e => e.Message != "Data and type mismatch found.")
-                    .Select(e => ValidationMessage.Warn(e.Message, e.Pointer)));
-    }
+        => Resolve(documentStream, resolver, null);
 
     /// <summary>Resolves the code defined in the <see cref="OpenApiDocument"/>.</summary>
     /// <param name="document">

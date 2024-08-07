@@ -25,6 +25,7 @@ public class Generation_of
     [TestCase("Uuid", typeof(Guid), "UUID", "Qowaiv", SvoFeatures.Default ^ SvoFeatures.IsUnknown)]
     [TestCase("WeekDate", typeof(Date), "week date", "Qowaiv", SvoFeatures.Continuous ^ SvoFeatures.Field ^ SvoFeatures.ISerializable)]
     [TestCase("Year", typeof(short), "year", "Qowaiv", SvoFeatures.Default)]
+    [TestCase("YearMonth", typeof(int), "year-month", "Qowaiv", SvoFeatures.Continuous)]
     [TestCase("YesNo", typeof(byte), "yes-no", "Qowaiv", SvoFeatures.Default)]
 
     [TestCase("Amount", typeof(decimal), "amount", "Qowaiv.Financial", SvoFeatures.Continuous, "QowaivMessages.FormatExceptionFinancialAmount")]
@@ -54,7 +55,13 @@ public class Generation_of
         ^ SvoFeatures.Field)]
 
     [TestCase("InternetMediaType", typeof(string), "Internet media type", "Qowaiv.Web", SvoFeatures.All)]
-    public void Qowaiv(string name, Type underlying, string fullName, string ns, SvoFeatures features, string? formatExceptionMessage = null)
+    public void Qowaiv(
+        string name,
+        Type underlying,
+        string fullName,
+        string ns,
+        SvoFeatures features,
+        string? formatExceptionMessage = null)
     {
         var sub = ns.Replace("Qowaiv", "").Replace(".", @"\");
         var path = $@"{Root}\src\Qowaiv\Generated\{sub}\{name}.generated.cs".Replace(@"\\", @"\");

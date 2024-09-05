@@ -6,6 +6,7 @@
     <NuGetAudit>true</NuGetAudit>
     <Nullable>enable</Nullable>
     <OutputType>library</OutputType>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 
   <PropertyGroup Label="Diagnostics">

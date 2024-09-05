@@ -30,7 +30,7 @@ public sealed class OpenApiCode : IReadOnlyCollection<Code>
             .OfType<TypeBase>()
             .Where(t => predicate(t))
             .IncludeUsings()
-            .Cast<Code>()
+            .OfType<Code>()
             .ToArray());
 
     /// <summary>Saves the code.</summary>
@@ -182,7 +182,6 @@ public sealed class OpenApiCode : IReadOnlyCollection<Code>
     {
         Guard.NotNull(document);
         Guard.NotNull(resolver);
-
         return new OpenApiCode(resolver.Walk(document)).Filter(_ => true);
     }
 }

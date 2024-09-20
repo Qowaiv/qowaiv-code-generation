@@ -227,8 +227,8 @@ public partial class OpenApiTypeResolver
     [Pure]
     private Type? ResolveAllOf(ResolveOpenApiSchema schema)
     {
-        var bases = schema.AllOf.Where(b => b.Reference is { }).ToArray();
-        var inherit = schema.AllOf.Where(b => b.Reference is null).ToArray();
+        var bases = schema.AllOf.Where(x => x.Reference is { }).ToArray();
+        var inherit = schema.AllOf.Where(x => x.Reference is null && x.Properties.Any()).ToArray();
 
         if (bases.Length == 1)
         {
@@ -246,9 +246,7 @@ public partial class OpenApiTypeResolver
             }
         }
 
-        if (inherit.Sum(i => i.Properties.Count()) == 0
-            && ResolveObject(schema) is Class @class
-            && Properties(@class) is { } properties)
+        if (ResolveObject(schema) is Class @class && Properties(@class) is { } properties)
         {
             foreach (var @base in bases.Select(Resolve).OfType<Class>())
             {

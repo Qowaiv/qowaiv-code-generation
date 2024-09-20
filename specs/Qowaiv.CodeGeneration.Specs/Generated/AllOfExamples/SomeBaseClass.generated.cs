@@ -20,6 +20,5 @@ public partial record SomeBaseClass
 
     [System.Text.Json.Serialization.JsonPropertyName("number")]
     [Qowaiv.Validation.DataAnnotations.Optional]
-    [Qowaiv.Validation.DataAnnotations.IsFinite]
-    public double Number { get; init; }
+    public decimal Number { get; init; }
 }

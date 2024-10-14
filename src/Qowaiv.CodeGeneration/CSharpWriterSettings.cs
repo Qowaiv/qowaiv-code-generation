@@ -1,9 +1,10 @@
 ﻿namespace Qowaiv.CodeGeneration;
 
+/// <summary>Settings for writing C# code.</summary>
 public sealed record CSharpWriterSettings
 {
     /// <summary>Available (global) namespace usings.</summary>
-    public IReadOnlyCollection<Namespace> GlobalUsings { get; init; } = Array.Empty<Namespace>();
+    public IReadOnlyCollection<Namespace> GlobalUsings { get; init; } = [];
 
     /// <summary>New line character(s).</summary>
     public string NewLine { get; init; } = "\r\n";
@@ -11,6 +12,9 @@ public sealed record CSharpWriterSettings
     /// <summary>Indentation character(s).</summary>
     public string Indentation { get; init; } = "    ";
 
-    /// <summary>File encoding.</summary>
-    public Encoding Encoding { get; init; } = new UTF8Encoding(true);
+    /// <summary>Generates the required modifier for required properties.</summary>
+    public bool UseRequiredModifier { get; init; } = true;
+
+    /// <summary>File encoding (UTF-8 without BOM).</summary>
+    public Encoding Encoding { get; init; } = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
 }

@@ -19,9 +19,9 @@ public sealed partial record ApiResponse
 
     [System.Text.Json.Serialization.JsonPropertyName("type")]
     [System.ComponentModel.DataAnnotations.Required]
-    public string? Type { get; init; }
+    public required string Type { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("message")]
     [System.ComponentModel.DataAnnotations.Required]
-    public string? Message { get; init; }
+    public required string Message { get; init; }
 }

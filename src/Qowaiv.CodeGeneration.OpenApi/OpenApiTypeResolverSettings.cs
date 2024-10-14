@@ -3,6 +3,7 @@ using Qowaiv.Diagnostics.Contracts;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
 
+/// <summary>Settings to specify how to resolve types.</summary>
 [Inheritable]
 public class OpenApiTypeResolverSettings
 {
@@ -27,4 +28,7 @@ public class OpenApiTypeResolverSettings
     /// nullable by design are excluded from this setting.
     /// </remarks>
     public bool NullableValueTypes { get; init; }
+
+    /// <summary>Indicates that required types are generated with nullability (?) indicator.</summary>
+    public bool NullableRequiredTypes { get; init; }
 }

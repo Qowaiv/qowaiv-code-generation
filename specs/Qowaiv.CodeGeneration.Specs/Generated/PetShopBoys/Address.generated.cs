@@ -15,15 +15,15 @@ public sealed partial record Address
 {
     [System.Text.Json.Serialization.JsonPropertyName("street")]
     [System.ComponentModel.DataAnnotations.Required]
-    public string? Street { get; init; }
+    public required string Street { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("city")]
     [System.ComponentModel.DataAnnotations.Required]
-    public string? City { get; init; }
+    public required string City { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("state")]
     [System.ComponentModel.DataAnnotations.Required]
-    public string? State { get; init; }
+    public required string State { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("zip")]
     [Qowaiv.Validation.DataAnnotations.Optional]

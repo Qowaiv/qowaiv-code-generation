@@ -8,9 +8,11 @@ namespace Qowaiv.CodeGeneration;
 public sealed class CSharpWriter
 {
     /// <summary>UTF-8 BOM.</summary>
-    public static readonly Encoding Encoding = new UTF8Encoding(true);
+    public static readonly Encoding Encoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
 
-    private readonly CSharpWriterSettings Settings;
+    /// <summary>The C# writer settings.</summary>
+    public CSharpWriterSettings Settings { get; }
+
     private readonly TextWriter Writer;
     private int Indentation;
 

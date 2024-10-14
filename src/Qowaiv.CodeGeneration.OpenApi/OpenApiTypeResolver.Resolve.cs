@@ -40,6 +40,11 @@ public partial class OpenApiTypeResolver
             {
                 Summary = schema.Description,
             };
+
+            var isRequired = IsRequired(schema, propertyType);
+
+            nullable &= Settings.NullableRequiredTypes || !isRequired;
+
             var prop = new Property(
                 PropertyName(schema),
                 propertyType,
@@ -48,7 +53,7 @@ public partial class OpenApiTypeResolver
                 attributes,
                 documentation,
                 nullable,
-                IsRequired(schema, propertyType));
+                isRequired);
 
             attributes.AddRange(DecorateProperty(prop, schema));
             return prop;

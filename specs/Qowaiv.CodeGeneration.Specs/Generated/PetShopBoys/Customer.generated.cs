@@ -19,9 +19,9 @@ public sealed partial record Customer
 
     [System.Text.Json.Serialization.JsonPropertyName("username")]
     [System.ComponentModel.DataAnnotations.Required]
-    public string? Username { get; init; }
+    public required string Username { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("address")]
     [Qowaiv.Validation.DataAnnotations.Any]
-    public PetShopBoys.Address[] Address { get; init; } = System.Array.Empty<PetShopBoys.Address>();
+    public required PetShopBoys.Address[] Address { get; init; } = System.Array.Empty<PetShopBoys.Address>();
 }

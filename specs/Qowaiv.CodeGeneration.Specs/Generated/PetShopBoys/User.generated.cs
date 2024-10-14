@@ -19,15 +19,15 @@ public sealed partial record User
 
     [System.Text.Json.Serialization.JsonPropertyName("username")]
     [System.ComponentModel.DataAnnotations.Required]
-    public string? Username { get; init; }
+    public required string Username { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("firstName")]
     [System.ComponentModel.DataAnnotations.Required]
-    public string? FirstName { get; init; }
+    public required string FirstName { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("lastName")]
     [System.ComponentModel.DataAnnotations.Required]
-    public string? LastName { get; init; }
+    public required string LastName { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("email")]
     [Qowaiv.Validation.DataAnnotations.Optional]
@@ -35,11 +35,11 @@ public sealed partial record User
 
     [System.Text.Json.Serialization.JsonPropertyName("password")]
     [System.ComponentModel.DataAnnotations.Required]
-    public string? Password { get; init; }
+    public required string Password { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("phone")]
     [System.ComponentModel.DataAnnotations.Required]
-    public string? Phone { get; init; }
+    public required string Phone { get; init; }
 
     /// <summary>User Status</summary>
     [System.Text.Json.Serialization.JsonPropertyName("userStatus")]

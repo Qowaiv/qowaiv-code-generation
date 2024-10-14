@@ -19,19 +19,19 @@ public sealed partial record Pet
 
     [System.Text.Json.Serialization.JsonPropertyName("name")]
     [System.ComponentModel.DataAnnotations.Required]
-    public string? Name { get; init; }
+    public required string Name { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("category")]
     [System.ComponentModel.DataAnnotations.Required]
-    public PetShopBoys.Category? Category { get; init; }
+    public required PetShopBoys.Category Category { get; init; }
 
     [System.Text.Json.Serialization.JsonPropertyName("photoUrls")]
     [Qowaiv.Validation.DataAnnotations.Any]
-    public string[] PhotoUrls { get; init; } = System.Array.Empty<string>();
+    public required string[] PhotoUrls { get; init; } = System.Array.Empty<string>();
 
     [System.Text.Json.Serialization.JsonPropertyName("tags")]
     [Qowaiv.Validation.DataAnnotations.Any]
-    public PetShopBoys.Tag[] Tags { get; init; } = System.Array.Empty<PetShopBoys.Tag>();
+    public required PetShopBoys.Tag[] Tags { get; init; } = System.Array.Empty<PetShopBoys.Tag>();
 
     /// <summary>pet status in the store</summary>
     [System.Text.Json.Serialization.JsonPropertyName("status")]

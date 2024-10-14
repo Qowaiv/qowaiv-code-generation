@@ -19,5 +19,5 @@ public sealed partial record Tag
 
     [System.Text.Json.Serialization.JsonPropertyName("name")]
     [System.ComponentModel.DataAnnotations.Required]
-    public string? Name { get; init; }
+    public required string Name { get; init; }
 }

@@ -14,6 +14,10 @@ public partial class OpenApiTypeResolver(
     /// <summary>The resolver settings to apply.</summary>
     private readonly OpenApiTypeResolverSettings Settings = settings ?? new OpenApiTypeResolverSettings();
 
+    /// <summary>
+    /// Returns true for <see cref="Nullable{T}"/> and value types with a None
+    /// or Empty field.
+    /// </summary>
     /// <remarks>
     /// Types that are null-able by design will not be transformed to
     /// <see cref="Nullable{T}"/>'s when optional.

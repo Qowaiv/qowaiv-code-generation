@@ -4,7 +4,8 @@ namespace Qowaiv.CodeGeneration.OpenApi;
 
 public partial class OpenApiTypeResolver
 {
-    private readonly Dictionary<string, Type?> resolved = new();
+    private readonly Dictionary<string, Type?> resolved = [];
+    private readonly Dictionary<TypeName, TypeInfo> infos = [];
 
     [Pure]
     public IReadOnlyCollection<Code> Walk(OpenApiDocument document)

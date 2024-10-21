@@ -56,4 +56,18 @@ public record TypeInfo
 
     /// <summary>The (optional) documentation.</summary>
     public XmlDocumentation? Documentation { get; init; }
+
+    /// <summary>The type attributes.</summary>
+    public TypeAttributes TypeAttributes
+    {
+        get
+        {
+            TypeAttributes attributes = default;
+            attributes |= Visibility == CodeVisibility.Public ? TypeAttributes.Public : default;
+            attributes |= IsSealed && !DerivedTypes.Any() ? TypeAttributes.Sealed : default;
+            attributes |= IsAbstract ? TypeAttributes.Abstract : default;
+            attributes |= IsStatic ? (TypeAttributes.Sealed | TypeAttributes.Abstract) : default;
+            return attributes;
+        }
+    }
 }

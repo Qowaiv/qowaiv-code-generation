@@ -1,4 +1,5 @@
 ﻿using Microsoft.OpenApi.Any;
+using Qowaiv.CodeGeneration.OpenApi.Collections;
 using Qowaiv.CodeGeneration.Syntax;
 using System.Reflection;
 
@@ -141,10 +142,6 @@ public partial class OpenApiTypeResolver
     [Pure]
     private Type? ResolveObject(ResolveOpenApiSchema schema)
     {
-        var properties = new List<Property>();
-        var derivedTypes = new List<Type>();
-        var attributes = new List<AttributeInfo>();
-
         var baseType = schema.AllOf.Count() == 1
             ? ResolveObject(schema.AllOf.First())
             : schema.Base;
@@ -155,12 +152,14 @@ public partial class OpenApiTypeResolver
             TypeName = ResolveName(schema, ResolveTypeName.Object)!,
             IsSealed = Settings.Sealed,
             IsPartial = Settings.Partial,
-            Properties = properties,
-            DerivedTypes = derivedTypes,
-            Attributes = attributes,
+            Properties = Empty.List<PropertyInfo>(),
+            DerivedTypes = Empty.List<Type>(),
+            Attributes = Empty.List<AttributeInfo>(),
             Visibility = ResolveVisibility(schema),
             Documentation = new XmlDocumentation() { Summary = schema.Description },
         };
+
+        infos[info.TypeName] = info;
 
         Class classType = Settings.ModelType == ModelType.Record
             ? new Record(info)
@@ -168,13 +167,13 @@ public partial class OpenApiTypeResolver
 
         schema = schema.WithModel(classType);
 
-        properties.AddRange(schema.Properties.Select(p => ResolveProperty(p, schema.Required)).OfType<Property>());
+        info.AddProperties(schema.Properties.Select(p => ResolveProperty(p, schema.Required)).OfType<Property>());
 
         if (schema.AllOf.Count() > 1)
         {
             foreach (var reference in schema.AllOf)
             {
-                properties.AddRange(reference.Properties
+                info.AddProperties(reference.Properties
                     .Select(prop => ResolveProperty(prop, reference.Required))
                     .OfType<Property>());
             }
@@ -187,11 +186,11 @@ public partial class OpenApiTypeResolver
             var derived = Resolve(oneOfSchema);
             if (derived is { })
             {
-                derivedTypes.Add(derived);
+                info.AddDerivedType(derived);
             }
         }
 
-        attributes.AddRange(DecorateModel(classType, schema));
+        info.AddAttributes(DecorateModel(classType, schema));
 
         return classType;
     }
@@ -246,11 +245,11 @@ public partial class OpenApiTypeResolver
             }
         }
 
-        if (ResolveObject(schema) is Class @class && Properties(@class) is { } properties)
+        if (ResolveObject(schema) is Class @class && infos[@class.TypeName] is { } info)
         {
             foreach (var @base in bases.Select(Resolve).OfType<Class>())
             {
-                properties.AddRange(Properties(@base) ?? []);
+                info.AddProperties(infos[@base.TypeName].Properties!);
             }
             return @class;
         }
@@ -272,10 +271,6 @@ public partial class OpenApiTypeResolver
                 }
             }
         }
-
-        List<Property>? Properties(Class @class) => typeof(Class)
-            .GetField(nameof(Properties), (BindingFlags)36)?
-            .GetValue(@class) as List<Property>;
     }
 
     /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.None"/>.</summary>

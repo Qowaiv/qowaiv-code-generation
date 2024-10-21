@@ -20,9 +20,9 @@ public class Class : TypeBase, Code
 
         writer.Write(new NamespaceDeclaration(NameSpace)).Line();
 
-        Documentation?.WriteTo(writer);
+        Info.Documentation?.WriteTo(writer);
 
-        foreach (var attr in AttributeInfos) writer.Write(attr);
+        foreach (var attr in Info.Attributes) writer.Write(attr);
 
         writer.Indent().Write(Visibility).Write(' ');
         if (IsAbstract) writer.Write("abstract ");
@@ -34,7 +34,7 @@ public class Class : TypeBase, Code
         using (writer.Line().CodeBlock())
         {
             writer.Write(
-                writes: Properties.OfType<Code>().Select(WriteProperty),
+                writes: Info.Properties.OfType<Code>().Select(WriteProperty),
                 split: writer => writer.Line());
         }
 

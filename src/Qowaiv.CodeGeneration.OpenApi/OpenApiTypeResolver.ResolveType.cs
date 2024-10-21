@@ -55,7 +55,7 @@ public partial class OpenApiTypeResolver
 
         if (!EnumerationFields.TryGetValue(nameType, out var fields))
         {
-            fields = new List<EnumerationField>();
+            fields = [];
             EnumerationFields[nameType] = fields;
         }
 

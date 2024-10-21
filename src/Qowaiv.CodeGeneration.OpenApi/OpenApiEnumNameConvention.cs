@@ -9,7 +9,11 @@ public class OpenApiEnumNameConvention : CodeNameConvention
     public override string Name => "Open API enum name";
 
     /// <summary>Splitters used to seperates parts of a name.</summary>
-    protected virtual IReadOnlyCollection<char> Splitters { get; } = [' ', '-', '_', '\t', '\r', '\n', '.', '!', ',', ';', '#', (char)160];
+    protected virtual IReadOnlyCollection<char> Splitters { get; } =
+    [
+        ' ', (char)160, '\t', '\r', '\n',
+        '-', '_', '.', '!', ',', ';', '#', '/', '\\',
+    ];
 
     /// <inheritdoc />
     [Pure]

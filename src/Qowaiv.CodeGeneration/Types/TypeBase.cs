@@ -41,14 +41,14 @@ public abstract class TypeBase : Type
         Guard.NotNull(info);
         TypeName = Guard.NotNull(info.TypeName);
         BaseType = info.BaseType ?? typeof(object);
-        AttributeInfos = info.Attributes ?? Array.Empty<AttributeInfo>();
-        Constructors = info.Constructors ?? Array.Empty<ConstructorInfo>();
-        Events = info.Events ?? Array.Empty<EventInfo>();
-        Fields = info.Fields ?? Array.Empty<FieldInfo>();
-        Methods = info.Methods ?? Array.Empty<MethodInfo>();
-        Properties = info.Properties ?? Array.Empty<PropertyInfo>();
-        Interfaces = info.Interfaces ?? Array.Empty<Type>();
-        DerivedTypes = info.DerivedTypes ?? Array.Empty<Type>();
+        AttributeInfos = info.Attributes ?? [];
+        Constructors = info.Constructors ?? [];
+        Events = info.Events ?? [];
+        Fields = info.Fields ?? [];
+        Methods = info.Methods ?? [];
+        Properties = info.Properties ?? [];
+        Interfaces = info.Interfaces ?? [];
+        DerivedTypes = info.DerivedTypes ?? [];
         Documentation = info.Documentation;
         Visibility = info.Visibility;
 
@@ -126,7 +126,7 @@ public abstract class TypeBase : Type
     [Pure]
     public override object[] GetCustomAttributes(bool inherit)
         => AttributeInfos.Cast<object>()
-        .Concat(inherit ? BaseType.GetCustomAttributes(true) : Array.Empty<object>())
+        .Concat(inherit ? BaseType.GetCustomAttributes(true) : [])
         .ToArray();
 
     /// <inheritdoc />
@@ -168,7 +168,7 @@ public abstract class TypeBase : Type
 
     /// <inheritdoc />
     [Pure]
-    public override Type[] GetGenericArguments() => Array.Empty<Type>();
+    public override Type[] GetGenericArguments() => [];
 
     /// <inheritdoc />
     [Pure]
@@ -266,7 +266,7 @@ public abstract class TypeBase : Type
 
     /// <inheritdoc />
     [Pure]
-    public override Type[] GetNestedTypes(BindingFlags bindingAttr) => Array.Empty<Type>();
+    public override Type[] GetNestedTypes(BindingFlags bindingAttr) => [];
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private string DebuggerDisplay => this.ToCSharpString(withNamespace: true);

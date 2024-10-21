@@ -13,7 +13,7 @@ namespace Qowaiv.CodeGeneration.OpenApi;
 public sealed class OpenApiCode : IReadOnlyCollection<Code>
 {
     /// <summary>Represents an empty collection.</summary>
-    public static readonly OpenApiCode Empty = new(Array.Empty<Code>());
+    public static readonly OpenApiCode Empty = new([]);
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private readonly IReadOnlyCollection<Code> Code;

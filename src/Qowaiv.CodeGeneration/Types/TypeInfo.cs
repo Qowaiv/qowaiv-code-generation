@@ -31,28 +31,28 @@ public record TypeInfo
     public CodeVisibility Visibility { get; init; } = CodeVisibility.Public;
 
     /// <summary>Collection of <see cref="AttributeInfo"/>s.</summary>
-    public IReadOnlyCollection<AttributeInfo> Attributes { get; init; } = Array.Empty<AttributeInfo>();
+    public IReadOnlyCollection<AttributeInfo> Attributes { get; init; } = [];
 
     /// <summary>Collection of <see cref="ConstructorInfo"/>s.</summary>
-    public IReadOnlyCollection<ConstructorInfo> Constructors { get; init; } = Array.Empty<ConstructorInfo>();
+    public IReadOnlyCollection<ConstructorInfo> Constructors { get; init; } = [];
 
     /// <summary>Collection of <see cref="EventInfo"/>s.</summary>
-    public IReadOnlyCollection<EventInfo> Events { get; init; } = Array.Empty<EventInfo>();
+    public IReadOnlyCollection<EventInfo> Events { get; init; } = [];
 
     /// <summary>Collection of <see cref="FieldInfo"/>s.</summary>
-    public IReadOnlyCollection<FieldInfo> Fields { get; init; } = Array.Empty<FieldInfo>();
+    public IReadOnlyCollection<FieldInfo> Fields { get; init; } = [];
 
     /// <summary>Collection of interface <see cref="Type"/>s.</summary>
-    public IReadOnlyCollection<Type> Interfaces { get; init; } = Array.Empty<Type>();
+    public IReadOnlyCollection<Type> Interfaces { get; init; } = [];
 
     /// <summary>Collection of <see cref="MethodInfo"/>s.</summary>
-    public IReadOnlyCollection<MethodInfo> Methods { get; init; } = Array.Empty<MethodInfo>();
+    public IReadOnlyCollection<MethodInfo> Methods { get; init; } = [];
 
     /// <summary>Collection of <see cref="PropertyInfo"/>s.</summary>
-    public IReadOnlyCollection<PropertyInfo> Properties { get; init; } = Array.Empty<PropertyInfo>();
+    public IReadOnlyCollection<PropertyInfo> Properties { get; init; } = [];
 
     /// <summary>Collection of derived <see cref="Type"/>s.</summary>
-    public IReadOnlyCollection<Type> DerivedTypes { get; init; } = Array.Empty<Type>();
+    public IReadOnlyCollection<Type> DerivedTypes { get; init; } = [];
 
     /// <summary>The (optional) documentation.</summary>
     public XmlDocumentation? Documentation { get; init; }

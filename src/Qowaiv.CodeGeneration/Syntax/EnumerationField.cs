@@ -22,7 +22,7 @@ public class EnumerationField : FieldInfo, Code
         Name = Guard.NotNullOrEmpty(name);
         Value = value;
         FieldType = enumType;
-        AttributeInfos = attributes ?? Array.Empty<AttributeInfo>();
+        AttributeInfos = attributes ?? [];
         Documentation = documentation;
     }
 
@@ -69,11 +69,11 @@ public class EnumerationField : FieldInfo, Code
 
     /// <inheritdoc />
     [Pure]
-    public override object[] GetCustomAttributes(bool inherit) => Array.Empty<object>();
+    public override object[] GetCustomAttributes(bool inherit) => [];
 
     /// <inheritdoc />
     [Pure]
-    public override object[] GetCustomAttributes(Type attributeType, bool inherit) => Array.Empty<object>();
+    public override object[] GetCustomAttributes(Type attributeType, bool inherit) => [];
 
     /// <inheritdoc />
     [Pure]

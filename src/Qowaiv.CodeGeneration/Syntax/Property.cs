@@ -22,7 +22,7 @@ public partial class Property : PropertyInfo, Code
         PropertyType = Guard.NotNull(propertyType);
         DeclaringType = Guard.NotNull(declaringClass);
         PropertyAccess = Guard.DefinedEnum(access);
-        AttributeInfos = attributes ?? Array.Empty<AttributeInfo>();
+        AttributeInfos = attributes ?? [];
         Documentation = documentation ?? new XmlDocumentation();
         IsNullable = nullable;
         IsRequired = required;
@@ -81,15 +81,15 @@ public partial class Property : PropertyInfo, Code
 
     /// <inheritdoc />
     [Pure]
-    public override MethodInfo[] GetAccessors(bool nonPublic) => Array.Empty<MethodInfo>();
+    public override MethodInfo[] GetAccessors(bool nonPublic) => [];
 
     /// <inheritdoc />
     [Pure]
-    public override object[] GetCustomAttributes(bool inherit) => Array.Empty<object>();
+    public override object[] GetCustomAttributes(bool inherit) => [];
 
     /// <inheritdoc />
     [Pure]
-    public override ParameterInfo[] GetIndexParameters() => Array.Empty<ParameterInfo>();
+    public override ParameterInfo[] GetIndexParameters() => [];
 
     /// <inheritdoc />
     [Pure]

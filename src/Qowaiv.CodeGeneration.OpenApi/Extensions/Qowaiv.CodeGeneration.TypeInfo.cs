@@ -10,15 +10,23 @@ internal static class TypeInfoExtensions
         list.AddRange(attributes);
     }
 
-    public static void AddDerivedType(this TypeInfo info, Type type)
+    public static bool AddDerivedType(this TypeInfo info, Type type)
     {
         var list = (List<Type>)info.DerivedTypes;
-        list.Add(type);
+        if (!list.Exists(t => t.FullName == type.FullName))
+        {
+            list.Add(type);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public static void AddProperties(this TypeInfo info, IEnumerable<PropertyInfo> properties)
     {
         var list = (List<PropertyInfo>)info.Properties;
-        list.AddRange(properties);
+        list.AddRange(properties.Where(prop => !list.Exists(p => p.Name == prop.Name)));
     }
 }

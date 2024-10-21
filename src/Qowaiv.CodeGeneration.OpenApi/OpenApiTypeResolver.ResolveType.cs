@@ -146,20 +146,24 @@ public partial class OpenApiTypeResolver
             ? ResolveObject(schema.AllOf.First())
             : schema.Base;
 
-        var info = new TypeInfo
-        {
-            BaseType = baseType,
-            TypeName = ResolveName(schema, ResolveTypeName.Object)!,
-            IsSealed = Settings.Sealed,
-            IsPartial = Settings.Partial,
-            Properties = Empty.List<PropertyInfo>(),
-            DerivedTypes = Empty.List<Type>(),
-            Attributes = Empty.List<AttributeInfo>(),
-            Visibility = ResolveVisibility(schema),
-            Documentation = new XmlDocumentation() { Summary = schema.Description },
-        };
+        var typeName = ResolveName(schema, ResolveTypeName.Object)!;
 
-        infos[info.TypeName] = info;
+        if (!infos.TryGetValue(typeName, out var info))
+        {
+            info = new TypeInfo
+            {
+                BaseType = baseType,
+                TypeName = typeName,
+                IsSealed = Settings.Sealed,
+                IsPartial = Settings.Partial,
+                Properties = Empty.List<PropertyInfo>(),
+                DerivedTypes = Empty.List<Type>(),
+                Attributes = Empty.List<AttributeInfo>(),
+                Visibility = ResolveVisibility(schema),
+                Documentation = new XmlDocumentation() { Summary = schema.Description },
+            };
+            infos[info.TypeName] = info;
+        }
 
         Class classType = Settings.ModelType == ModelType.Record
             ? new Record(info)
@@ -191,6 +195,14 @@ public partial class OpenApiTypeResolver
         }
 
         info.AddAttributes(DecorateModel(classType, schema));
+
+        // Add derived type if it was not already done.
+        if (baseType is TypeBase @base 
+            && infos[@base.TypeName].AddDerivedType(classType)
+            && DecorateDerivedType(classType, schema) is { } attr)
+        {
+            infos[@base.TypeName].AddAttributes([attr]);
+        }
 
         return classType;
     }

@@ -1,0 +1,191 @@
+components:
+  schemas:
+    ArchivalParameters:
+      properties:
+        key:
+          enum:
+          - ARCHIVE_DOCUMENT_TYPE
+          - ARCHIVE_LABEL
+          - ARCHIVE_SERIAL_NUMBER
+          - ARCHIVE_SOURCE_NAME
+          - ARCHIVE_DATE
+          - DOCUMENT_TYPE
+          - DOCUMENT_SUB_TYPE
+          - ADD_TO_DOSSIER
+          - DOCUMENT_DOSSIER_REFERENCE
+          - ALTERNATE_DOCUMENT_TYPE
+          - SECURITY_CLASSIFIER
+          - RELATED_ENTITY
+          - SCOPE
+          type: string
+        value:
+          type: string
+      required:
+      - key
+      - value
+      type: object
+    BankMailAttributes:
+      properties:
+        communicationSubject:
+          maxLength: 256
+          minLength: 1
+          type: string
+      type: object
+    Channels:
+      properties:
+        channels:
+          items:
+            $ref: '#/components/schemas/ChannelsArray'
+          maxItems: 2
+          minItems: 0
+          type: array
+      type: object
+    ChannelsArray:
+      items:
+        enum:
+        - EMAIL
+        - CENTRAL_PRINT
+        - PUSH_NOTIFICATION
+        - LOCAL_PRINT
+        - BANKMAIL
+        - IN_CONTEXT
+        - IN_APP
+        - SMS
+        - FAX
+        - MESSAGE_CARDS
+        - POST_BOX
+        - DIGITAL_DOCUMENT_EXCHANGE
+        type: string
+      type: array
+    Distribution:
+      allOf:
+      - $ref: '#/components/schemas/Channels'
+      oneOf:
+      - $ref: '#/components/schemas/EmailAttributes'
+      - $ref: '#/components/schemas/BankMailAttributes'
+      type: object
+    DocumentEnclosures:
+      properties:
+        references:
+          items:
+            type: string
+          maxItems: 5
+          minItems: 1
+          type: array
+        source:
+          enum:
+          - SCRIPTURA_STORE
+          - EARCHIVE
+          - BASE
+          - DOCHUB6
+          - DAM
+          type: string
+      required:
+      - source
+      - references
+      type: object
+    DocumentGenerationRequest:
+      properties:
+        agreementId:
+          type: string
+        archivalInstructions:
+          items:
+            $ref: '#/components/schemas/ArchivalParameters'
+          maxItems: 20
+          minItems: 1
+          type: array
+        businessActivityId:
+          type: string
+        distribution:
+          $ref: '#/components/schemas/Distribution'
+        documentEnclosures:
+          items:
+            $ref: '#/components/schemas/DocumentEnclosures'
+          maxItems: 5
+          minItems: 1
+          type: array
+        documentGenerationCategory:
+          type: string
+        documentGenerationType:
+          type: string
+        documentTitle:
+          type: string
+        languageId:
+          enum:
+          - NL
+          - EN
+          type: string
+        partyId:
+          format: int64
+          type: integer
+      required:
+      - partyId
+      - partyAdministration
+      - businessActivityId
+      - documentGenerationCategory
+      - documentGenerationType
+      type: object
+    EmailAttributes:
+      properties:
+        blindCarbonCopyAddresses:
+          items:
+            type: string
+          maxItems: 5
+          minItems: 1
+          type: array
+        carbonCopyAddresses:
+          items:
+            type: string
+          maxItems: 5
+          minItems: 1
+          type: array
+        communicationSubject:
+          maxLength: 256
+          minLength: 1
+          type: string
+        emailAddress:
+          type: string
+        encloseDocuments:
+          items:
+            type: string
+          maxItems: 5
+          minItems: 1
+          type: array
+        senderEmailAddress:
+          type: string
+        senderLegalName:
+          type: string
+      type: object
+info:
+  title: Derived Types
+  version: 1.0
+openapi: 3.0.0
+paths:
+  /:
+    post:
+      operationId: generateDocument
+      parameters:
+      - in: header
+        name: Trace-Id
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: Consumer-Id
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentGenerationRequest'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Channels'
+      tags:
+      - generateDocument

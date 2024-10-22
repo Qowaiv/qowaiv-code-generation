@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration.OpenApi.Collections;
+namespace Qowaiv.CodeGeneration.OpenApi.Collections;
 
 internal static class Empty
 {

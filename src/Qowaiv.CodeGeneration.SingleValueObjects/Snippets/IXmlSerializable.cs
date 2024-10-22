@@ -1,4 +1,4 @@
-﻿public partial struct @TSvo : IXmlSerializable
+public partial struct @TSvo : IXmlSerializable
 {
     /// <summary>Gets the <see href="XmlSchema" /> to XML (de)serialize the @FullName.</summary>
     /// <remarks>

@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration.Syntax;
+namespace Qowaiv.CodeGeneration.Syntax;
 
 /// <summary>Represents a parse error.</summary>
 public sealed class ParseError : InvalidOperationException

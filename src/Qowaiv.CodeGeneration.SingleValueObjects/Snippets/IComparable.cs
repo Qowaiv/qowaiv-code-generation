@@ -1,4 +1,4 @@
-﻿public partial struct @TSvo : IComparable, IComparable<@TSvo>
+public partial struct @TSvo : IComparable, IComparable<@TSvo>
 #if !NotComparisonOperators // exec
 #if NET8_0_OR_GREATER
     , IComparisonOperators<@TSvo, @TSvo, bool>

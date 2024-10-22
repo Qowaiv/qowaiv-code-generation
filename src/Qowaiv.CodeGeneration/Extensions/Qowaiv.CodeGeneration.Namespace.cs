@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration;
+namespace Qowaiv.CodeGeneration;
 
 /// <summary>Extensions on <see cref="Namespace"/>.</summary>
 public static class NamespaceExtensions

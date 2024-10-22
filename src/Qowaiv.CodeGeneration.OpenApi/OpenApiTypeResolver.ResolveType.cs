@@ -1,4 +1,4 @@
-﻿using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Any;
 using Qowaiv.CodeGeneration.OpenApi.Collections;
 using Qowaiv.CodeGeneration.Syntax;
 using System.Reflection;

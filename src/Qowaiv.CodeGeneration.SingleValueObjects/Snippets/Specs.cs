@@ -1,4 +1,4 @@
-﻿namespace @TSvo_specs;
+namespace @TSvo_specs;
 
 public class With_domain_logic
 {

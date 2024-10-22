@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration;
+namespace Qowaiv.CodeGeneration;
 
 /// <summary>Represents an attribute decoration.</summary>
 public sealed partial class AttributeInfo : Code

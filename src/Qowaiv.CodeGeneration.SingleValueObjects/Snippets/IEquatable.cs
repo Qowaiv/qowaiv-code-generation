@@ -1,4 +1,4 @@
-﻿public partial struct @TSvo : IEquatable<@TSvo>
+public partial struct @TSvo : IEquatable<@TSvo>
 #if NET8_0_OR_GREATER
     , IEqualityOperators<@TSvo, @TSvo, bool>
 #endif

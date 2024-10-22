@@ -1,4 +1,4 @@
-﻿#if !NotUtf8 // exec
+#if !NotUtf8 // exec
 
 #if NET8_0_OR_GREATER
 public partial struct @TSvo

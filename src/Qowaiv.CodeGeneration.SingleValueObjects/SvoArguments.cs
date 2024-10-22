@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.SingleValueObjects;
+namespace Qowaiv.SingleValueObjects;
 
 public sealed record SvoArguments
 {

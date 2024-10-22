@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration.Syntax;
+namespace Qowaiv.CodeGeneration.Syntax;
 
 /// <summary>Extensions on <see cref="CodeSnippet"/>.</summary>
 public static class CodeSnippetExtensions

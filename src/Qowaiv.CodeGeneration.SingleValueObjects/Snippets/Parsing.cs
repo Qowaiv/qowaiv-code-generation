@@ -1,4 +1,4 @@
-﻿public partial struct @TSvo
+public partial struct @TSvo
 #if NET8_0_OR_GREATER
     : IParsable<@TSvo>
 #endif

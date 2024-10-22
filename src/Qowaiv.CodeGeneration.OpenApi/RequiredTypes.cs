@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration.OpenApi;
+namespace Qowaiv.CodeGeneration.OpenApi;
 
 /// <summary>
 /// How to determine if a property is required or not.

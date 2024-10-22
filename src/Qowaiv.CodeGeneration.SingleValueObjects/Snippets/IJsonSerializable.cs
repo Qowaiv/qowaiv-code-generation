@@ -1,4 +1,4 @@
-﻿public partial struct @TSvo
+public partial struct @TSvo
 {
     /// <summary>Creates the @FullName from a JSON string.</summary>
     /// <param name="json">

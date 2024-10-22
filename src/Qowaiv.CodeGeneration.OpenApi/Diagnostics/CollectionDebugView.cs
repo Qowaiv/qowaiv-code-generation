@@ -1,4 +1,4 @@
-﻿#pragma warning disable S2365 // Properties should not make collection or array copies
+#pragma warning disable S2365 // Properties should not make collection or array copies
 // but here, it is the only purpose of this debug view.
 
 namespace Qowaiv.CodeGeneration.OpenApi.Diagnostics;

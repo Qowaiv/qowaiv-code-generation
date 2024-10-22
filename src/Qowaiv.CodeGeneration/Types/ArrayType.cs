@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration;
+namespace Qowaiv.CodeGeneration;
 
 [DebuggerDisplay("Name = {Name} FullName = {FullName} ArrayRank = {ArrayRank}")]
 internal sealed class ArrayType(TypeBase type, int arrayRank)

@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration.Syntax;
+namespace Qowaiv.CodeGeneration.Syntax;
 
 /// <summary>The type of the model.</summary>
 public enum ModelType

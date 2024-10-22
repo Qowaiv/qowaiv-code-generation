@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.SingleValueObjects;
+namespace Qowaiv.SingleValueObjects;
 
 [Flags]
 public enum SvoFeatures

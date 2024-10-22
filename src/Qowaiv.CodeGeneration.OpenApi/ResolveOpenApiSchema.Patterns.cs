@@ -1,4 +1,4 @@
-﻿using Qowaiv.Text;
+using Qowaiv.Text;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
 

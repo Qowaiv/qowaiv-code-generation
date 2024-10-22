@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration;
+namespace Qowaiv.CodeGeneration;
 
 /// <summary>Represents the name of a piece of code (class, property, field, method, etc.).</summary>
 [DebuggerDisplay("{ToString()}, Covention = {Convention.Name}")]

@@ -1,4 +1,4 @@
-﻿public partial struct @TSvo
+public partial struct @TSvo
 {
 #if !NotCultureDependent // exec
     /// <summary>Returns true if the value represents a valid @FullName.</summary>

@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration;
+namespace Qowaiv.CodeGeneration;
 
 /// <summary>Represents the name of a type and its namespace.</summary>
 public sealed record TypeName

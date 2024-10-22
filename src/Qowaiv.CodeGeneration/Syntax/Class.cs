@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration.Syntax;
+namespace Qowaiv.CodeGeneration.Syntax;
 
 /// <summary>Represents a class.</summary>
 public class Class : TypeBase, Code

@@ -1,4 +1,4 @@
-﻿#if !NotISerializable // exec
+#if !NotISerializable // exec
 #if NET8_0_OR_GREATER
 #else
 public partial struct @TSvo : ISerializable

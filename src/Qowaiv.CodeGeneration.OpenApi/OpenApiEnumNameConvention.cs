@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration.OpenApi;
+namespace Qowaiv.CodeGeneration.OpenApi;
 
 /// <summary>Implements Open API specific name convention for enum values.</summary>
 public class OpenApiEnumNameConvention : CodeNameConvention

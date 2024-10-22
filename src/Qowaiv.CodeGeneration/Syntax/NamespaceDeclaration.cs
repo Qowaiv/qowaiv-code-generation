@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration.Syntax;
+namespace Qowaiv.CodeGeneration.Syntax;
 
 public sealed class NamespaceDeclaration : Code
 {

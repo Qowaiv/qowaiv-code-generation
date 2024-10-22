@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration;
+namespace Qowaiv.CodeGeneration;
 
 /// <summary>Settings for writing C# code.</summary>
 public sealed record CSharpWriterSettings

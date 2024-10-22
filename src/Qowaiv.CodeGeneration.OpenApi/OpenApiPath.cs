@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration.OpenApi;
+namespace Qowaiv.CodeGeneration.OpenApi;
 
 /// <summary>Represents an Open API path.</summary>
 public readonly struct OpenApiPath(string? path)

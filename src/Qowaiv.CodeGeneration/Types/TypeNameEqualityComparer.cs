@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration;
+namespace Qowaiv.CodeGeneration;
 
 public sealed class TypeNameEqualityComparer : IEqualityComparer<Type>
 {

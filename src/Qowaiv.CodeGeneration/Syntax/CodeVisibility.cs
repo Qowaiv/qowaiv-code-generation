@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration.Syntax;
+namespace Qowaiv.CodeGeneration.Syntax;
 
 /// <summary>Describes the code visibility.</summary>
 public enum CodeVisibility

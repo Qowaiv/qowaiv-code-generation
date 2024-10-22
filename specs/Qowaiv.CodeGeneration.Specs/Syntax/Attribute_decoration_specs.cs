@@ -1,4 +1,4 @@
-﻿using Qowaiv.CodeGeneration.Syntax;
+using Qowaiv.CodeGeneration.Syntax;
 
 namespace Syntax.Attribute_decoration_specs;
 

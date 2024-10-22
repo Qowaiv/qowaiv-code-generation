@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration.OpenApi;
+namespace Qowaiv.CodeGeneration.OpenApi;
 
 public enum ResolveTypeName
 {

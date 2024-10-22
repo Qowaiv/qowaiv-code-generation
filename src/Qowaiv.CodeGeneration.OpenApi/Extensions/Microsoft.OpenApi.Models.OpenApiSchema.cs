@@ -1,4 +1,4 @@
-﻿using Qowaiv.CodeGeneration.OpenApi;
+using Qowaiv.CodeGeneration.OpenApi;
 
 namespace Microsoft.OpenApi.Models;
 

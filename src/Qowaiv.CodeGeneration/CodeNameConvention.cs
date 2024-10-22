@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration;
+namespace Qowaiv.CodeGeneration;
 
 /// <summary>Convention on how to write a name describing code.</summary>
 public abstract class CodeNameConvention

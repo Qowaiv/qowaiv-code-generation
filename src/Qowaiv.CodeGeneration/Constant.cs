@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.CodeGeneration;
+namespace Qowaiv.CodeGeneration;
 
 /// <summary>Represents a constant.</summary>
 public readonly struct Constant(string name) : IEquatable<Constant>

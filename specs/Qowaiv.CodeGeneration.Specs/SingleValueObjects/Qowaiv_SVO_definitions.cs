@@ -1,4 +1,4 @@
-﻿using Qowaiv.IO;
+using Qowaiv.IO;
 using Qowaiv;
 using System.IO;
 using Qowaiv.SingleValueObjects;

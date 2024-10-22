@@ -1,4 +1,4 @@
-﻿namespace Syntax.Namespace_declaration_specs;
+namespace Syntax.Namespace_declaration_specs;
 
 public class Content
 {

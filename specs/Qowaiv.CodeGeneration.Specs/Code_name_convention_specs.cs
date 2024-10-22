@@ -1,4 +1,4 @@
-﻿namespace Code_name_convention_specs;
+namespace Code_name_convention_specs;
 
 public class Splits
 {

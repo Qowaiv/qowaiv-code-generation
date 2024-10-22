@@ -1,4 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Readers;
 using Qowaiv.CodeGeneration.IO;
 using Qowaiv.CodeGeneration.Syntax;

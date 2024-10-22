@@ -1,7 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="../../props/nopackage.props" />
-  
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
@@ -13,10 +11,6 @@
   <ItemGroup>
     <Compile Remove="Snippets/*.cs" />
     <EmbeddedResource Include="Snippets/*.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Qowaiv.Diagnostics.Contracts" Version="1.0.0" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

@@ -197,7 +197,7 @@ public partial class OpenApiTypeResolver
         info.AddAttributes(DecorateModel(classType, schema));
 
         // Add derived type if it was not already done.
-        if (baseType is TypeBase @base 
+        if (baseType is TypeBase @base
             && infos[@base.TypeName].AddDerivedType(classType)
             && DecorateDerivedType(classType, schema) is { } attr)
         {
@@ -222,10 +222,10 @@ public partial class OpenApiTypeResolver
 
             if (type is Class @class
                 && @class.GetDerivedTypes() is List<Type> derivedTypes
-                && @class.GetAttributeInfos() is List<AttributeInfo> infos)
+                && @class.GetAttributeInfos() is List<AttributeInfo> list)
             {
                 derivedTypes.AddRange(schema.OneOf.Select(Resolve).OfType<Type>());
-                infos.AddRange(derivedTypes.Select(d => DecorateDerivedType(d, schema)).OfType<AttributeInfo>());
+                list.AddRange(derivedTypes.Select(d => DecorateDerivedType(d, schema)).OfType<AttributeInfo>());
             }
             return type;
         }
@@ -273,13 +273,13 @@ public partial class OpenApiTypeResolver
         {
             if (@base is Class @class
                 && @class.GetDerivedTypes() is List<Type> derivedTypes
-                && @class.GetAttributeInfos() is List<AttributeInfo> infos
+                && @class.GetAttributeInfos() is List<AttributeInfo> list
                 && !derivedTypes.Exists(t => t.FullName == type.FullName))
             {
                 derivedTypes.Add(type);
                 if (DecorateDerivedType(type, schema) is { } attr)
                 {
-                    infos.Add(attr);
+                    list.Add(attr);
                 }
             }
         }

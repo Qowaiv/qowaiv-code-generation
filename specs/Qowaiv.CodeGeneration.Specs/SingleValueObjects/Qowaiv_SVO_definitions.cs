@@ -121,7 +121,7 @@ public class Generation_of
             => Write(location, arguments, SvoTemplate.JsonConverter);
 
         static void Write(
-            FileInfo location, 
+            FileInfo location,
             SvoArguments arguments,
             SvoTemplate template,
             bool @override = false)

@@ -1,13 +1,8 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.CodeGeneration", "src\Qowaiv.CodeGeneration\Qowaiv.CodeGeneration.csproj", "{D7B2D09E-B5AF-481F-953A-99C6E2A7BE84}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.CodeGeneration.Specs", "specs\Qowaiv.CodeGeneration.Specs\Qowaiv.CodeGeneration.Specs.csproj", "{10275478-1E52-4C16-97D2-AF143DAB5754}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.CodeGeneration.SingleValueObjects", "src\Qowaiv.CodeGeneration.SingleValueObjects\Qowaiv.CodeGeneration.SingleValueObjects.csproj", "{6EA317E7-ED85-48C3-A585-05980E16C2EA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "specs", "specs", "{9FC998BC-71B3-4298-9160-AD89C82A407D}"
 EndProject
@@ -16,7 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		analyzers-config.ini = analyzers-config.ini
 		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 	EndProjectSection
@@ -30,11 +28,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "props", "props", "{8C1F30B9-BC96-42D3-9592-0375F87F7F77}"
 	ProjectSection(SolutionItems) = preProject
-		props\common.props = props\common.props
-		props\nopackage.props = props\nopackage.props
 		props\package.props = props\package.props
 	EndProjectSection
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qowaiv.CodeGeneration.OpenApi", "src\Qowaiv.CodeGeneration.OpenApi\Qowaiv.CodeGeneration.OpenApi.csproj", "{A97B0E0B-57DD-4F96-A477-FE4DCEE2F8E8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.CodeGeneration.SingleValueObjects", "src\Qowaiv.CodeGeneration.SingleValueObjects\Qowaiv.CodeGeneration.SingleValueObjects.csproj", "{3BDA3E33-D253-4AAC-B829-83A609BCD8C4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.CodeGeneration.OpenApi", "src\Qowaiv.CodeGeneration.OpenApi\Qowaiv.CodeGeneration.OpenApi.csproj", "{D03677DA-8E62-4A39-AC2F-1DF6B46FADF6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.CodeGeneration.Specs", "specs\Qowaiv.CodeGeneration.Specs\Qowaiv.CodeGeneration.Specs.csproj", "{89545131-D1B1-4FAE-82B4-4854FB479595}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,27 +47,27 @@ Global
 		{D7B2D09E-B5AF-481F-953A-99C6E2A7BE84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7B2D09E-B5AF-481F-953A-99C6E2A7BE84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7B2D09E-B5AF-481F-953A-99C6E2A7BE84}.Release|Any CPU.Build.0 = Release|Any CPU
-		{10275478-1E52-4C16-97D2-AF143DAB5754}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10275478-1E52-4C16-97D2-AF143DAB5754}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{10275478-1E52-4C16-97D2-AF143DAB5754}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10275478-1E52-4C16-97D2-AF143DAB5754}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6EA317E7-ED85-48C3-A585-05980E16C2EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6EA317E7-ED85-48C3-A585-05980E16C2EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6EA317E7-ED85-48C3-A585-05980E16C2EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6EA317E7-ED85-48C3-A585-05980E16C2EA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A97B0E0B-57DD-4F96-A477-FE4DCEE2F8E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A97B0E0B-57DD-4F96-A477-FE4DCEE2F8E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A97B0E0B-57DD-4F96-A477-FE4DCEE2F8E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A97B0E0B-57DD-4F96-A477-FE4DCEE2F8E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BDA3E33-D253-4AAC-B829-83A609BCD8C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BDA3E33-D253-4AAC-B829-83A609BCD8C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BDA3E33-D253-4AAC-B829-83A609BCD8C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BDA3E33-D253-4AAC-B829-83A609BCD8C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D03677DA-8E62-4A39-AC2F-1DF6B46FADF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D03677DA-8E62-4A39-AC2F-1DF6B46FADF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D03677DA-8E62-4A39-AC2F-1DF6B46FADF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D03677DA-8E62-4A39-AC2F-1DF6B46FADF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89545131-D1B1-4FAE-82B4-4854FB479595}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89545131-D1B1-4FAE-82B4-4854FB479595}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89545131-D1B1-4FAE-82B4-4854FB479595}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89545131-D1B1-4FAE-82B4-4854FB479595}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{10275478-1E52-4C16-97D2-AF143DAB5754} = {9FC998BC-71B3-4298-9160-AD89C82A407D}
 		{8AF500FB-8B0B-4E40-B140-2E93FBDD0DCB} = {3881024E-D041-4197-A734-3664F103ABC4}
 		{F438C0C5-754D-4EB3-A310-B6A59F7076A6} = {8AF500FB-8B0B-4E40-B140-2E93FBDD0DCB}
 		{8C1F30B9-BC96-42D3-9592-0375F87F7F77} = {3881024E-D041-4197-A734-3664F103ABC4}
+		{89545131-D1B1-4FAE-82B4-4854FB479595} = {9FC998BC-71B3-4298-9160-AD89C82A407D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7B1E843-44FB-453A-93BF-09607421A182}

@@ -56,7 +56,7 @@ public abstract class CodeNameConvention
             .ToArray();
 
         [Pure]
-        private IEnumerable<string> SplitPart(string part)
+        private IEnumerable<string> SplitPart(string? part)
         {
             part ??= string.Empty;
             var i = 0;
@@ -115,7 +115,7 @@ public abstract class CodeNameConvention
 
         /// <inheritdoc />
         [Pure]
-        public override IReadOnlyCollection<string> Split(IEnumerable<string?> parts) 
+        public override IReadOnlyCollection<string> Split(IEnumerable<string?> parts)
             => Trim(parts.SelectMany(p => (p ?? string.Empty).Split('-')))
                 .Select(p => p.ToLowerInvariant())
                 .ToArray();

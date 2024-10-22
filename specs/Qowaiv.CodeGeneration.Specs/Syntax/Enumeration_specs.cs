@@ -48,12 +48,12 @@ public class Generates
     public void Content()
     {
         var fields = new List<EnumerationField>();
-        var enumeration = new Enumeration(new() 
+        var enumeration = new Enumeration(new()
         {
             TypeName = new("System", "TypeCode"),
             Fields = fields,
             Attributes = [new AttributeInfo(typeof(SerializableAttribute))],
-            Documentation = new() {  Summary = "Specifies the type of an object." },
+            Documentation = new() { Summary = "Specifies the type of an object." },
         });
         fields.AddRange([
             new EnumerationField(enumeration, "None", 0, [new AttributeInfo(typeof(XmlEnumAttribute), [null])]),

@@ -4,20 +4,21 @@ namespace FluentAssertions;
 
 public class CodeAssertions
 {
-    public CodeAssertions(Code subject) => Subject = Guard.NotNull(subject, nameof(subject));
+    public CodeAssertions(Code subject) => Subject = Guard.NotNull(subject);
 
     public Code Subject { get; }
 
     public AndConstraint<CodeAssertions> HaveContent(
         string content,
-        CSharpWriterSettings? settings = null, 
+        CSharpWriterSettings? settings = null,
         string because = "",
         params object[] becauseArgs)
     {
         using var stream = new MemoryStream();
-        var writer = new CSharpWriter(new StreamWriter(stream), settings);
-        Subject.WriteTo(writer);
-        writer.Flush();
+        using var writer = new StreamWriter(stream);
+        var cswriter = new CSharpWriter(writer, settings);
+        Subject.WriteTo(cswriter);
+        cswriter.Flush();
 
         var csharp = Encoding.UTF8.GetString(stream.ToArray());
         settings ??= new();

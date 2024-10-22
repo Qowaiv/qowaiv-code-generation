@@ -10,6 +10,7 @@ internal static class TypeInfoExtensions
         list.AddRange(attributes);
     }
 
+    [Diagnostics.Contracts.CollectionMutation]
     public static bool AddDerivedType(this TypeInfo info, Type type)
     {
         var list = (List<Type>)info.DerivedTypes;

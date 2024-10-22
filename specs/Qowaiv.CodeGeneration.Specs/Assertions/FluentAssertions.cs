@@ -1,5 +1,3 @@
-using Qowaiv.CodeGeneration;
-
 namespace FluentAssertions;
 
 public static class QowaivCodeGenerationrFluentAssertions

@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="../../props/nopackage.props" />
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <IsTestProject>true</IsTestProject>
+    <IsPackable>false</IsPackable>
     <RootNamespace>Specs</RootNamespace>
   </PropertyGroup>
 
@@ -12,22 +12,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="6.*" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
-    <PackageReference Include="NUnit" Version="4.*" />
-    <PackageReference Include="Qowaiv.Validation.TestTools" Version="0.*" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="Qowaiv.Validation.TestTools" />
   </ItemGroup>
 
-  <ItemGroup Label="Tools">
-    <PackageReference Include="coverlet.collector" Version="*" PrivateAssets="all" />
-    <PackageReference Include="NUnit3TestAdapter" Version="*" PrivateAssets="all" />
+  <ItemGroup Label="Build tools">
+    <PackageReference Include="coverlet.collector" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" PrivateAssets="all" />
+    <PackageReference Include="NUnit3TestAdapter" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup Label="Analyzers">
-    <PackageReference Include="FluentAssertions.Analyzers" Version="*" PrivateAssets="all" />
-    <PackageReference Include="NUnit.Analyzers" Version="*" PrivateAssets="all" />
+    <PackageReference Include="FluentAssertions.Analyzers" PrivateAssets="all" />
+    <PackageReference Include="NUnit.Analyzers" PrivateAssets="all" />
   </ItemGroup>
-
+ 
   <ItemGroup>
     <ProjectReference Include="../../src/Qowaiv.CodeGeneration/Qowaiv.CodeGeneration.csproj" />
     <ProjectReference Include="../../src/Qowaiv.CodeGeneration.OpenApi/Qowaiv.CodeGeneration.OpenApi.csproj" />

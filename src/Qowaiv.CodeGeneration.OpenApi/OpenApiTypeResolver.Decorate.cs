@@ -150,7 +150,7 @@ public partial class OpenApiTypeResolver
         }
         else return null;
 
-        static bool IsEnumWithOnlyOpenApiStrings(ResolveOpenApiSchema schema) 
+        static bool IsEnumWithOnlyOpenApiStrings(ResolveOpenApiSchema schema)
             => schema.Enum.Any() && schema.Enum.All(val => val is OpenApiString);
 
         static bool OnlySubsetIsAllowed(Type type, ResolveOpenApiSchema schema)

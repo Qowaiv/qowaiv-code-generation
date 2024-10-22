@@ -96,9 +96,7 @@ public abstract class TypeBase : Type
         .Where(a => (a is AttributeInfo d && d.AttributeType == attributeType) || a.GetType() == attributeType)
         .ToArray();
 
-    /// <summary>
-    /// Gets the <see cref="AttributeInfos"/> linked to the type.
-    /// </summary>
+    /// <summary>Gets the <see cref="AttributeInfo"/>'s linked to the type.</summary>
     [Pure]
     public IReadOnlyCollection<AttributeInfo> GetAttributeInfos() => Info.Attributes;
 

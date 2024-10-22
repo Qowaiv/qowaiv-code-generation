@@ -1,6 +1,5 @@
 using Qowaiv.CodeGeneration;
 using Qowaiv.CodeGeneration.Syntax;
-using System.IO;
 
 namespace Qowaiv.SingleValueObjects;
 
@@ -35,8 +34,8 @@ public sealed class SvoTemplate : Code
             .Replace("@TSvo", arguments.Name)
             .Replace("@FullName", arguments.FullName)
             .Replace("@Namespace", arguments.Namespace)
-            .Replace("@type_n", arguments.Underlying.IsValueType 
-                ? arguments.Underlying.ToCSharpString(false) 
+            .Replace("@type_n", arguments.Underlying.IsValueType
+                ? arguments.Underlying.ToCSharpString(false)
                 : arguments.Underlying.ToCSharpString(false) + "?")
             .Replace("@type", arguments.Underlying.ToCSharpString(false))
             .Replace("@FormatExceptionMessage", arguments.FormatExceptionMessage);
@@ -47,7 +46,7 @@ public sealed class SvoTemplate : Code
             {
                 (features & SvoFeatures.Structure) != default
                 ? "Structure"
-                : "NotStructure"
+                : "NotStructure",
             };
 
             foreach (var flag in Enum.GetValues<SvoFeatures>().Where(f => f != SvoFeatures.Structure))
@@ -65,6 +64,7 @@ public sealed class SvoTemplate : Code
         }
     }
 
+    [Pure]
     public static SvoTemplate GeneratedCode { get; } = new SvoTemplate(new[]
     {
         Embedded("Structure"),
@@ -75,16 +75,18 @@ public sealed class SvoTemplate : Code
         Embedded("IJsonSerializable"),
         Embedded("IXmlSerializable"),
         Embedded("Parsing"),
-        //Embedded("Validation"),
-        //Embedded("Utf8"),
     }.Concat());
 
+    [Pure]
     public static SvoTemplate Initial { get; } = new SvoTemplate(Embedded(nameof(Initial)));
-    
+
+    [Pure]
     public static SvoTemplate JsonConverter { get; } = new SvoTemplate(Embedded(nameof(JsonConverter)));
-    
+
+    [Pure]
     public static SvoTemplate Specs { get; } = new SvoTemplate(Embedded(nameof(Specs)));
 
+    [Pure]
     private static CodeSnippet Embedded(string name)
     {
         var path = $"Qowaiv.CodeGeneration.SingleValueObjects.Snippets.{name}.cs";

@@ -124,5 +124,4 @@ public readonly partial struct ResolveOpenApiSchema(
     => s.Reference is { } r
         ? new ResolveOpenApiSchema(new(r.ReferenceV3 ?? r.ReferenceV2), s, null)
         : With(s);
-
 }

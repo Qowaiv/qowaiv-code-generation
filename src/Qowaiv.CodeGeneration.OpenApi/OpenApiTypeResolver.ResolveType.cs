@@ -158,7 +158,7 @@ public partial class OpenApiTypeResolver
                 IsPartial = Settings.Partial,
                 Properties = Empty.List<PropertyInfo>(),
                 DerivedTypes = Empty.List<Type>(),
-                Attributes = Empty.List<AttributeInfo>(),
+                Attributes = Empty.HashSet<AttributeInfo>(),
                 Visibility = ResolveVisibility(schema),
                 Documentation = new XmlDocumentation() { Summary = schema.Description },
             };

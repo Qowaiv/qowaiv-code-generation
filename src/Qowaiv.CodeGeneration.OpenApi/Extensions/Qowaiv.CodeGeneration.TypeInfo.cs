@@ -1,3 +1,4 @@
+using Qowaiv.CodeGeneration.Syntax;
 using System.Reflection;
 
 namespace Qowaiv.CodeGeneration;
@@ -6,8 +7,11 @@ internal static class TypeInfoExtensions
 {
     public static void AddAttributes(this TypeInfo info, IEnumerable<AttributeInfo> attributes)
     {
-        var list = (List<AttributeInfo>)info.Attributes;
-        list.AddRange(attributes);
+        var hashset = (HashSet<AttributeInfo>)info.Attributes;
+        foreach (var attribute in attributes)
+        {
+            hashset.Add(attribute);
+        }
     }
 
     [Diagnostics.Contracts.CollectionMutation]

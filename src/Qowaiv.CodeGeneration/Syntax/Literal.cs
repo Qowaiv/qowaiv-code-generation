@@ -13,22 +13,25 @@ public sealed class Literal : Code
     public void WriteTo(CSharpWriter writer)
     {
         Guard.NotNull(writer);
-
-        if (Value is null) writer.Write("null");
-        else if (Value is Type type) writer.Write("typeof(").Write(type).Write(')');
-        else if (Value is bool logical) writer.Write(logical ? "true" : "false");
-        else if (Value is int int32) writer.Write(int32.ToString(CultureInfo.InvariantCulture));
-        else if (Value is double dbl) writer.Write(Double(dbl));
-        else if (Value is decimal dec) writer.Write(dec.ToString(CultureInfo.InvariantCulture)).Write('m');
-        else if (Value is string str) writer.Write(String(str));
-        else throw new NotSupportedException($"Literals of type {Value.GetType()} are not supported");
+        _ = Value switch
+        {
+            null /*.........*/ => writer.Write("null"),
+            Type type /*....*/ => writer.Write("typeof(").Write(type).Write(')'),
+            bool boolean /*.*/ => writer.Write(boolean ? "true" : "false"),
+            int int32 /*....*/ => writer.Write(int32.ToString(CultureInfo.InvariantCulture)),
+            double dbl /*...*/ => writer.Write(Double(dbl)),
+            decimal dec /*..*/ => writer.Write(dec.ToString(CultureInfo.InvariantCulture)).Write('m'),
+            string str /*...*/ => writer.Write(String(str)),
+            Enum @enum /*...*/ => writer.Write(@enum.GetType()).Write('.').Write(@enum.ToString()),
+            _ => throw new NotSupportedException($"Literals of type {Value.GetType()} are not supported"),
+        };
     }
 
     [Pure]
     private static string Double(double dbl)
     {
-        if (dbl == double.MinValue) return "double.MinValue";
-        else if (dbl == double.MaxValue) return "double.MaxValue";
+        if (dbl <= double.MinValue) return "double.MinValue";
+        else if (dbl >= double.MaxValue) return "double.MaxValue";
         else if (double.IsNaN(dbl)) return "double.NaN";
         else if (double.IsPositiveInfinity(dbl)) return "double.PositiveInfinity";
         else if (double.IsNegativeInfinity(dbl)) return "double.NegativeInfinity";

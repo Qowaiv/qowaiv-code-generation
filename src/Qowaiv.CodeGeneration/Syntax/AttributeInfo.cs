@@ -35,11 +35,11 @@ public sealed partial class AttributeInfo : Code, IEquatable<AttributeInfo>
         if (CtorArguments.Any() || PropertyValues.Any())
         {
             writer.Write('(');
-            writer.Write(CtorArguments.Select(a => CtorArgument(a)), writer => writer.Write(", "));
+            writer.Write(CtorArguments.Select(CtorArgument), writer => writer.Write(", "));
 
             if (CtorArguments.Any() && PropertyValues.Any()) writer.Write(", ");
 
-            writer.Write(PropertyValues.Select(a => PropertyValue(a)), writer => writer.Write(", "));
+            writer.Write(PropertyValues.Select(PropertyValue), writer => writer.Write(", "));
             writer.Write(')');
         }
 

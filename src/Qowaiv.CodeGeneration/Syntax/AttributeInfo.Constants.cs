@@ -73,6 +73,11 @@ public partial class AttributeInfo
     public static AttributeInfo System_Text_Json_Serialization_JsonDerivedTypeAttribute(Type type)
         => new(typeof(System.Text.Json.Serialization.JsonDerivedTypeAttribute), [type]);
 
+    /// <summary><see cref="System.Text.Json.Serialization.JsonDerivedTypeAttribute"/>.</summary>
+    [Pure]
+    public static AttributeInfo System_Text_Json_Serialization_JsonIgnoreAttribute(System.Text.Json.Serialization.JsonIgnoreCondition condition)
+        => new(typeof(System.Text.Json.Serialization.JsonIgnoreAttribute), null, Kvp(nameof(System.Text.Json.Serialization.JsonIgnoreAttribute.Condition), condition));
+
     /// <summary><see cref="System.Text.Json.Serialization.JsonPropertyNameAttribute"/>.</summary>
     [Pure]
     public static AttributeInfo System_Text_Json_Serialization_JsonPropertyName(string name)
@@ -81,5 +86,8 @@ public partial class AttributeInfo
     /// <summary><see cref="System.Runtime.Serialization.EnumMemberAttribute"/>.</summary>
     [Pure]
     public static AttributeInfo System_Runtime_Serialization_EnumMember(string? value)
-        => new(typeof(System.Runtime.Serialization.EnumMemberAttribute), null, KeyValuePair.Create("Value", (object?)value));
+        => new(typeof(System.Runtime.Serialization.EnumMemberAttribute), null, Kvp("Value", (object?)value));
+
+    [Pure]
+    private static KeyValuePair<string, object?> Kvp(string key, object? value) => new(key, value);
 }

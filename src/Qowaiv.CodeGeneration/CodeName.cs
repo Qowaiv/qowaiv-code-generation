@@ -1,7 +1,7 @@
 namespace Qowaiv.CodeGeneration;
 
 /// <summary>Represents the name of a piece of code (class, property, field, method, etc.).</summary>
-[DebuggerDisplay("{ToString()}, Covention = {Convention.Name}")]
+[DebuggerDisplay("{ToString()}, Convention = {Convention.Name}")]
 public readonly struct CodeName : IFormattable
 {
     private CodeName(IReadOnlyCollection<string> nameParts, CodeNameConvention nameConvention)

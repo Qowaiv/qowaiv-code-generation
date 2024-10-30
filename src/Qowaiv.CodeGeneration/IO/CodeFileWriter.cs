@@ -2,8 +2,10 @@ using System.IO;
 
 namespace Qowaiv.CodeGeneration.IO;
 
+/// <summary>Writes <see cref="Code"/> to file.</summary>
 public static class CodeFileWriter
 {
+    /// <summary>Saves the <see cref="Code"/> applying writer settings.</summary>
     public static void Save(this IEnumerable<Code> code, CodeFileWriterSettings codeFileSettings, CSharpWriterSettings? csharpSettings = null)
     {
         Guard.NotNull(code);

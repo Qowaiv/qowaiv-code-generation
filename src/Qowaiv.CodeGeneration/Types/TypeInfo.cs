@@ -1,5 +1,4 @@
 using Qowaiv.CodeGeneration.Syntax;
-using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
 namespace Qowaiv.CodeGeneration;
@@ -9,8 +8,7 @@ namespace Qowaiv.CodeGeneration;
 public record TypeInfo
 {
     /// <summary>The type name.</summary>
-    [Required]
-    public TypeName? TypeName { get; init; }
+    public required TypeName TypeName { get; init; }
 
     /// <summary>The optional base type.</summary>
     public Type? BaseType { get; init; } = typeof(object);
@@ -64,7 +62,7 @@ public record TypeInfo
         {
             TypeAttributes attributes = default;
             attributes |= Visibility == CodeVisibility.Public ? TypeAttributes.Public : default;
-            attributes |= IsSealed && !DerivedTypes.Any() ? TypeAttributes.Sealed : default;
+            attributes |= IsSealed && DerivedTypes.Count == 0 ? TypeAttributes.Sealed : default;
             attributes |= IsAbstract ? TypeAttributes.Abstract : default;
             attributes |= IsStatic ? (TypeAttributes.Sealed | TypeAttributes.Abstract) : default;
             return attributes;

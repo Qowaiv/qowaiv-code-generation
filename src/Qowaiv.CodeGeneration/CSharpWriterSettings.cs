@@ -9,7 +9,7 @@ public sealed record CSharpWriterSettings
     /// <summary>New line character(s).</summary>
     public string NewLine { get; init; } = "\r\n";
 
-    /// <summary>Indentation character(s).</summary>
+    /// <summary>Indentation character(s) (default 4 spaces).</summary>
     public string Indentation { get; init; } = "    ";
 
     /// <summary>Generates the required modifier for required properties.</summary>

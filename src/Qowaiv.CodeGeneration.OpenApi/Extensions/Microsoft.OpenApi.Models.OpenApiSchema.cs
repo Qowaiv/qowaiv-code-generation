@@ -6,18 +6,18 @@ namespace Microsoft.OpenApi.Models;
 public static class QowaivOpenApiSchemaExtensions
 {
     /// <summary>
-    /// Gets the <see cref="Qowaiv.CodeGeneration.OpenApi.OpenApiType"/> of the schema.
+    /// Gets the <see cref="Qowaiv.CodeGeneration.OpenApi.OpenApiDataType"/> of the schema.
     /// </summary>
     [Pure]
-    public static OpenApiType OpenApiType(this OpenApiSchema? schema)
+    public static OpenApiDataType OpenApiType(this OpenApiSchema? schema)
     {
-        if (schema?.Type is { } tp && Enum.TryParse<OpenApiType>(tp, out var type))
+        if (schema?.Type is { } tp && Enum.TryParse<OpenApiDataType>(tp, out var type))
         {
             return type;
         }
         else if (schema?.Properties.Any() == true)
         {
-            return Qowaiv.CodeGeneration.OpenApi.OpenApiType.@object;
+            return Qowaiv.CodeGeneration.OpenApi.OpenApiDataType.@object;
         }
         else return default;
     }

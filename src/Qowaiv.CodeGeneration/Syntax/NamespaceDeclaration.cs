@@ -1,15 +1,14 @@
 namespace Qowaiv.CodeGeneration.Syntax;
 
-public sealed class NamespaceDeclaration : Code
+/// <summary>Represents a file scoped namespace declaration.</summary>
+public sealed class NamespaceDeclaration(Namespace @namespace) : Code
 {
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private readonly Namespace Namespace;
-
-    public NamespaceDeclaration(Namespace @namespace) => Namespace = Guard.NotDefault(@namespace, nameof(@namespace));
+    private readonly Namespace Namespace = Guard.NotDefault(@namespace);
 
     /// <inheritdoc />
     public void WriteTo(CSharpWriter writer)
-        => Guard.NotNull(writer, nameof(writer)).Line($"namespace {Namespace};");
+        => Guard.NotNull(writer).Line($"namespace {Namespace};");
 
     /// <inheritdoc />
     [Pure]

@@ -12,7 +12,7 @@ public class Property
     public void Is_not_nullable_when_not_marked()
         => typeof(Model).GetProperty(nameof(Model.NotNullable))!.IsNullable().Should().BeFalse();
 
-    class Model
+    internal class Model
     {
         public object? Nullable { get; }
 

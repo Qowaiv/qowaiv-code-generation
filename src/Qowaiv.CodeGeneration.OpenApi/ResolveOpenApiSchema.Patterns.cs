@@ -5,9 +5,9 @@ namespace Qowaiv.CodeGeneration.OpenApi;
 public readonly partial struct ResolveOpenApiSchema
 {
     /// <summary>
-    /// True if the Open API type is <see cref="OpenApiType.@string"/>.
+    /// True if the Open API type is <see cref="OpenApiDataType.@string"/>.
     /// </summary>
-    public bool IsString => OpenApiType == OpenApiType.@string;
+    public bool IsString => DataType == OpenApiDataType.@string;
 
     /// <summary>Returns true if the schema path matches the pattern.</summary>
     /// <remarks>

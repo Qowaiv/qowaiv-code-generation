@@ -1,10 +1,14 @@
 namespace Qowaiv.CodeGeneration;
 
+/// <summary>Represents an array.</summary>
+/// <remarks>
+/// Called by <see cref="TypeBase.MakeArrayType(int)"/>.
+/// </remarks>
 [DebuggerDisplay("Name = {Name} FullName = {FullName} ArrayRank = {ArrayRank}")]
 internal sealed class ArrayType(TypeBase type, int arrayRank)
     : TypeBase(new TypeInfo
     {
-        TypeName = Guard.NotNull(type).TypeName,
+        TypeName = type.TypeName,
         BaseType = typeof(Array),
     })
 {

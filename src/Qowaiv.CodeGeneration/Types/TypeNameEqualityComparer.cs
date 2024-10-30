@@ -12,5 +12,5 @@ public sealed class TypeNameEqualityComparer : IEqualityComparer<Type>
 
     /// <inheritdoc />
     [Pure]
-    public int GetHashCode([DisallowNull] Type obj) => obj.ToCSharpString(true).GetHashCode();
+    public int GetHashCode(Type obj) => obj.ToCSharpString(true).GetHashCode();
 }

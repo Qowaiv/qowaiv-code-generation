@@ -16,7 +16,7 @@ public partial class OpenApiTypeResolver
         }
         else
         {
-            type = ResolveCustomization(schema) ?? ResolveType(schema);
+            type = ResolveCustomization(schema) ?? ResolveDataType(schema);
             if (schema.ReferenceId is { })
             {
                 resolved.TryAdd(schema.ReferenceId, type);
@@ -29,17 +29,17 @@ public partial class OpenApiTypeResolver
     [Pure]
     protected virtual Type? ResolveCustomization(ResolveOpenApiSchema schema) => null;
 
-    /// <summary>Resolves the <see cref="Type"/> based on the <see cref="ResolveOpenApiSchema.OpenApiType"/>.</summary>
+    /// <summary>Resolves the <see cref="Type"/> based on the <see cref="ResolveOpenApiSchema.DataType"/>.</summary>
     [Pure]
-    protected Type? ResolveType(ResolveOpenApiSchema schema) => schema.OpenApiType switch
+    protected Type? ResolveDataType(ResolveOpenApiSchema schema) => schema.DataType switch
     {
         _ when schema.Enum.Any() => ResolveEnum(schema),
-        OpenApiType.boolean => ResolveBoolean(schema),
-        OpenApiType.integer => ResolveInteger(schema),
-        OpenApiType.number => ResolveNumber(schema),
-        OpenApiType.@string => ResolveString(schema),
-        OpenApiType.array => ResolveArray(schema),
-        OpenApiType.@object => ResolveObject(schema),
+        OpenApiDataType.boolean => ResolveBoolean(schema),
+        OpenApiDataType.integer => ResolveInteger(schema),
+        OpenApiDataType.number => ResolveNumber(schema),
+        OpenApiDataType.@string => ResolveString(schema),
+        OpenApiDataType.array => ResolveArray(schema),
+        OpenApiDataType.@object => ResolveObject(schema),
         _ when schema.AllOf.Any() => ResolveAllOf(schema),
         _ when schema.OneOf.Any() => ResolveOneOf(schema),
         _ => ResolveOther(schema),
@@ -99,11 +99,11 @@ public partial class OpenApiTypeResolver
     private readonly Dictionary<TypeName, Enumeration> Enumerations = new();
     private readonly Dictionary<TypeName, List<EnumerationField>> EnumerationFields = new();
 
-    /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.boolean"/>.</summary>
+    /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiDataType.boolean"/>.</summary>
     [Pure]
     private static Type? ResolveBoolean(ResolveOpenApiSchema schema) => typeof(bool);
 
-    /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.integer"/>.</summary>
+    /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiDataType.integer"/>.</summary>
     [Pure]
     private Type? ResolveInteger(ResolveOpenApiSchema schema) => NormalizeFormat(schema.Format) switch
     {
@@ -113,7 +113,7 @@ public partial class OpenApiTypeResolver
         _ => typeof(int),
     };
 
-    /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.number"/>.</summary>
+    /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiDataType.number"/>.</summary>
     [Pure]
     private Type? ResolveNumber(ResolveOpenApiSchema schema) => NormalizeFormat(schema.Format) switch
     {
@@ -126,19 +126,19 @@ public partial class OpenApiTypeResolver
         _ => typeof(decimal),
     };
 
-    /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.@string"/>.</summary>
+    /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiDataType.@string"/>.</summary>
     [Pure]
     private Type? ResolveString(ResolveOpenApiSchema schema)
         => Formats.TryGetValue(NormalizeFormat(schema.Format), out var type)
         ? type
         : typeof(string);
 
-    /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.array"/>.</summary>
+    /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiDataType.array"/>.</summary>
     [Pure]
     private Type? ResolveArray(ResolveOpenApiSchema schema)
         => Resolve(schema.Items)?.MakeArrayType();
 
-    /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.@object"/>.</summary>
+    /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiDataType.@object"/>.</summary>
     [Pure]
     private Type? ResolveObject(ResolveOpenApiSchema schema)
     {
@@ -285,7 +285,7 @@ public partial class OpenApiTypeResolver
         }
     }
 
-    /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiType.None"/>.</summary>
+    /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiDataType.None"/>.</summary>
     [Pure]
     protected virtual Type? ResolveOther(ResolveOpenApiSchema schema)
         => throw new NotSupportedException($"Schema '{schema.Path}' with type '{schema.Type}' is not supported.");

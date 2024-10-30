@@ -53,8 +53,8 @@ public readonly partial struct ResolveOpenApiSchema(
     /// <inheritdoc cref="OpenApiSchema.Nullable"/>
     public bool Nullable => Schema?.Nullable ?? false;
 
-    /// <summary>The Open API type.</summary>
-    public OpenApiType OpenApiType => Schema?.OpenApiType() ?? OpenApiType.None;
+    /// <summary>The Open API data type.</summary>
+    public OpenApiDataType DataType => Schema?.OpenApiType() ?? OpenApiDataType.None;
 
     /// <inheritdoc cref="OpenApiSchema.Reference"/>
     public OpenApiReference? Reference => Schema?.Reference;

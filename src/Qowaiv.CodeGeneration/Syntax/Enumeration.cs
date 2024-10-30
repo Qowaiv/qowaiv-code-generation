@@ -35,22 +35,22 @@ public class Enumeration : TypeBase, Code
     {
         Guard.NotNull(writer);
 
-        writer.Write(new NamespaceDeclaration(NameSpace)).Line();
-
-        Info.Documentation?.WriteTo(writer);
-
-        foreach (var attr in Info.Attributes) writer.Write(attr);
-
-        writer.Indent().Write(Visibility).Write(" enum ").Line(Name);
-
-        using (writer.CodeBlock())
+        using (writer.NamespaceDeclaration(NameSpace))
         {
-            writer.Write(
-                writes: Info.Fields.OfType<Code>().Select(WriteField),
-                split: writer => writer.Line(',').Line())
-                .Line();
-        }
+            Info.Documentation?.WriteTo(writer);
 
+            foreach (var attr in Info.Attributes) writer.Write(attr);
+
+            writer.Indent().Write(Visibility).Write(" enum ").Line(Name);
+
+            using (writer.CodeBlock())
+            {
+                writer.Write(
+                    writes: Info.Fields.OfType<Code>().Select(WriteField),
+                    split: writer => writer.Line(',').Line())
+                    .Line();
+            }
+        }
         Action<CSharpWriter> WriteField(Code field) => writer => writer.Write(field);
     }
 }

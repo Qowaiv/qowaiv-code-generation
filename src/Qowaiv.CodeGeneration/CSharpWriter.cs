@@ -120,6 +120,25 @@ public sealed class CSharpWriter
     [FluentSyntax]
     public CSharpWriter Line() => Write(Settings.NewLine);
 
+    /// <summary>Writes a namespace declaration.</summary>
+    [Pure]
+    public IDisposable NamespaceDeclaration(Namespace @namespace)
+    {
+        Guard.NotDefault(@namespace);
+
+        if (Settings.UseFileScopedNamespaces)
+        {
+            Line($"namespace {@namespace};");
+            Line();
+            return new FileScopedNamespace();
+        }
+        else
+        {
+            Line($"namespace {@namespace}");
+            return CodeBlock();
+        }
+    }
+
     /// <summary>Writes a code block (`{ ... }`).</summary>
     [Pure]
     public IDisposable CodeBlock(string markers = "{}")
@@ -138,10 +157,17 @@ public sealed class CSharpWriter
 
     private sealed record ScopedCodeBlock(CSharpWriter Writer, char Close) : IDisposable
     {
+        /// <inheritdoc />
         public void Dispose()
         {
             Writer.Indentation--;
             Writer.Indent().Line(Close);
         }
+    }
+
+    private sealed class FileScopedNamespace : IDisposable
+    {
+        /// <inheritdoc />
+        public void Dispose() { }
     }
 }

@@ -1,8 +1,9 @@
 namespace Qowaiv.CodeGeneration.Syntax;
 
+/// <summary>The kind of property access.</summary>
 public enum PropertyAccess
 {
-    /// <summary>Init only `{ get; init; }`.</summary>
+    /// <summary>Init only `{ get; init; }` (default).</summary>
     InitOnly = 0,
 
     /// <summary>Public set `{ get; set; }`.</summary>
@@ -17,4 +18,3 @@ public enum PropertyAccess
     /// <summary>Get only `{ get; }`.</summary>
     GetOnly,
 }
-

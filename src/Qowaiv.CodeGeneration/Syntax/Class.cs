@@ -18,24 +18,25 @@ public class Class : TypeBase, Code
     {
         Guard.NotNull(writer);
 
-        writer.Write(new NamespaceDeclaration(NameSpace)).Line();
-
-        Info.Documentation?.WriteTo(writer);
-
-        foreach (var attr in Info.Attributes) writer.Write(attr);
-
-        writer.Indent().Write(Visibility).Write(' ');
-        if (IsAbstract) writer.Write("abstract ");
-        if (IsSealed) writer.Write("sealed ");
-        if (IsPartial) writer.Write("partial ");
-        writer.Write(Keyword).Write(' ').Write(Name);
-        if (BaseType != typeof(object)) writer.Write(" : ").Write(BaseType);
-
-        using (writer.Line().CodeBlock())
+        using (writer.NamespaceDeclaration(NameSpace))
         {
-            writer.Write(
-                writes: Info.Properties.OfType<Code>().Select(WriteProperty),
-                split: writer => writer.Line());
+            Info.Documentation?.WriteTo(writer);
+
+            foreach (var attr in Info.Attributes) writer.Write(attr);
+
+            writer.Indent().Write(Visibility).Write(' ');
+            if (IsAbstract) writer.Write("abstract ");
+            if (IsSealed) writer.Write("sealed ");
+            if (IsPartial) writer.Write("partial ");
+            writer.Write(Keyword).Write(' ').Write(Name);
+            if (BaseType != typeof(object)) writer.Write(" : ").Write(BaseType);
+
+            using (writer.Line().CodeBlock())
+            {
+                writer.Write(
+                    writes: Info.Properties.OfType<Code>().Select(WriteProperty),
+                    split: writer => writer.Line());
+            }
         }
 
         Action<CSharpWriter> WriteProperty(Code property) => writer => writer.Write(property);

@@ -20,6 +20,19 @@ public partial class OpenApiTypeResolver
             {
                 Visit(new ResolveOpenApiSchema(path.Child(kvp.Key), kvp.Value, null));
             }
+
+            if (components.Responses is { } responses)
+            {
+                path = OpenApiPath.Root.Child("components").Child("responses");
+                foreach (var response in responses.Where(kvp => kvp.Key is { Length: > 0 }))
+                {
+                    foreach (var schema in response.Value.Content.Values.Select(v => v.Schema))
+                    {
+                        var resolve = new ResolveOpenApiSchema(path.Child(response.Key), schema, null);
+                        Visit(resolve);
+                    }
+                }
+            }
         }
         return ResolvedCode();
     }
@@ -33,5 +46,8 @@ public partial class OpenApiTypeResolver
     }
 
     private void Visit(ResolveOpenApiSchema schema)
-        => resolved.TryAdd(schema.ReferenceId!, Resolve(schema));
+    {
+        var id = schema.ReferenceId ?? schema.Path.ToString();
+        resolved.TryAdd(id, Resolve(schema));
+    }
 }

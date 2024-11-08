@@ -1,9 +1,29 @@
+using Qowaiv.CodeGeneration.OpenApi.Collections;
 using Qowaiv.CodeGeneration.Syntax;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
 
 public partial class OpenApiTypeResolver
 {
+    /// <summary>Resolve the <see cref="Type"/> defined by the (sub) schema.</summary>
+    [Pure]
+    protected Type? Resolve(ResolveOpenApiSchema schema)
+    {
+        var context = Guard.NotNull(schema).Context;
+
+        return context.Get(schema)
+            ?? context.Add(schema, ResolveCustomization(schema) ?? ResolveDataType(schema));
+    }
+
+    /// <summary>Custom resolving.</summary>
+    [Pure]
+    protected virtual Type? ResolveCustomization(ResolveOpenApiSchema schema) => null;
+
+    /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiDataType.None"/>.</summary>
+    [Pure]
+    protected virtual Type? ResolveOther(ResolveOpenApiSchema schema)
+        => throw new NotSupportedException($"Schema '{schema.Path}' with type '{schema.Type}' is not supported.");
+
     /// <summary>Resolves the preferred property access.</summary>
     [Pure]
     protected virtual PropertyAccess ResolveAccess(ResolveOpenApiSchema property) => Settings.PropertyAccess;
@@ -15,7 +35,9 @@ public partial class OpenApiTypeResolver
     [Pure]
     protected virtual TypeName? ResolveName(ResolveOpenApiSchema schema, ResolveTypeName type)
     {
-        var name = schema.ReferenceId ?? schema.Path.Last;
+        Guard.NotNull(schema);
+
+        var name = schema.ReferenceId.HasValue ? schema.ReferenceId.ToString() : schema.Path.Last;
         var lastDot = name.LastIndexOf('.');
         var ns = lastDot == -1 ? DefaultNamespace : DefaultNamespace.Child(name[..lastDot]);
         var codeName = CodeName.Create(lastDot == -1 ? name : name[(lastDot + 1)..], CodeNameConvention.PascalCase);
@@ -35,26 +57,24 @@ public partial class OpenApiTypeResolver
                 propertyType = AsNullable(propertyType);
             }
 
-            var attributes = new List<AttributeInfo>();
-            var documentation = new XmlDocumentation
-            {
-                Summary = schema.Description,
-            };
-
+            var attributes = Empty.HashSet<AttributeInfo>();
             var isRequired = IsRequired(schema, propertyType);
 
             nullable &= Settings.NullableRequiredTypes || !isRequired;
 
-            var prop = new Property(
-                PropertyName(schema),
-                propertyType,
-                @class,
-                ResolveAccess(schema),
-                attributes,
-                documentation,
-                nullable,
-                isRequired);
+            var data = new PropertyData
+            {
+                Name = PropertyName(schema),
+                PropertyType = propertyType,
+                DeclaringType = @class,
+                PropertyAccess = ResolveAccess(schema),
+                Attributes = attributes,
+                Documentation = new() { Summary = schema.Description },
+                IsNullable = nullable,
+                IsRequired = isRequired,
+            };
 
+            var prop = new Property(data);
             attributes.AddRange(DecorateProperty(prop, schema));
             return prop;
         }

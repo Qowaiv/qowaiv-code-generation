@@ -4,19 +4,20 @@ namespace Qowaiv.CodeGeneration;
 [DebuggerDisplay("{ToString()}, Convention = {Convention.Name}")]
 public readonly struct CodeName : IFormattable
 {
-    private CodeName(IReadOnlyCollection<string> nameParts, CodeNameConvention nameConvention)
+    private CodeName(IReadOnlyCollection<string> nameParts, CodeNameConvention convention)
     {
         parts = nameParts;
-        convention = nameConvention;
+        Convention = convention;
     }
 
     private readonly IReadOnlyCollection<string> parts;
 
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private readonly CodeNameConvention? convention;
-
     /// <summary>The convention applied to create this (code) name.</summary>
-    public CodeNameConvention Convention => convention ?? CodeNameConvention.None;
+    public CodeNameConvention Convention { get; }
+
+    /// <summary>Creates a new (code) name applying the <see cref="CodeNameConvention.PascalCase"/>.</summary>
+    [Pure]
+    public static CodeName Create(string? name) => Create(name, CodeNameConvention.PascalCase);
 
     /// <summary>Creates a new (code) name applying the specified convention.</summary>
     [Pure]
@@ -43,25 +44,6 @@ public readonly struct CodeName : IFormattable
     /// <summary>Represents the code name as string according to the naming convention.</summary>
     [Pure]
     public string ToString(CodeNameConvention convention) => Guard.NotNull(convention).ToString(parts);
-
-    /// <summary>Represents the code name as property name for the specified enclosing type.</summary>
-    /// <param name="enclosing">
-    /// The enclosing type.
-    /// </param>
-    /// <param name="convention">
-    /// The optional naming convention, <see cref="CodeNameConvention.PascalCase"/> if not specified.
-    /// </param>
-    [Pure]
-    public string PropertyFor(Type enclosing, CodeNameConvention? convention = null)
-    {
-        Guard.NotNull(enclosing);
-        convention ??= CodeNameConvention.PascalCase;
-
-        var name = convention.ToString(parts);
-        return enclosing.Name == name || char.IsAsciiDigit(name[0])
-            ? '_' + name
-            : EscapeKeyword(name);
-    }
 
     /// <summary>Escapes the name with an '@' if it a C# keyword.</summary>
     [Pure]

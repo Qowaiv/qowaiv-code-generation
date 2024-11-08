@@ -4,20 +4,19 @@ using System.Reflection;
 namespace Qowaiv.CodeGeneration;
 
 /// <summary>A collection of data needed to create a <see cref="TypeBase"/>.</summary>
-[Inheritable]
-public record TypeInfo
+public record TypeData
 {
     /// <summary>The type name.</summary>
     public required TypeName TypeName { get; init; }
 
     /// <summary>The optional base type.</summary>
-    public Type? BaseType { get; init; } = typeof(object);
+    public virtual Type? BaseType { get; init; } = typeof(object);
 
     /// <summary>True if the type is static.</summary>
     public bool IsStatic { get; init; }
 
     /// <summary>True if the type is abstract.</summary>
-    public bool IsAbstract { get; init; }
+    public virtual bool IsAbstract { get; init; }
 
     /// <summary>True if the type is sealed.</summary>
     public bool IsSealed { get; init; }
@@ -50,7 +49,7 @@ public record TypeInfo
     public IReadOnlyCollection<PropertyInfo> Properties { get; init; } = [];
 
     /// <summary>Collection of derived <see cref="Type"/>s.</summary>
-    public IReadOnlyCollection<Type> DerivedTypes { get; init; } = [];
+    public virtual IReadOnlyCollection<Type> DerivedTypes { get; init; } = [];
 
     /// <summary>The (optional) documentation.</summary>
     public XmlDocumentation? Documentation { get; init; }

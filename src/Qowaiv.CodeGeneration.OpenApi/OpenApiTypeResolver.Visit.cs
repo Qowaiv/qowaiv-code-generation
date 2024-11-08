@@ -4,50 +4,49 @@ namespace Qowaiv.CodeGeneration.OpenApi;
 
 public partial class OpenApiTypeResolver
 {
-    private readonly Dictionary<string, Type?> resolved = [];
-    private readonly Dictionary<TypeName, TypeInfo> infos = [];
-
+    /// <summary>Walk through the <see cref="OpenApiDocument"/>.</summary>
     [Pure]
     public IReadOnlyCollection<Code> Walk(OpenApiDocument document)
     {
         Guard.NotNull(document);
 
+        var context = new OpenApiResolveContext();
+
         if (document.Components is { } components)
         {
-            var path = OpenApiPath.Root.Child("components").Child("schemas");
+            Visit(components, context);
+        }
 
-            foreach (var kvp in components.Schemas)
-            {
-                Visit(new ResolveOpenApiSchema(path.Child(kvp.Key), kvp.Value, null));
-            }
+        if (document.Components?.Responses is { } responses)
+        {
+            Visit(responses, context);
+        }
+        return context.ResolvedCode(DecorateModel);
+    }
 
-            if (components.Responses is { } responses)
+    private void Visit(OpenApiComponents components, OpenApiResolveContext context)
+    {
+        var path = OpenApiPath.Root.Child("components").Child("schemas");
+
+        foreach (var kvp in components.Schemas)
+        {
+            Visit(new ResolveOpenApiSchema(path.Child(kvp.Key), kvp.Value, context, null));
+        }
+    }
+
+    private void Visit(IDictionary<string, OpenApiResponse> responses, OpenApiResolveContext context)
+    {
+        var path = OpenApiPath.Root.Child("components").Child("responses");
+
+        foreach (var response in responses.Where(kvp => kvp.Key is { Length: > 0 }))
+        {
+            foreach (var schema in response.Value.Content.Values.Select(v => v.Schema))
             {
-                path = OpenApiPath.Root.Child("components").Child("responses");
-                foreach (var response in responses.Where(kvp => kvp.Key is { Length: > 0 }))
-                {
-                    foreach (var schema in response.Value.Content.Values.Select(v => v.Schema))
-                    {
-                        var resolve = new ResolveOpenApiSchema(path.Child(response.Key), schema, null);
-                        Visit(resolve);
-                    }
-                }
+                var resolve = new ResolveOpenApiSchema(path.Child(response.Key), schema, context, null);
+                Visit(resolve);
             }
         }
-        return ResolvedCode();
     }
 
-    [Pure]
-    public IReadOnlyCollection<Code> ResolvedCode()
-    {
-        var collection = resolved.Values.OfType<Code>().ToArray();
-        resolved.Clear();
-        return collection;
-    }
-
-    private void Visit(ResolveOpenApiSchema schema)
-    {
-        var id = schema.ReferenceId ?? schema.Path.ToString();
-        resolved.TryAdd(id, Resolve(schema));
-    }
+    private void Visit(ResolveOpenApiSchema schema) => schema.Context.Add(schema, Resolve(schema));
 }

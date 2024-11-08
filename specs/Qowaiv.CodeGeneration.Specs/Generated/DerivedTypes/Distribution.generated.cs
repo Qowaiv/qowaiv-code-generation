@@ -13,6 +13,6 @@ namespace DerivedTypes;
 
 [System.Text.Json.Serialization.JsonDerivedType(typeof(DerivedTypes.EmailAttributes))]
 [System.Text.Json.Serialization.JsonDerivedType(typeof(DerivedTypes.BankMailAttributes))]
-public partial record Distribution : DerivedTypes.Channels
+public abstract partial record Distribution : DerivedTypes.Channels
 {
 }

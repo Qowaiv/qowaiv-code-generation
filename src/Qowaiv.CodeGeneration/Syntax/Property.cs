@@ -5,44 +5,36 @@ namespace Qowaiv.CodeGeneration.Syntax;
 /// <summary>Represents the <see cref="PropertyInfo"/> of a <see cref="Type"/> property.</summary>
 public partial class Property : PropertyInfo, Code
 {
-    protected readonly IReadOnlyCollection<Code> AttributeInfos;
-    private readonly bool IsNullable;
+    /// <summary>The type data.</summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    protected PropertyData Data { get; }
 
-    public Property(
-        string name,
-        Type propertyType,
-        Type declaringClass,
-        PropertyAccess access,
-        IReadOnlyCollection<AttributeInfo>? attributes = null,
-        XmlDocumentation? documentation = null,
-        bool nullable = false,
-        bool required = false)
-    {
-        Name = Guard.NotNullOrEmpty(name);
-        PropertyType = Guard.NotNull(propertyType);
-        DeclaringType = Guard.NotNull(declaringClass);
-        PropertyAccess = Guard.DefinedEnum(access);
-        AttributeInfos = attributes ?? [];
-        Documentation = documentation ?? new XmlDocumentation();
-        IsNullable = nullable;
-        IsRequired = required;
-    }
+    /// <summary>Initializes a new instance of the <see cref="Property"/> class.</summary>
+    public Property(PropertyData data) => Data = Guard.NotNull(data);
 
-    public XmlDocumentation Documentation { get; }
+    /// <summary>Gets the attributes for the property.</summary>
+    public IReadOnlyCollection<AttributeInfo> AttributeInfos => Data.Attributes ?? [];
+
+    /// <summary>Gets the documentation for the properties.</summary>
+    public XmlDocumentation Documentation => Data.Documentation ?? new();
 
     /// <inheritdoc />
-    public override string Name { get; }
+    public override string Name => Data.Name.ToString(Data.NameConvention.ForProperty(DeclaringType));
 
     /// <summary>True if the property is required.</summary>
-    public bool IsRequired { get; }
+    public bool IsRequired => Data.IsRequired;
+
+    /// <summary>True if the property is nullable.</summary>
+    public bool IsNullable => Data.IsNullable;
 
     /// <inheritdoc />
-    public override Type PropertyType { get; }
+    public override Type PropertyType => Data.PropertyType;
 
     /// <inheritdoc />
-    public override Type DeclaringType { get; }
+    public override Type DeclaringType => Data.DeclaringType;
 
-    public PropertyAccess PropertyAccess { get; }
+    /// <summary>Gets the (get/set/init) access to the property.</summary>
+    public PropertyAccess PropertyAccess => Data.PropertyAccess;
 
     /// <inheritdoc />
     public override bool CanRead => true;

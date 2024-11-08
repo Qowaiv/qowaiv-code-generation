@@ -7,14 +7,13 @@ namespace Qowaiv.CodeGeneration;
 [DebuggerDisplay("{DebuggerDisplay}")]
 public abstract class TypeBase : Type
 {
-    /// <summary>The type info.</summary>
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    protected TypeInfo Info { get; }
+    /// <summary>The type data.</summary>
+    protected TypeData Data { get; }
 
     /// <summary>Initializes a new instance of the <see cref="TypeBase"/> class.</summary>
-    protected TypeBase(TypeInfo info)
+    protected TypeBase(TypeData info)
     {
-        Info = Guard.NotNull(info);
+        Data = Guard.NotNull(info);
         TypeName = Guard.NotNull(info.TypeName);
     }
 
@@ -25,7 +24,7 @@ public abstract class TypeBase : Type
     public override string AssemblyQualifiedName => Assembly.GetName().FullName;
 
     /// <inheritdoc />
-    public override Type BaseType => Info.BaseType ?? typeof(object);
+    public override Type BaseType => Data.BaseType ?? typeof(object);
 
     /// <inheritdoc />
     public override string FullName => $"{Namespace}.{Name}";
@@ -34,7 +33,7 @@ public abstract class TypeBase : Type
     public override Guid GUID => Uuid.GenerateWithSHA1(Encoding.ASCII.GetBytes(FullName));
 
     /// <summary>Returns if the type sources are spread over multiple files.</summary>
-    public bool IsPartial => Info.IsPartial;
+    public bool IsPartial => Data.IsPartial;
 
     /// <inheritdoc />
     public override Module Module => Assembly.Modules.First();
@@ -66,7 +65,7 @@ public abstract class TypeBase : Type
     public override Type UnderlyingSystemType => this;
 
     /// <summary>Gets the visibility of the code.</summary>
-    public CodeVisibility Visibility => Info.Visibility;
+    public CodeVisibility Visibility => Data.Visibility;
 
     /// <inheritdoc />
     [Pure]
@@ -80,12 +79,12 @@ public abstract class TypeBase : Type
     /// <inheritdoc />
     [Pure]
     public override ConstructorInfo[] GetConstructors(BindingFlags bindingAttr)
-        => Info.Constructors.Where(c => (c.Bindings() & bindingAttr) != default).ToArray();
+        => Data.Constructors.Where(c => (c.Bindings() & bindingAttr) != default).ToArray();
 
     /// <inheritdoc />
     [Pure]
     public override object[] GetCustomAttributes(bool inherit)
-        => Info.Attributes.Cast<object>()
+        => Data.Attributes.Cast<object>()
         .Concat(inherit ? BaseType.GetCustomAttributes(true) : [])
         .ToArray();
 
@@ -98,11 +97,11 @@ public abstract class TypeBase : Type
 
     /// <summary>Gets the <see cref="AttributeInfo"/>'s linked to the type.</summary>
     [Pure]
-    public IReadOnlyCollection<AttributeInfo> GetAttributeInfos() => Info.Attributes;
+    public IReadOnlyCollection<AttributeInfo> GetAttributeInfos() => Data.Attributes;
 
     /// <summary>Gets the (explicitly added) derived types.</summary>
     [Pure]
-    public IReadOnlyCollection<Type> GetDerivedTypes() => Info.DerivedTypes;
+    public IReadOnlyCollection<Type> GetDerivedTypes() => Data.DerivedTypes;
 
     /// <inheritdoc />
     [Pure]
@@ -112,7 +111,7 @@ public abstract class TypeBase : Type
     /// <inheritdoc />
     [Pure]
     public override EventInfo[] GetEvents(BindingFlags bindingAttr)
-        => Info.Events.Where(e => (e.Bindings() & bindingAttr) != default).ToArray();
+        => Data.Events.Where(e => (e.Bindings() & bindingAttr) != default).ToArray();
 
     /// <inheritdoc />
     [Pure]
@@ -122,7 +121,7 @@ public abstract class TypeBase : Type
     /// <inheritdoc />
     [Pure]
     public override FieldInfo[] GetFields(BindingFlags bindingAttr)
-        => Info.Fields.Where(f => (f.Bindings() & bindingAttr) != default).ToArray();
+        => Data.Fields.Where(f => (f.Bindings() & bindingAttr) != default).ToArray();
 
     /// <inheritdoc />
     [Pure]
@@ -130,12 +129,12 @@ public abstract class TypeBase : Type
 
     /// <inheritdoc />
     [Pure]
-    public override Type[] GetInterfaces() => Info.Interfaces.ToArray();
+    public override Type[] GetInterfaces() => Data.Interfaces.ToArray();
 
     /// <inheritdoc />
     [Pure]
     public override Type? GetInterface(string name, bool ignoreCase)
-        => Info.Interfaces.FirstOrDefault(i => i.Name.Equals(name, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal));
+        => Data.Interfaces.FirstOrDefault(i => i.Name.Equals(name, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal));
 
     /// <inheritdoc />
     [Pure]
@@ -147,12 +146,31 @@ public abstract class TypeBase : Type
     /// <inheritdoc />
     [Pure]
     public override MethodInfo[] GetMethods(BindingFlags bindingAttr)
-        => Info.Methods.Where(p => (p.Bindings() & bindingAttr) != default).ToArray();
+        => Data.Methods.Where(p => (p.Bindings() & bindingAttr) != default).ToArray();
 
     /// <inheritdoc />
     [Pure]
     public override PropertyInfo[] GetProperties(BindingFlags bindingAttr)
-        => Info.Properties.Where(p => (p.Bindings() & bindingAttr) != default).ToArray();
+    {
+        var props = new HashSet<PropertyInfo>();
+
+        foreach (var prop in Data.Properties.Where(p => (p.Bindings() & bindingAttr) != default))
+        {
+            props.Add(prop);
+        }
+
+        Type? @base = BaseType;
+
+        while (@base is { })
+        {
+            foreach (var prop in @base.GetProperties(bindingAttr))
+            {
+                props.Add(prop);
+            }
+            @base = @base.BaseType;
+        }
+        return [.. props];
+    }
 
     /// <inheritdoc />
     [Pure]
@@ -169,7 +187,7 @@ public abstract class TypeBase : Type
 
     /// <inheritdoc />
     [Pure]
-    protected override TypeAttributes GetAttributeFlagsImpl() => Info.TypeAttributes;
+    protected override TypeAttributes GetAttributeFlagsImpl() => Data.TypeAttributes;
 
     /// <inheritdoc />
     [Pure]

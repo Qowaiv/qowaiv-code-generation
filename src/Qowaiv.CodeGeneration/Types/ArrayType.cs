@@ -6,7 +6,7 @@ namespace Qowaiv.CodeGeneration;
 /// </remarks>
 [DebuggerDisplay("Name = {Name} FullName = {FullName} ArrayRank = {ArrayRank}")]
 internal sealed class ArrayType(TypeBase type, int arrayRank)
-    : TypeBase(new TypeInfo
+    : TypeBase(new TypeData
     {
         TypeName = type.TypeName,
         BaseType = typeof(Array),

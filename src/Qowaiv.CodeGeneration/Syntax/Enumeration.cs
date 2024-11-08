@@ -5,10 +5,10 @@ namespace Qowaiv.CodeGeneration.Syntax;
 public class Enumeration : TypeBase, Code
 {
     /// <summary>Initializes a new instance of the <see cref="Enumeration"/> class.</summary>
-    public Enumeration(TypeInfo info) : base(Enrich(info)) { }
+    public Enumeration(TypeData info) : base(Enrich(info)) { }
 
     [Pure]
-    private static TypeInfo Enrich(TypeInfo info) => Guard.NotNull(info) with
+    private static TypeData Enrich(TypeData info) => Guard.NotNull(info) with
     {
         BaseType = typeof(Enum),
         IsSealed = true,
@@ -37,16 +37,16 @@ public class Enumeration : TypeBase, Code
 
         using (writer.NamespaceDeclaration(NameSpace))
         {
-            Info.Documentation?.WriteTo(writer);
+            Data.Documentation?.WriteTo(writer);
 
-            foreach (var attr in Info.Attributes) writer.Write(attr);
+            foreach (var attr in Data.Attributes) writer.Write(attr);
 
             writer.Indent().Write(Visibility).Write(" enum ").Line(Name);
 
             using (writer.CodeBlock())
             {
                 writer.Write(
-                    writes: Info.Fields.OfType<Code>().Select(WriteField),
+                    writes: Data.Fields.OfType<Code>().Select(WriteField),
                     split: writer => writer.Line(',').Line())
                     .Line();
             }

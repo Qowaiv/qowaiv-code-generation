@@ -11,7 +11,8 @@
 
 namespace AllOfExamples;
 
-public sealed partial record AllOf2
+[System.Text.Json.Serialization.JsonDerivedType(typeof(AllOfExamples.AllOfChildClass))]
+public partial record AllOf2
 {
     [System.Text.Json.Serialization.JsonPropertyName("property2")]
     [Qowaiv.Validation.DataAnnotations.Optional]

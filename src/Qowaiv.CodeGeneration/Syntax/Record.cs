@@ -5,7 +5,7 @@ namespace Qowaiv.CodeGeneration.Syntax;
 public class Record : Class
 {
     /// <summary>Initializes a new instance of the <see cref="Record"/> class.</summary>
-    public Record(TypeInfo info) : base(info) { }
+    public Record(TypeData data) : base(data) { }
 
     /// <summary>The record keyword.</summary>
     protected override string Keyword => "record";

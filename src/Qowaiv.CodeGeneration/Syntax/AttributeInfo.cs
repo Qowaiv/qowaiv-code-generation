@@ -1,5 +1,3 @@
-using DotNetProjectFile.MsBuild;
-
 namespace Qowaiv.CodeGeneration.Syntax;
 
 /// <summary>Represents an attribute decoration.</summary>
@@ -57,7 +55,7 @@ public sealed partial class AttributeInfo : Code, IEquatable<AttributeInfo>
     /// <inheritdoc />
     [Pure]
     public bool Equals(AttributeInfo? other)
-    => other is not null
+        => other is not null
         && AttributeType.Equals(other.AttributeType)
         && Equals(CtorArguments, other.CtorArguments)
         && Equals(PropertyValues, other.PropertyValues);

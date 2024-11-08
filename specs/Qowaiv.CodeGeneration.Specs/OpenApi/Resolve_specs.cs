@@ -11,12 +11,12 @@ public class Generates
     private static readonly FileInfo PetShop_json = new("./OpenApi/Definitions/pet-shop.json");
     private static readonly FileInfo AllOf_json = new("./OpenApi/Definitions/all-of.json");
     private static readonly FileInfo DerivedTypes_yaml = new("./OpenApi/Definitions/derived-types.yaml");
-    private static readonly FileInfo Responses_yaml = new("./OpenApi/Definitions/responses.yaml");
+    private static readonly FileInfo Responses_json = new("./OpenApi/Definitions/responses.json");
 
     [Test]
     public void reponse_models()
     {
-        var result = OpenApiCode.Resolve(Responses_yaml, new OpenApiTypeResolver("ResponseModels"));
+        var result = OpenApiCode.Resolve(Responses_json, new OpenApiTypeResolver("ResponseModels"));
 
         var code = result.Should().BeValid().WithoutMessages().Value;
 

@@ -11,7 +11,7 @@
 
 namespace DerivedTypes;
 
-public sealed partial record BankMailAttributes
+public sealed partial record BankMailAttributes : DerivedTypes.Distribution
 {
     [System.Text.Json.Serialization.JsonPropertyName("communicationSubject")]
     [Qowaiv.Validation.DataAnnotations.Optional]

@@ -7,4 +7,10 @@ internal static class Empty
 
     [Pure]
     public static HashSet<T> HashSet<T>() => [];
+
+    [Pure]
+    public static TypeCollector Types() => [];
+
+    [Pure]
+    public static PropertyCollector Properties() => [];
 }

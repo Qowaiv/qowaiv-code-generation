@@ -5,6 +5,11 @@ namespace System.Collections.Generic;
 /// <summary>Extensions on <see cref="ISet{T}"/>.</summary>
 internal static class QowaivOpenApiCollectionsExtensions
 {
+    public static void AddRange<T>(this ISet<T> set, IEnumerable<T> items)
+    {
+        foreach (var item in items) { set.Add(item); }
+    }
+
     /// <summary>Exposes <see cref="IList{T}"/> as <see cref="IReadOnlyList{T}"/>.</summary>
     /// <remarks>
     /// As <see cref="IList{T}"/> does not inherit from <see cref="IReadOnlyList{T}"/>

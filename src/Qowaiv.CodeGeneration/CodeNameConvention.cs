@@ -39,6 +39,10 @@ public abstract class CodeNameConvention
     [Pure]
     public abstract IReadOnlyCollection<string> Split(IEnumerable<string?> parts);
 
+    /// <summary>Gets the code name convention (potentially adjusted) for being a property.</summary>
+    [Pure]
+    public CodeNameConvention ForProperty(Type enclosingType) => new PropertyNameConvention(Guard.NotNull(enclosingType), this);
+
     /// <summary>Applies formatting to the parts.</summary>
     [Pure]
     private static IEnumerable<string> Trim(IEnumerable<string?> parts) => parts.OfType<string>().Where(p => p is { Length: > 0 });
@@ -186,5 +190,22 @@ public abstract class CodeNameConvention
         /// <inheritdoc />
         [Pure]
         public override string ToString(IReadOnlyCollection<string> parts) => string.Concat(Trim(parts));
+    }
+
+    private sealed class PropertyNameConvention(Type enclosingType, CodeNameConvention convention) : CodeNameConvention
+    {
+        public override string Name => $"{convention.Name} (for property)";
+
+        [Pure]
+        public override IReadOnlyCollection<string> Split(IEnumerable<string?> parts) => convention.Split(parts);
+
+        [Pure]
+        public override string ToString(IReadOnlyCollection<string> parts)
+        {
+            var name = convention.ToString(parts);
+            return enclosingType.Name == name || char.IsAsciiDigit(name[0])
+                ? '_' + name
+                : CodeName.EscapeKeyword(name);
+        }
     }
 }

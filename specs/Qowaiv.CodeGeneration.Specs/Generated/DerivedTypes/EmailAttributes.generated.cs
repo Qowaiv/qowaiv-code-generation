@@ -11,7 +11,7 @@
 
 namespace DerivedTypes;
 
-public sealed partial record EmailAttributes
+public sealed partial record EmailAttributes : DerivedTypes.Distribution
 {
     [System.Text.Json.Serialization.JsonPropertyName("blindCarbonCopyAddresses")]
     [Qowaiv.Validation.DataAnnotations.Optional]

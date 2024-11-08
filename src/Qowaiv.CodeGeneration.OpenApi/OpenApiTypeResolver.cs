@@ -53,8 +53,8 @@ public partial class OpenApiTypeResolver(
     }
 
     [Pure]
-    protected virtual string PropertyName(ResolveOpenApiSchema schema)
-        => CodeName.Create(schema.Path.Last, CodeNameConvention.PascalCase).PropertyFor(schema.Model!);
+    protected virtual CodeName PropertyName(ResolveOpenApiSchema schema)
+        => CodeName.Create(schema.Path.Last, CodeNameConvention.PascalCase);
 
     [Pure]
     protected virtual string EnumValueName(Enumeration @enum, OpenApiString enumValue) => CodeName

@@ -68,14 +68,24 @@ public partial class AttributeInfo
     public static AttributeInfo Qowaiv_Validation_DataAnnotations_MultipleOf(double factor)
         => new(typeof(Qowaiv.Validation.DataAnnotations.MultipleOfAttribute), [factor]);
 
+    /// <inheritdoc cref="System_Text_Json_Serialization_JsonConverter(Type)"/>
+    [Pure]
+    public static AttributeInfo System_Text_Json_Serialization_JsonConverter<T>() where T: System.Text.Json.Serialization.JsonConverter
+        => System_Text_Json_Serialization_JsonConverter(typeof(T));
+
+    /// <summary><see cref="System.Text.Json.Serialization.JsonConverterAttribute"/>.</summary>
+    [Pure]
+    public static AttributeInfo System_Text_Json_Serialization_JsonConverter(Type type)
+        => new(typeof(System.Text.Json.Serialization.JsonConverterAttribute), [type]);
+
     /// <summary><see cref="System.Text.Json.Serialization.JsonDerivedTypeAttribute"/>.</summary>
     [Pure]
-    public static AttributeInfo System_Text_Json_Serialization_JsonDerivedTypeAttribute(Type type)
+    public static AttributeInfo System_Text_Json_Serialization_JsonDerivedType(Type type)
         => new(typeof(System.Text.Json.Serialization.JsonDerivedTypeAttribute), [type]);
 
     /// <summary><see cref="System.Text.Json.Serialization.JsonDerivedTypeAttribute"/>.</summary>
     [Pure]
-    public static AttributeInfo System_Text_Json_Serialization_JsonIgnoreAttribute(System.Text.Json.Serialization.JsonIgnoreCondition condition)
+    public static AttributeInfo System_Text_Json_Serialization_JsonIgnore(System.Text.Json.Serialization.JsonIgnoreCondition condition)
         => new(typeof(System.Text.Json.Serialization.JsonIgnoreAttribute), null, Kvp(nameof(System.Text.Json.Serialization.JsonIgnoreAttribute.Condition), condition));
 
     /// <summary><see cref="System.Text.Json.Serialization.JsonPropertyNameAttribute"/>.</summary>

@@ -10,12 +10,15 @@ public sealed class OpenApiResolveContext
     private readonly Dictionary<TypeBase, Hierarchy> Hierarchies = [];
 
     [Pure]
-    public Type? Get(ResolveOpenApiSchema schema)
+    public Type? Get(ResolveOpenApiSchema schema) => GetEntry(schema)?.Type;
+
+    [Pure]
+    internal Entry? GetEntry(ResolveOpenApiSchema schema)
     {
         _ = ById.TryGetValue(schema.ReferenceId, out var entry) ||
             ByPath.TryGetValue(schema.Path, out entry);
 
-        return entry?.Type;
+        return entry;
     }
 
     [FluentSyntax]
@@ -104,7 +107,7 @@ public sealed class OpenApiResolveContext
     [Pure]
     private IEnumerable<Entry> GetEntries() => ByPath.Values.Distinct();
 
-    private sealed record Entry(ReferenceId ReferenceId, OpenApiPath Path, Type Type, OpenApiTypeData? Data)
+    internal sealed record Entry(ReferenceId ReferenceId, OpenApiPath Path, Type Type, OpenApiTypeData? Data)
     {
         [Pure]
         public override string ToString() => $"{Type.FullName}";

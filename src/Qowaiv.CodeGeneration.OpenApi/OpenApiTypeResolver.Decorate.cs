@@ -8,26 +8,15 @@ public partial class OpenApiTypeResolver
 {
     [Pure]
     protected virtual IEnumerable<AttributeInfo> DecorateEnumerationField(EnumerationField field, OpenApiString schema)
-    {
-        yield return AttributeInfo.System_Runtime_Serialization_EnumMember(Guard.NotNull(schema).Value);
-    }
+        => [AttributeInfo.System_Runtime_Serialization_EnumMember(Guard.NotNull(schema).Value)];
 
     [Pure]
     public virtual IEnumerable<AttributeInfo> DecorateModel(Class @class, ResolveOpenApiSchema schema)
-    {
-        Guard.NotNull(@class);
-
-        foreach (var derived in @class.GetDerivedTypes().Select(t => DecorateDerivedType(t, schema)).OfType<AttributeInfo>())
-        {
-            yield return derived;
-        }
-    }
+        => Guard.NotNull(@class).GetDerivedTypes().Select(t => DecorateDerivedType(t, schema)).OfType<AttributeInfo>();
 
     [Pure]
-    protected virtual AttributeInfo? DecorateDerivedType(Type derivedType, ResolveOpenApiSchema schema)
-    {
-        return AttributeInfo.System_Text_Json_Serialization_JsonDerivedTypeAttribute(derivedType);
-    }
+    protected virtual AttributeInfo? DecorateDerivedType(Type derivedType, ResolveOpenApiSchema schema) 
+        => AttributeInfo.System_Text_Json_Serialization_JsonDerivedType(derivedType);
 
     [Pure]
     protected virtual IEnumerable<AttributeInfo> DecorateProperty(Property property, ResolveOpenApiSchema schema)
@@ -45,9 +34,7 @@ public partial class OpenApiTypeResolver
 
     [Pure]
     protected virtual AttributeInfo? DecoratePropertyJson(Property property, ResolveOpenApiSchema schema)
-    {
-        return AttributeInfo.System_Text_Json_Serialization_JsonPropertyName(schema.Path.Last);
-    }
+        => AttributeInfo.System_Text_Json_Serialization_JsonPropertyName(schema.Path.Last);
 
     [Pure]
     protected virtual AttributeInfo? DecoratePropertyRequired(Property property, ResolveOpenApiSchema schema)

@@ -7,7 +7,7 @@ namespace Microsoft.OpenApi.Models;
 public static class QowaivOpenApiSchemaExtensions
 {
     /// <summary>
-    /// Gets the <see cref="Qowaiv.CodeGeneration.OpenApi.OpenApiDataType"/> of the schema.
+    /// Gets the <see cref="OpenApiDataType"/> of the schema.
     /// </summary>
     [Pure]
     public static OpenApiDataType DataType(this OpenApiSchema schema)

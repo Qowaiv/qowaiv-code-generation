@@ -20,7 +20,7 @@ public partial class OpenApiTypeResolver
 
     /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiDataType.@object"/>.</summary>
     [Pure]
-    private Class ResolveObject(ResolveOpenApiSchema schema)
+    protected Class ResolveObject(ResolveOpenApiSchema schema)
     {
         var data = GetTypeData(schema);
 

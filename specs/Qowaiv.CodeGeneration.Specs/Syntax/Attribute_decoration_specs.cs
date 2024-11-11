@@ -23,7 +23,7 @@ public class Supports
 
     [Test]
     public void Enum_values()
-        => AttributeInfo.System_Text_Json_Serialization_JsonIgnoreAttribute(JsonIgnoreCondition.WhenWritingDefault)
+        => AttributeInfo.System_Text_Json_Serialization_JsonIgnore(JsonIgnoreCondition.WhenWritingDefault)
         .Should().HaveContent("[System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]\r\n");
 }
 

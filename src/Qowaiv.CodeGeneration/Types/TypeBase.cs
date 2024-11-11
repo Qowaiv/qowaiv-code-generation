@@ -152,12 +152,7 @@ public abstract class TypeBase : Type
     [Pure]
     public override PropertyInfo[] GetProperties(BindingFlags bindingAttr)
     {
-        var props = new HashSet<PropertyInfo>();
-
-        foreach (var prop in Data.Properties.Where(p => (p.Bindings() & bindingAttr) != default))
-        {
-            props.Add(prop);
-        }
+        var props = new Dictionary<string, PropertyInfo>();
 
         Type? @base = BaseType;
 
@@ -165,11 +160,17 @@ public abstract class TypeBase : Type
         {
             foreach (var prop in @base.GetProperties(bindingAttr))
             {
-                props.Add(prop);
+                props.TryAdd(prop.Name, prop);
             }
             @base = @base.BaseType;
         }
-        return [.. props];
+
+        foreach (var prop in Data.Properties.Where(p => (p.Bindings() & bindingAttr) != default))
+        {
+            props.TryAdd(prop.Name, prop);
+        }
+
+        return [.. props.Values];
     }
 
     /// <inheritdoc />

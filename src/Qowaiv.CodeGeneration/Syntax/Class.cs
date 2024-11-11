@@ -36,7 +36,7 @@ public class Class : TypeBase, Code
             using (writer.Line().CodeBlock())
             {
                 writer.Write(
-                    writes: Data.Properties
+                    writes: GetProperties()
                     .Where(NotDefinedByBase)
                     .OfType<Code>()
                     .Select(WriteProperty),

@@ -4,11 +4,20 @@ namespace Qowaiv.CodeGeneration.Syntax;
 public sealed partial class AttributeInfo : Code, IEquatable<AttributeInfo>
 {
     /// <summary>Initializes a new instance of the <see cref="AttributeInfo"/> class.</summary>
+    [Obsolete("Use new AttributeInfo(Type, object[]?, dynamic) instead.")]
     public AttributeInfo(Type attribute, object[]? ctorArguments = null, params KeyValuePair<string, object?>[] propertyValues)
     {
         AttributeType = Guard.NotNull(attribute);
         CtorArguments = ctorArguments ?? [];
         PropertyValues = propertyValues ?? [];
+    }
+
+    /// <summary>Initializes a new instance of the <see cref="AttributeInfo"/> class.</summary>
+    public AttributeInfo(Type attribute, object[]? ctorArguments = null, dynamic? propertyValues = null)
+    {
+        AttributeType = Guard.NotNull(attribute);
+        CtorArguments = ctorArguments ?? [];
+        PropertyValues = propertyValues is null ? [] : FromDynamic(propertyValues);
     }
 
     /// <summary>The type of the attribute.</summary>
@@ -120,4 +129,13 @@ public sealed partial class AttributeInfo : Code, IEquatable<AttributeInfo>
 
     /// <summary>Returns false if both have the same values.</summary>
     public static bool operator !=(AttributeInfo? l, AttributeInfo? r) => !(l == r);
+
+    /// <summary>Creates a dictionary from a a dynamic object.</summary>
+    [Pure]
+    private static IReadOnlyCollection<KeyValuePair<string, object?>> FromDynamic(object obj)
+        => obj.GetType()
+            .GetProperties()
+            .Select(p => KeyValuePair.Create(p.Name, p.GetValue(obj)))
+            .Where(kvp => kvp.Value is { })
+            .ToDictionary();
 }

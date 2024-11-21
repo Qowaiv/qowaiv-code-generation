@@ -17,8 +17,7 @@ public class Supports
 
     [Test]
     public void parameter_sets()
-        => new AttributeInfo(typeof(TestAttribute),
-            null, KeyValuePair.Create("Author", (object?)"Qowaiv"))
+        => new AttributeInfo(typeof(TestAttribute), null, new { Author = "Qowaiv" })
        .Should().HaveContent("[NUnit.Framework.Test(Author = \"Qowaiv\")]\r\n");
 
     [Test]
@@ -32,11 +31,9 @@ public class Equaly
     [Test]
     public void by_value()
     {
-        var attr = new AttributeInfo(typeof(TestAttribute),
-            null, KeyValuePair.Create("Author", (object?)"Qowaiv"));
+        var attr = new AttributeInfo(typeof(TestAttribute), null, new { Author = "Qowaiv" });
 
-        var ottr = new AttributeInfo(typeof(TestAttribute),
-            null, KeyValuePair.Create("Author", (object?)"Qowaiv"));
+        var ottr = new AttributeInfo(typeof(TestAttribute), null, new { Author = "Qowaiv" });
 
         attr.Equals(ottr).Should().BeTrue();
     }

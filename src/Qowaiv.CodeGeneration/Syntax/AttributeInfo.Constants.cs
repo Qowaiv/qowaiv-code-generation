@@ -5,6 +5,9 @@ public partial class AttributeInfo
     /// <summary><see cref="Newtonsoft.Json.JsonConstructorAttribute"/>.</summary>
     public static readonly AttributeInfo Newtonsoft_Json_JsonConstructor = new(typeof(Newtonsoft.Json.JsonConstructorAttribute));
 
+    /// <summary><see cref="Qowaiv.Diagnostics.Contracts.InheritableAttribute"/>.</summary>
+    public static readonly AttributeInfo Qowaiv_Diagnostics_Contracts_Inheritable = new(typeof(Qowaiv.Diagnostics.Contracts.InheritableAttribute));
+
     /// <summary><see cref="Qowaiv.Validation.DataAnnotations.AnyAttribute"/>.</summary>
     public static readonly AttributeInfo Qowaiv_Validation_DataAnnotations_Any = new(typeof(Qowaiv.Validation.DataAnnotations.AnyAttribute));
 
@@ -68,10 +71,24 @@ public partial class AttributeInfo
     public static AttributeInfo Qowaiv_Validation_DataAnnotations_MultipleOf(double factor)
         => new(typeof(Qowaiv.Validation.DataAnnotations.MultipleOfAttribute), [factor]);
 
+    /// <summary><see cref="System.Text.Json.Serialization.JsonPolymorphicAttribute"/>.</summary>
+    [Pure]
+    public static AttributeInfo System_Text_Json_SerializationJsonPolymorphic(
+        string name,
+        System.Text.Json.Serialization.JsonUnknownDerivedTypeHandling? handling = default,
+        bool? ignoreUnrecognized = false) => new(
+            typeof(System.Text.Json.Serialization.JsonPolymorphicAttribute),
+            [name],
+            new
+            {
+                UnknownDerivedTypeHandling = handling,
+                IgnoreUnrecognizedTypeDiscriminators = ignoreUnrecognized,
+            });
+
     /// <inheritdoc cref="System_Text_Json_Serialization_JsonConverter(Type)"/>
     [Pure]
-    public static AttributeInfo System_Text_Json_Serialization_JsonConverter<T>() where T: System.Text.Json.Serialization.JsonConverter
-        => System_Text_Json_Serialization_JsonConverter(typeof(T));
+    public static AttributeInfo System_Text_Json_Serialization_JsonConverter<TConverter>() where TConverter : System.Text.Json.Serialization.JsonConverter
+        => System_Text_Json_Serialization_JsonConverter(typeof(TConverter));
 
     /// <summary><see cref="System.Text.Json.Serialization.JsonConverterAttribute"/>.</summary>
     [Pure]
@@ -80,13 +97,14 @@ public partial class AttributeInfo
 
     /// <summary><see cref="System.Text.Json.Serialization.JsonDerivedTypeAttribute"/>.</summary>
     [Pure]
-    public static AttributeInfo System_Text_Json_Serialization_JsonDerivedType(Type type)
-        => new(typeof(System.Text.Json.Serialization.JsonDerivedTypeAttribute), [type]);
+    public static AttributeInfo System_Text_Json_Serialization_JsonDerivedType(Type type, string? discriminator = null) => new(
+        typeof(System.Text.Json.Serialization.JsonDerivedTypeAttribute),
+        discriminator is { } ? [type, discriminator] : [type]);
 
     /// <summary><see cref="System.Text.Json.Serialization.JsonDerivedTypeAttribute"/>.</summary>
     [Pure]
     public static AttributeInfo System_Text_Json_Serialization_JsonIgnore(System.Text.Json.Serialization.JsonIgnoreCondition condition)
-        => new(typeof(System.Text.Json.Serialization.JsonIgnoreAttribute), null, Kvp(nameof(System.Text.Json.Serialization.JsonIgnoreAttribute.Condition), condition));
+        => new(typeof(System.Text.Json.Serialization.JsonIgnoreAttribute), null, new { Condition = condition });
 
     /// <summary><see cref="System.Text.Json.Serialization.JsonPropertyNameAttribute"/>.</summary>
     [Pure]
@@ -96,8 +114,5 @@ public partial class AttributeInfo
     /// <summary><see cref="System.Runtime.Serialization.EnumMemberAttribute"/>.</summary>
     [Pure]
     public static AttributeInfo System_Runtime_Serialization_EnumMember(string? value)
-        => new(typeof(System.Runtime.Serialization.EnumMemberAttribute), null, Kvp("Value", (object?)value));
-
-    [Pure]
-    private static KeyValuePair<string, object?> Kvp(string key, object? value) => new(key, value);
+        => new(typeof(System.Runtime.Serialization.EnumMemberAttribute), null, new { Value = (object?)value ?? Nill.Value });
 }

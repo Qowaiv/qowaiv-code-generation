@@ -15,6 +15,7 @@ public sealed class Literal : Code
         Guard.NotNull(writer);
         _ = Value switch
         {
+            Nill or
             null /*.........*/ => writer.Write("null"),
             Type type /*....*/ => writer.Write("typeof(").Write(type).Write(')'),
             bool boolean /*.*/ => writer.Write(boolean ? "true" : "false"),

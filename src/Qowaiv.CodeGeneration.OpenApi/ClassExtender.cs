@@ -1,4 +1,3 @@
-using Qowaiv.CodeGeneration.OpenApi.Collections;
 using Qowaiv.CodeGeneration.Syntax;
 using Qowaiv.Diagnostics.Contracts;
 
@@ -9,18 +8,13 @@ public static class ClassExtender
 {
     /// <summary>Overrides the All-of collection to a single base that the class has to obey.</summary>
     [FluentSyntax]
-    public static Class WithBase(this Class @class, Type? @base, ResolveOpenApiSchema schema)
+    public static Class WithBase(this Class @class, Type @base, ResolveOpenApiSchema schema)
     {
         Guard.NotNull(@base);
         Guard.NotNull(schema);
 
         var data = schema.Context.GetEntry(schema)!.Data!;
-
-        ((TypeCollector)data.AllOfs!).Clear();
-        if (@base is { })
-        {
-            data.AddAllOfs([@base]);
-        }
+        data.Manual.BaseType = @base;
 
         return @class;
     }

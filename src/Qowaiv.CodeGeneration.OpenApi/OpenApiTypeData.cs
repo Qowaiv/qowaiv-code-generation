@@ -7,6 +7,7 @@ namespace Qowaiv.CodeGeneration.OpenApi;
 internal sealed record OpenApiTypeData : TypeData
 {
     private readonly OpenApiResolveContext Context;
+    internal readonly Manuals Manual = new();
 
     /// <summary>Initializes a new instance of the <see cref="OpenApiTypeData"/> class.</summary>
     public OpenApiTypeData(OpenApiResolveContext context)
@@ -21,7 +22,7 @@ internal sealed record OpenApiTypeData : TypeData
     /// <inheritdoc />
     public override Type? BaseType
     {
-        get => GetBaseType();
+        get => Manual.BaseType ?? GetBaseType();
         init => throw new NotSupportedException();
     }
 
@@ -81,4 +82,9 @@ internal sealed record OpenApiTypeData : TypeData
     private bool DifferentTypeName(Type type)
         => type is not TypeBase tp
         || tp.TypeName != TypeName;
+
+    internal sealed class Manuals
+    {
+        public Type? BaseType { get; set; }
+    }
 }

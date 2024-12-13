@@ -11,6 +11,7 @@
 
 namespace WithSpecWithSpecifiedBase;
 
+[Qowaiv.OpenApi.DataAnnotations.AllOf("SomeBaseClass")]
 public sealed partial record SomeChildClass : WithSpecWithSpecifiedBase.SomeBaseClass
 {
     [System.Text.Json.Serialization.JsonPropertyName("email")]

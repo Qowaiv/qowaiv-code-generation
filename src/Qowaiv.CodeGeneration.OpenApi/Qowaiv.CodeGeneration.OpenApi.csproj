@@ -3,12 +3,12 @@
   <Import Project="../../props/package.props" />
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.0.1-alpha-028</Version>
+    <Version>0.0.1-alpha-029</Version>
     <PackageId>Qowaiv.CodeGeneration.OpenApi</PackageId>
     <PackageReleaseNotes>
       <![CDATA[
@@ -29,6 +29,7 @@ ToBeReleased
  
   <ItemGroup>
     <ProjectReference Include="../Qowaiv.CodeGeneration/Qowaiv.CodeGeneration.csproj" />
+    <ProjectReference Include="..\Qowaiv.OpenApi.DataAnnotations\Qowaiv.OpenApi.DataAnnotations.csproj" />
   </ItemGroup>
 
 </Project>

@@ -12,7 +12,22 @@ public partial class OpenApiTypeResolver
 
     [Pure]
     public virtual IEnumerable<AttributeInfo> DecorateModel(Class @class, ResolveOpenApiSchema schema)
-        => Guard.NotNull(@class).GetDerivedTypes().Select(t => DecorateDerivedType(t, schema)).OfType<AttributeInfo>();
+    {
+        Guard.NotNull(@class);
+
+        var anyOf = schema.AnyOf.Select(s => s.ReferenceId).Where(id => id.HasValue).ToArray();
+        var allOf = schema.AllOf.Select(s => s.ReferenceId).Where(id => id.HasValue).ToArray();
+        var oneOf = schema.OneOf.Select(s => s.ReferenceId).Where(id => id.HasValue).ToArray();
+
+        if (anyOf is { Length: > 0 }) yield return Annotate.AnyOf([.. anyOf.Select(a => a.ToString())]);
+        if (allOf is { Length: > 0 }) yield return Annotate.AllOf([.. allOf.Select(a => a.ToString())]);
+        if (oneOf is { Length: > 0 }) yield return Annotate.OneOf([.. oneOf.Select(a => a.ToString())]);
+
+        foreach (var derived in @class.GetDerivedTypes().Select(t => DecorateDerivedType(t, schema)).OfType<AttributeInfo>())
+        {
+            yield return derived;
+        }
+    }
 
     [Pure]
     protected virtual AttributeInfo? DecorateDerivedType(Type derivedType, ResolveOpenApiSchema schema) 

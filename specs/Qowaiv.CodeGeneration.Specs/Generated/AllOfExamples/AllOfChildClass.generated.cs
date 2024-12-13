@@ -11,6 +11,7 @@
 
 namespace AllOfExamples;
 
+[Qowaiv.OpenApi.DataAnnotations.AllOf("AllOf1", "AllOf2")]
 public sealed partial record AllOfChildClass
 {
     [System.Text.Json.Serialization.JsonPropertyName("property1")]

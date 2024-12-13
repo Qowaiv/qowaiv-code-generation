@@ -11,6 +11,8 @@
 
 namespace DerivedTypes;
 
+[Qowaiv.OpenApi.DataAnnotations.AllOf("Channels")]
+[Qowaiv.OpenApi.DataAnnotations.OneOf("EmailAttributes", "BankMailAttributes")]
 [System.Text.Json.Serialization.JsonDerivedType(typeof(DerivedTypes.EmailAttributes))]
 [System.Text.Json.Serialization.JsonDerivedType(typeof(DerivedTypes.BankMailAttributes))]
 public abstract partial record Distribution : DerivedTypes.Channels

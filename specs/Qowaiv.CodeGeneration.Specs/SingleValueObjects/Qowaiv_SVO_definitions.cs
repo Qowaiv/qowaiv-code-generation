@@ -5,6 +5,7 @@ using Qowaiv.SingleValueObjects;
 
 namespace Qowaiv_SVO_definitions;
 
+[Explicit]
 public class Generation_of
 {
     private static readonly string Root = @"c:\code\Qowaiv";

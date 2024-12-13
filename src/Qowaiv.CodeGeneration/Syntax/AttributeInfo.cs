@@ -1,6 +1,7 @@
 namespace Qowaiv.CodeGeneration.Syntax;
 
 /// <summary>Represents an attribute decoration.</summary>
+[DebuggerDisplay("Type = {AttributeType.Name}, Ctor = {CtorArguments.Count}, Props = {PropertyValues.Count}")]
 public sealed partial class AttributeInfo : Code, IEquatable<AttributeInfo>
 {
     /// <summary>Initializes a new instance of the <see cref="AttributeInfo"/> class.</summary>

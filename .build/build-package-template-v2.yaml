@@ -103,10 +103,10 @@ stages:
     displayName: Build and Test
     steps:
       - task: UseDotNet@2
-        displayName: Install .NET 8
+        displayName: Install .NET 9
         inputs:
           packageType: 'sdk'
-          version: '8.x'
+          version: '9.x'
 
       - task: DotNetCoreCLI@2
         inputs:

@@ -11,6 +11,7 @@
 
 namespace AllOfExamples;
 
+[Qowaiv.OpenApi.DataAnnotations.AllOf("SomeBaseClass")]
 public sealed partial record SomeChildClass : AllOfExamples.SomeBaseClass
 {
     [System.Text.Json.Serialization.JsonPropertyName("email")]

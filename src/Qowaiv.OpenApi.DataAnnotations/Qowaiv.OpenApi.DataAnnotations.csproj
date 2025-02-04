@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.0.1-alpha-029</Version>
+    <Version>0.0.1</Version>
     <PackageId>Qowaiv.OpenApi.DataAnnotations</PackageId>
     <PackageReleaseNotes>
       <![CDATA[
-ToBeReleased
-- Initial alpha release
+v0.0.1
+- Introduction of the AllOf attribute.
+- Introduction of the AnyOf attribute.
+- Introduction of the OneOf attribute.
 ]]>
     </PackageReleaseNotes>
   </PropertyGroup>

@@ -6,21 +6,26 @@ public partial class OpenApiTypeResolver
 {
     /// <summary>Walk through the <see cref="OpenApiDocument"/>.</summary>
     [Pure]
-    public IReadOnlyCollection<Code> Walk(OpenApiDocument document)
+    public IReadOnlyCollection<Code> Walk(OpenApiDocument document) => Walk([document]);
+
+    /// <summary>Walk through the <see cref="OpenApiDocument"/>.</summary>
+    [Pure]
+    public IReadOnlyCollection<Code> Walk(IEnumerable<OpenApiDocument> documents)
     {
-        Guard.NotNull(document);
+        Guard.NotNull(documents);
 
         var context = new OpenApiResolveContext();
 
-        if (document.Components is { } components)
+        foreach (var components in documents.Select(d => d.Components))
         {
             Visit(components, context);
+
+            if (components.Responses is { } responses)
+            {
+                Visit(responses, context);
+            }
         }
 
-        if (document.Components?.Responses is { } responses)
-        {
-            Visit(responses, context);
-        }
         return context.ResolvedCode(DecorateModel);
     }
 

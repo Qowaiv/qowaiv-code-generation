@@ -15,6 +15,7 @@
 
   <PropertyGroup>
     <Title>Qowaiv Code Generation</Title>
+    <ProductName>Qowaiv Code Generation</ProductName>
     <Description>
       Qowaiv is a (Single) Value Object library. It aims to model reusable (Single)
       Value Objects that can be used in a wide variety of modeling scenarios, both

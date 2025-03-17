@@ -2,7 +2,6 @@
 
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
-using Qowaiv.Text;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
 
@@ -110,23 +109,7 @@ public sealed record ResolveOpenApiSchema
     /// </remarks>
     [Pure]
     public bool Matches(string pattern, StringComparison comparisonType = StringComparison.OrdinalIgnoreCase)
-    {
-        var paths = Path.ToString().Split(OpenApiPath.Splitter);
-        var patterns = pattern?.Split(OpenApiPath.Splitter) ?? [];
-
-        if (patterns.Length > 0 && patterns.Length <= paths.Length)
-        {
-            for (var i = 1; i <= patterns.Length; i++)
-            {
-                if (!WildcardPattern.IsMatch(patterns[^i], paths[^i], default, comparisonType))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-        else return false;
-    }
+        => Path.Matches(pattern, comparisonType);
 
     /// <inheritdoc />
     [Pure]

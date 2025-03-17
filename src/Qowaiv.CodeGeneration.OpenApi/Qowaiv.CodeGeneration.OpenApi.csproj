@@ -29,7 +29,7 @@ ToBeReleased
  
   <ItemGroup>
     <ProjectReference Include="../Qowaiv.CodeGeneration/Qowaiv.CodeGeneration.csproj" />
-    <ProjectReference Include="..\Qowaiv.OpenApi.DataAnnotations\Qowaiv.OpenApi.DataAnnotations.csproj" />
+    <ProjectReference Include="../Qowaiv.OpenApi.DataAnnotations/Qowaiv.OpenApi.DataAnnotations.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,13 +1,27 @@
 using Microsoft.OpenApi.Any;
 using Qowaiv.CodeGeneration.Syntax;
+using Qowaiv.Diagnostics.Contracts;
 using System.Reflection;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
 
+/// <summary>
+/// Resolver that collects/resolves <see cref="Type"/> from an
+/// <see cref="Microsoft.OpenApi.Models.OpenApiSchema"/>.
+/// </summary>
+/// <param name="defaultNamespace">
+/// The default namespace for the resolved types.
+/// </param>
+/// <param name="settings">
+/// The (optional) settings to apply.
+/// </param>
 public partial class OpenApiTypeResolver(
     Namespace defaultNamespace,
     OpenApiTypeResolverSettings? settings = null)
 {
+    /// <summary>Indicates that the resolved type should be ignored.</summary>
+    public readonly Type Ignore = typeof(IgnoreType);
+
     /// <summary>The default namespace for the resolved code.</summary>
     public Namespace DefaultNamespace { get; } = Guard.NotDefault(defaultNamespace);
 
@@ -64,4 +78,7 @@ public partial class OpenApiTypeResolver(
     [Pure]
     protected virtual string NormalizeFormat(string? str)
         => (str ?? string.Empty).ToUpperInvariant().Replace("-", string.Empty);
+
+    [EmptyClass("Helper to indicate that something should not be ignored")]
+    private sealed class IgnoreType { }
 }

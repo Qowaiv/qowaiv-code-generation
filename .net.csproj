@@ -16,11 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include=".build\.npmrc" />
-    <None Include=".build\build-package-template-v2.yaml" />
-    <None Include=".build\build-package.yaml" />
-    <None Include=".build\gitleaks.toml" />
-    <None Include=".build\trivy-html.tpl" />
+    <None Include=".build/.npmrc" />
+    <None Include=".build/build-package-template-v2.yaml" />
+    <None Include=".build/build-package.yaml" />
+    <None Include=".build/gitleaks.toml" />
+    <None Include=".build/trivy-html.tpl" />
   </ItemGroup>
   
   <ItemGroup>

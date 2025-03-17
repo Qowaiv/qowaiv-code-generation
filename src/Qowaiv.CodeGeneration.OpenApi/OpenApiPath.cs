@@ -1,3 +1,4 @@
+using Qowaiv.Text;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
 
@@ -19,6 +20,30 @@ public readonly struct OpenApiPath(string? path) : IEquatable<OpenApiPath>
     /// <summary>Gets the specified item.</summary>
     public string this[Index index]
         => (Value ?? "{root}").Split(Splitter)[index];
+
+    /// <summary>Returns true if the path matches the pattern.</summary>
+    /// <remarks>
+    /// Wildcards are supported.
+    /// </remarks>
+    [Pure]
+    public bool Matches(string pattern, StringComparison comparisonType = StringComparison.OrdinalIgnoreCase)
+    {
+        var paths = ToString().Split(Splitter);
+        var patterns = pattern?.Split(Splitter) ?? [];
+
+        if (patterns.Length > 0 && patterns.Length <= paths.Length)
+        {
+            for (var i = 1; i <= patterns.Length; i++)
+            {
+                if (!WildcardPattern.IsMatch(patterns[^i], paths[^i], default, comparisonType))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        else return false;
+    }
 
     /// <summary>Creates a child path.</summary>
     [Pure]

@@ -5,7 +5,6 @@ namespace Qowaiv.CodeGeneration.OpenApi;
 
 public partial class OpenApiTypeResolver
 {
-
     /// <summary>Resolves the <see cref="Type"/> for <see cref="OpenApiDataType.array"/>.</summary>
     [Pure]
     private Type? ResolveArray(ResolveOpenApiSchema schema)

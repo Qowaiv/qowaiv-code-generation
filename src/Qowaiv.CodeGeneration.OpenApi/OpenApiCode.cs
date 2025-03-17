@@ -27,12 +27,11 @@ public sealed class OpenApiCode : IReadOnlyCollection<Code>
     /// <summary>Only keep code that the matches the predicate or is used by it.</summary>
     [Pure]
     public OpenApiCode Filter(Predicate<TypeBase> predicate)
-        => new(Code
+        => new([.. Code
             .OfType<TypeBase>()
             .Where(t => predicate(t))
             .IncludeUsings()
-            .OfType<Code>()
-            .ToArray());
+            .OfType<Code>()]);
 
     /// <summary>Saves the code.</summary>
     /// <param name="codeFileSettings">
@@ -263,7 +262,7 @@ public sealed class OpenApiCode : IReadOnlyCollection<Code>
     /// The resolver to interpreter the <see cref="OpenApiDocument"/>.
     /// </param>
     [Pure]
-    public static OpenApiCode Resolve(IEnumerable<OpenApiDocument> documents, OpenApiTypeResolver resolver) 
+    public static OpenApiCode Resolve(IEnumerable<OpenApiDocument> documents, OpenApiTypeResolver resolver)
         => new OpenApiCode(Guard.NotNull(resolver).Walk(documents)).Filter(_ => true);
 
     [Pure]

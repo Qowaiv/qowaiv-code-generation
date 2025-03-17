@@ -11,9 +11,18 @@ public partial class OpenApiTypeResolver
     {
         var context = Guard.NotNull(schema).Context;
 
-        return context.Get(schema)
+        var resolved = context.GetType(schema)
             ?? context.Add(schema, ResolveCustomization(schema) ?? ResolveDataType(schema));
+
+        return resolved == Ignore
+            ? null
+            : resolved;
     }
+
+    /// <summary>Gets a type based on (previously resolved) schema path.</summary>
+    [Pure]
+    protected Type? ByPath(ResolveOpenApiSchema schema, string path)
+        => Guard.NotNull(schema).Context.GetType(path);
 
     /// <summary>Custom resolving.</summary>
     [Pure]

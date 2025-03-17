@@ -30,7 +30,7 @@ public partial class OpenApiTypeResolver
     }
 
     [Pure]
-    protected virtual AttributeInfo? DecorateDerivedType(Type derivedType, ResolveOpenApiSchema schema) 
+    protected virtual AttributeInfo? DecorateDerivedType(Type derivedType, ResolveOpenApiSchema schema)
         => AttributeInfo.System_Text_Json_Serialization_JsonDerivedType(derivedType);
 
     [Pure]

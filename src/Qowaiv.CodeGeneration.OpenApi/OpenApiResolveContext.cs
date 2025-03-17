@@ -3,14 +3,24 @@ using Qowaiv.Diagnostics.Contracts;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
 
+/// <summary>
+/// Context available why resolving an <see cref="Microsoft.OpenApi.Models.OpenApiSchema"/>.
+/// with the <see cref="OpenApiTypeResolver"/>.
+/// </summary>
 public sealed class OpenApiResolveContext
 {
     private readonly Dictionary<OpenApiPath, Entry> ByPath = [];
     private readonly Dictionary<ReferenceId, Entry> ById = [];
     private readonly Dictionary<TypeBase, Hierarchy> Hierarchies = [];
 
+    /// <summary>Gets a <see cref="Type"/> by schema.</summary>
     [Pure]
-    public Type? Get(ResolveOpenApiSchema schema) => GetEntry(schema)?.Type;
+    public Type? GetType(ResolveOpenApiSchema schema) => GetEntry(schema)?.Type;
+
+    /// <summary>Gets a <see cref="Type"/> by path.</summary>
+    [Pure]
+    public Type? GetType(string path)
+        => ByPath.FirstOrDefault(e => e.Key.Matches(path)).Value?.Type;
 
     [Pure]
     internal Entry? GetEntry(ResolveOpenApiSchema schema)

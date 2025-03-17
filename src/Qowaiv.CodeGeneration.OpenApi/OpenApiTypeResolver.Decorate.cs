@@ -148,7 +148,7 @@ public partial class OpenApiTypeResolver
                 .Select(str => str.Value)
                 .ToArray();
 
-            return AttributeInfo.Qowaiv_Validation_DataAnnotations_AllowedValues(values);
+            return AttributeInfo.Qowaiv_Validation_DataAnnotations_Allowed(property.PropertyType, values);
         }
         else return null;
 

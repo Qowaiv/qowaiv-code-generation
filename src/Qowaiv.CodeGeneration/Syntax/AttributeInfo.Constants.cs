@@ -61,6 +61,11 @@ public partial class AttributeInfo
     public static AttributeInfo System_ComponentModel_DataAnnotations_RegularExpression(string pattern)
         => new(typeof(System.ComponentModel.DataAnnotations.RegularExpressionAttribute), [pattern]);
 
+    /// <summary><see cref="Qowaiv.Validation.DataAnnotations.AllowedAttribute{TValue}"/>.</summary>
+    [Pure]
+    public static AttributeInfo Qowaiv_Validation_DataAnnotations_Allowed(Type propertyType, params object[] values)
+        => new(typeof(Qowaiv.Validation.DataAnnotations.AllowedAttribute<>).MakeGenericType(propertyType), values);
+
     /// <summary><see cref="System.ComponentModel.DataAnnotations.AllowedValuesAttribute"/>.</summary>
     [Pure]
     public static AttributeInfo Qowaiv_Validation_DataAnnotations_AllowedValues(params object[] values)

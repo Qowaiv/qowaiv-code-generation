@@ -3,7 +3,6 @@ using Microsoft.OpenApi.Readers;
 using Qowaiv.CodeGeneration.IO;
 using Qowaiv.CodeGeneration.Syntax;
 using Qowaiv.Validation.Abstractions;
-using System.Dynamic;
 using System.IO;
 
 namespace Qowaiv.CodeGeneration.OpenApi;
@@ -43,6 +42,8 @@ public sealed class OpenApiCode : IReadOnlyCollection<Code>
     public void Save(CodeFileWriterSettings codeFileSettings, CSharpWriterSettings? csharpSettings = null)
     {
         Guard.NotNull(codeFileSettings).RootDirectory.Ensure();
+        GuardTypes();
+
         csharpSettings ??= new();
 
         DeleteExisting(codeFileSettings);
@@ -50,6 +51,16 @@ public sealed class OpenApiCode : IReadOnlyCollection<Code>
         foreach (var code in this.OfType<TypeBase>())
         {
             Write(code, codeFileSettings, csharpSettings);
+        }
+
+        void GuardTypes()
+        {
+            var unique = new HashSet<TypeName>();
+
+            foreach (var type in this.OfType<TypeBase>().Select(t => t.TypeName))
+            {
+                if (!unique.Add(type)) throw new DuplicateType($"Contains '{type}' multiple times");
+            }
         }
     }
 

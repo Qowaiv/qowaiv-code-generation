@@ -36,6 +36,6 @@ public sealed partial record Pet
     /// <summary>pet status in the store</summary>
     [System.Text.Json.Serialization.JsonPropertyName("status")]
     [Qowaiv.Validation.DataAnnotations.Optional]
-    [Qowaiv.Validation.DataAnnotations.AllowedValues("available", "pending", "sold")]
+    [Qowaiv.Validation.DataAnnotations.AllowedAttribute<PetShopBoys.Status>("available", "pending", "sold")]
     public PetShopBoys.Status Status { get; init; }
 }

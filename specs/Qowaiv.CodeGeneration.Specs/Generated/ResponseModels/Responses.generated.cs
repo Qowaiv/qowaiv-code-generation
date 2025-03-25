@@ -11,7 +11,7 @@
 
 namespace ResponseModels;
 
-public sealed partial record TokenResponse
+public sealed partial record Responses
 {
     [System.Text.Json.Serialization.JsonPropertyName("access_token")]
     [Qowaiv.Validation.DataAnnotations.Optional]

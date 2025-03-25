@@ -49,6 +49,12 @@ public readonly struct OpenApiPath(string? path) : IEquatable<OpenApiPath>
     [Pure]
     public OpenApiPath Child(string child) => new(Value is null ? $"#{Splitter}{child}" : $"{Value}{Splitter}{child}");
 
+    /// <summary>Gets the parent path.</summary>
+    public OpenApiPath Parent
+        => Value?.LastIndexOf(Splitter) is { } index && index > -1
+        ? new(Value[..index])
+        : Root;
+
     /// <inheritdoc />
     [Pure]
     public override string ToString() => Value ?? string.Empty;

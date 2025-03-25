@@ -15,6 +15,7 @@ public partial class OpenApiTypeResolver
         Guard.NotNull(documents);
 
         var context = new OpenApiResolveContext();
+        var path = OpenApiPath.Root.Child("components").Child("responses");
 
         foreach (var components in documents.Select(d => d.Components))
         {
@@ -22,8 +23,12 @@ public partial class OpenApiTypeResolver
 
             if (components.Responses is { } responses)
             {
-                Visit(responses, context);
+                Visit(responses, path, context);
             }
+        }
+        foreach (var paths in documents.Select(p => p.Paths))
+        {
+            Visit(paths, context);
         }
 
         return context.ResolvedCode(DecorateModel);
@@ -33,23 +38,56 @@ public partial class OpenApiTypeResolver
     {
         var path = OpenApiPath.Root.Child("components").Child("schemas");
 
-        foreach (var kvp in components.Schemas)
+        foreach ((var name, var schema) in components.Schemas)
         {
-            Visit(new ResolveOpenApiSchema(path.Child(kvp.Key), kvp.Value, context, null));
+            Visit(new ResolveOpenApiSchema(path.Child(name), schema, context, null));
         }
     }
 
-    private void Visit(IDictionary<string, OpenApiResponse> responses, OpenApiResolveContext context)
+    private void Visit(OpenApiPaths paths, OpenApiResolveContext context)
     {
-        var path = OpenApiPath.Root.Child("components").Child("responses");
+        var root = OpenApiPath.Root.Child("paths");
 
-        foreach (var response in responses.Where(kvp => kvp.Key is { Length: > 0 }))
+        foreach ((var pathName, var pathItem) in paths)
         {
-            foreach (var schema in response.Value.Content.Values.Select(v => v.Schema))
+            if (pathItem is null) continue;
+
+            foreach ((var operationType, var operation) in pathItem.Operations)
             {
-                var resolve = new ResolveOpenApiSchema(path.Child(response.Key), schema, context, null);
-                Visit(resolve);
+                if (operation is null) continue;
+
+                var name = pathName.Replace('/', '_').Trim('_');
+
+                var path = root.Child(operationType.ToString().ToLowerInvariant());
+
+                Visit(operation.RequestBody, path.Child(name + "Request"), context);
+                Visit(operation.Responses, path.Child(name + "Response"), context);
             }
+        }
+    }
+
+    private void Visit(OpenApiRequestBody requestBody, OpenApiPath path, OpenApiResolveContext context)
+    {
+        if (requestBody?.Content is null) return;
+
+        Visit(requestBody.Content, path, context);
+    }
+
+    private void Visit(IDictionary<string, OpenApiResponse> responses, OpenApiPath path, OpenApiResolveContext context)
+    {
+        foreach ((var responseType, var response) in responses)
+        {
+            Visit(response.Content, path.Parent.Child(responseType).Child(path.Last), context);
+        }
+    }
+
+    private void Visit(IDictionary<string, OpenApiMediaType> content, OpenApiPath path, OpenApiResolveContext context)
+    {
+        foreach (var media in content.Values.OfType<OpenApiMediaType>().Where(m => m.Schema is { }))
+        {
+            var childPath = path.Parent.Child(path.Last);
+            var resolve = new ResolveOpenApiSchema(childPath, media.Schema, context, null);
+            Visit(resolve);
         }
     }
 

@@ -40,7 +40,7 @@ public sealed class CodeSnippet : Code
         {
             nr++;
 
-            if (Matches(mode, nr, line, "#if", Patterns.If, m => m != Mode.None, out var @if))
+            if (Matches(mode, nr, line, "#if", Patterns.If, m => m is not Mode.None, out var @if))
             {
                 enabled = Enabled(@if, constants);
                 mode = Mode.@if;
@@ -55,7 +55,7 @@ public sealed class CodeSnippet : Code
                 enabled = !enabled;
                 mode = Mode.@else;
             }
-            else if (Matches(mode, nr, line, "#endif", Patterns.EndIf, m => m == Mode.None, out _))
+            else if (Matches(mode, nr, line, "#endif", Patterns.EndIf, m => m is Mode.None, out _))
             {
                 enabled = true;
                 mode = Mode.None;

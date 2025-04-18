@@ -3,10 +3,15 @@
   <PropertyGroup>
     <IsPublishable>false</IsPublishable>
     <NuGetAudit>true</NuGetAudit>
-    <Nullable>enable</Nullable>
-    <OutputType>library</OutputType>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <NoWarn>NU1507;NU5104</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Compiler options">
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+    <PolySharpIncludeRuntimeSupportedAttributes>true</PolySharpIncludeRuntimeSupportedAttributes>
+    <OutputType>library</OutputType>
   </PropertyGroup>
 
   <PropertyGroup Label="Diagnostics">
@@ -27,7 +32,6 @@
     <Company>Qowaiv community</Company>
     <Copyright>Copyright © Qowaiv community 2022-current</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup Label="Analyzer configuration">

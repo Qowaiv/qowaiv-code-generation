@@ -75,36 +75,6 @@ internal static partial class Guard
         ? throw new ArgumentException(Messages.ArgumentException_IsDefaultValue, paramName)
         : parameter;
 
-    /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if the parameter is not in the collection, otherwise the parameter is passed.</summary>
-    /// <typeparam name="T">The type to guard; must be a structure.</typeparam>
-    /// <param name="parameter">The parameter to guard.</param>
-    /// <param name="paramName">The name of the parameter.</param>
-    /// <param name="allowedRange">The allowed range of values.</param>
-    /// <returns>
-    /// The guarded parameter.
-    /// </returns>
-    [DebuggerStepThrough]
-    public static T In<T>(T parameter, [CallerArgumentExpression(nameof(parameter))] string? paramName = null, params T[] allowedRange)
-        where T : struct
-        => allowedRange.Contains(parameter)
-        ? parameter
-        : throw new ArgumentOutOfRangeException(paramName, string.Format(CultureInfo.CurrentCulture, Messages.ArgumentOutOfRangeException_NotInCollection, string.Join(", ", allowedRange)));
-
-    /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if the parameter not in the collection, otherwise the parameter is passed.</summary>
-    /// <typeparam name="T">The type to guard; must be a structure.</typeparam>
-    /// <param name="parameter">The parameter to guard.</param>
-    /// <param name="paramName">The name of the parameter.</param>
-    /// <param name="forbiddenRange">The forbidden range of values.</param>
-    /// <returns>
-    /// The guarded parameter.
-    /// </returns>
-    [DebuggerStepThrough]
-    public static T NotIn<T>(T parameter, [CallerArgumentExpression(nameof(parameter))] string? paramName = null, params T[] forbiddenRange)
-        where T : struct
-        => forbiddenRange.Contains(parameter)
-        ? throw new ArgumentOutOfRangeException(paramName, string.Format(CultureInfo.CurrentCulture, Messages.ArgumentOutOfRangeException_InCollection, string.Join(", ", forbiddenRange)))
-        : parameter;
-
     /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if the parameter not in not a defined value of the enum, otherwise the parameter is passed.</summary>
     /// <typeparam name="T">The type to guard; must be a structure (enum).</typeparam>
     /// <param name="parameter">The parameter to guard.</param>
@@ -120,7 +90,7 @@ internal static partial class Guard
         where T : struct
         => Enum.IsDefined(typeof(T), parameter)
         ? parameter
-        : throw new ArgumentOutOfRangeException(paramName, string.Format(CultureInfo.CurrentCulture, Messages.ArgumentOutOfRangeException_DefinedEnum, parameter, typeof(T)));
+        : throw new ArgumentOutOfRangeException(paramName, string.Format(Messages.ArgumentOutOfRangeException_DefinedEnum, parameter, typeof(T)));
 
     /// <summary>
     /// Guards that the parameter is an instance of T, otherwise throws an argument (null) exception.
@@ -137,7 +107,7 @@ internal static partial class Guard
     public static T IsInstanceOf<T>([ValidatedNotNull] object? parameter, [CallerArgumentExpression(nameof(parameter))] string? paramName = null)
         => NotNull(parameter, paramName) is T guarded
         ? guarded
-        : throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Messages.ArgumentException_NotAnInstanceOf, typeof(T)), paramName);
+        : throw new ArgumentException(string.Format(Messages.ArgumentException_NotAnInstanceOf, typeof(T)), paramName);
 
     /// <summary>Guards that the parameter is not null or an empty collection, otherwise throws an argument (null) exception.</summary>
     /// <typeparam name="T">The type to guard; must be an <see cref="ICollection" />.</typeparam>
@@ -199,28 +169,6 @@ internal static partial class Guard
         => parameter == Guid.Empty
         ? throw new ArgumentException(Messages.ArgumentException_GuidEmpty, paramName)
         : parameter;
-
-    /// <summary>Throws an ArgumentOutOfRangeException if the parameter is not finite, otherwise the parameter is passed.</summary>
-    /// <param name="parameter">The parameter to guard.</param>
-    /// <param name="paramName">The name of the parameter.</param>
-    /// <returns>
-    /// The guarded parameter.
-    /// </returns>
-    [DebuggerStepThrough]
-    public static double Finite(double? parameter, [CallerArgumentExpression(nameof(parameter))] string? paramName = null)
-        => Finite(HasValue(parameter, paramName), paramName);
-
-    /// <summary>Throws an ArgumentOutOfRangeException if the parameter is not finite, otherwise the parameter is passed.</summary>
-    /// <param name="parameter">The parameter to guard.</param>
-    /// <param name="paramName">The name of the parameter.</param>
-    /// <returns>
-    /// The guarded parameter.
-    /// </returns>
-    [DebuggerStepThrough]
-    public static double Finite(double parameter, [CallerArgumentExpression(nameof(parameter))] string? paramName = null)
-        => double.IsFinite(parameter)
-        ? parameter
-        : throw new ArgumentOutOfRangeException(paramName, Messages.ArgumentOutOfRangeException_NoFinite);
 
     /// <summary>Throws an ArgumentException if the parameter is not positive, otherwise the parameter is passed.</summary>
     /// <param name="parameter">The parameter to guard.</param>
@@ -463,12 +411,9 @@ internal static partial class Guard
         public const string ArgumentException_NotExists = "Argument '{0}'does not exist.";
         public const string ArgumentException_NullableMustHaveValue = "Nullable argument must have a value.";
         public const string ArgumentException_StringEmpty = "Argument cannot be an empty string.";
-        public const string ArgumentOutOfRangeException_InCollection = "Argument was in the collection of forbidden values. Forbidden are {0}.";
-        public const string ArgumentOutOfRangeException_NotInCollection = "Argument was not in the collection of allowed values. Allowed are {0}.";
         public const string ArgumentOutOfRangeException_DefinedEnum = "Argument {0} is not a defined value of {1}.";
         public const string ArgumentOutOfRangeException_Negative = "Argument should not be negative.";
         public const string ArgumentOutOfRangeException_NotPositive = "Argument should be positive.";
-        public const string ArgumentOutOfRangeException_NoFinite = "Argument should be a finite number.";
     }
 
     /// <summary>Marks the NotNull argument as being validated for not being null, to satisfy the static code analysis.</summary>

@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../../props/package.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>0.0.1-alpha-031</Version>
+    <PackageId>Qowaiv.CodeGeneration</PackageId>
+    <PackageReleaseNotes>
+      <![CDATA[
+ToBeReleased
+- Extend Open API documentation with explicit example. #188
+- Initial alpha release
+]]>
+    </PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../../shared/Guard.cs" Link="Guard.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="Qowaiv" />
+    <PackageReference Include="Qowaiv.Validation.DataAnnotations" />
+  </ItemGroup>
+
+</Project>

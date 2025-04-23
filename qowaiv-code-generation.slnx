@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path=".net.csproj" />
+  <Project Path="src/Qowaiv.CodeGeneration.SingleValueObjects/Qowaiv.CodeGeneration.SingleValueObjects.csproj" Id="126b7db2-b884-4f8f-aa24-24722855147d" />
+  <Project Path="src/Qowaiv.CodeGeneration/Qowaiv.CodeGeneration.csproj" />
+  <Project Path="src/Specs/Specs.csproj" Id="8b1688ea-9faa-4fd5-a1ac-e6b6a22ed1e6" />
+</Solution>

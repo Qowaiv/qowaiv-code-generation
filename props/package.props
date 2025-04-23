@@ -1,0 +1,41 @@
+<Project>
+
+  <PropertyGroup Condition="'$(CompileConfig)' != 'DEBUG'">
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Packaging">
+    <IsPackable>true</IsPackable>
+    <PackageIcon>package-icon.png</PackageIcon>
+    <PackageIconUrl>https://github.com/Qowaiv/qowaiv-codegeneration/blob/master/design/package-icon.png</PackageIconUrl>
+    <PackageProjectUrl>http://www.github.com/Qowaiv/qowaiv-codegeneration</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/Qowaiv/qowaiv-codegeneration</RepositoryUrl>
+    <DefineConstants>CONTRACTS_FULL</DefineConstants>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Debug Symbols">
+    <DebugType>portable</DebugType>
+    <IncludeSymbols>true</IncludeSymbols>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup Label="Package files">
+    <None Include="$(MSBuildThisFileDirectory)../design/package-icon.png" Pack="true" PackagePath="" />
+    <None Include="README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup Label="Analyzers">
+    <PackageReference Include="Qowaiv.Analyzers.CSharp" PrivateAssets="all" />
+    <PackageReference Include="StyleCop.Analyzers" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup Label="Additional files">
+    <AdditionalFiles Include="../../props/package.props" Link="Properties/package.props" />
+  </ItemGroup>
+
+</Project>

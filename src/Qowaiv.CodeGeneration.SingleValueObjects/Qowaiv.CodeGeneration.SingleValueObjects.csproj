@@ -16,6 +16,11 @@ v1.0.0
     </PackageReleaseNotes>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateSBOM>true</GenerateSBOM>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Snippets/*.cs" />
     <EmbeddedResource Include="Snippets/*.cs" />
@@ -43,10 +48,11 @@ v1.0.0
   <ItemGroup Label="CompileTimeDependencies">
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Sbom.Targets" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup Label="DependencyPackaging">
-    <None Include="$(OutputPath)/netstandard2.0/$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(OutputPath)/$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
 
 </Project>

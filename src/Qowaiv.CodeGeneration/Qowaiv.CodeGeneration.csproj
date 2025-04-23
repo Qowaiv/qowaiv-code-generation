@@ -8,12 +8,19 @@
 
   <PropertyGroup>
     <Version>0.0.1-alpha-031</Version>
+    <IsPackable>true</IsPackable>
     <PackageId>Qowaiv.CodeGeneration</PackageId>
-    <PackageReleaseNotes>
+    <ToBeReleased>
       <![CDATA[
-ToBeReleased
+v1.0.0
 - Extend Open API documentation with explicit example. #188
 - Initial alpha release
+]]>
+    </ToBeReleased>
+    <PackageReleaseNotes>
+      <![CDATA[
+v0.0.1
+- Initial version.
 ]]>
     </PackageReleaseNotes>
   </PropertyGroup>

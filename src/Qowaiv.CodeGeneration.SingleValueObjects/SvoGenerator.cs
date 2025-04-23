@@ -17,6 +17,7 @@ internal sealed class SvoGenerator : IIncrementalGenerator
     }
 
     /// <summary>Collects the SVO parameters.</summary>
+    [Pure]
     private SvoParameters Collect(GeneratorAttributeSyntaxContext context, CancellationToken token)
     {
         token.ThrowIfCancellationRequested();
@@ -32,10 +33,10 @@ internal sealed class SvoGenerator : IIncrementalGenerator
         };
     }
 
-    /// <inheritdoc />
     /// <remarks>
     /// Currently, all syntax nodes are accepted.
     /// </remarks>
+    [Pure]
     private static bool Filter(SyntaxNode node, CancellationToken token)
     {
         token.ThrowIfCancellationRequested();
@@ -53,6 +54,7 @@ internal sealed class SvoGenerator : IIncrementalGenerator
     }
 
     /// <summary>Gets the full name of <see cref="ITypeSymbol"/>.</summary>
+    [Pure]
     private static string FullName(ITypeSymbol symbol)
         => symbol.ContainingType is ITypeSymbol containing
         ? $"{FullName(containing)}.{symbol.Name}"

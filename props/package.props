@@ -9,6 +9,7 @@
     <PackageIcon>package-icon.png</PackageIcon>
     <PackageIconUrl>https://github.com/Qowaiv/qowaiv-codegeneration/blob/master/design/package-icon.png</PackageIconUrl>
     <PackageProjectUrl>http://www.github.com/Qowaiv/qowaiv-codegeneration</PackageProjectUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/Qowaiv/qowaiv-codegeneration</RepositoryUrl>

@@ -2,7 +2,7 @@ using Qowaiv.CodeGeneration.Syntax;
 
 namespace Qowaiv.CodeGeneration.SingleValueObjects;
 
-public static class Embedded
+internal static class Embedded
 {
     [Pure]
     public static CodeSnippet Snippet(string name)

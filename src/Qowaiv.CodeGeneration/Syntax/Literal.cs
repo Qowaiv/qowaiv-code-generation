@@ -19,7 +19,7 @@ public sealed class Literal : Code
             null /*.........*/ => writer.Write("null"),
             Type type /*....*/ => writer.Write("typeof(").Write(type).Write(')'),
             bool boolean /*.*/ => writer.Write(boolean ? "true" : "false"),
-            int int32 /*....*/ => writer.Write(int32.ToString(CultureInfo.InvariantCulture)),
+            int int32 /*....*/ => writer.Write(Int32(int32)),
             double dbl /*...*/ => writer.Write(Double(dbl)),
             decimal dec /*..*/ => writer.Write(dec.ToString(CultureInfo.InvariantCulture)).Write('m'),
             string str /*...*/ => writer.Write(String(str)),
@@ -29,15 +29,23 @@ public sealed class Literal : Code
     }
 
     [Pure]
-    private static string Double(double dbl)
+    private static string Int32(int num) => num switch
     {
-        if (dbl <= double.MinValue) return "double.MinValue";
-        else if (dbl >= double.MaxValue) return "double.MaxValue";
-        else if (double.IsNaN(dbl)) return "double.NaN";
-        else if (double.IsPositiveInfinity(dbl)) return "double.PositiveInfinity";
-        else if (double.IsNegativeInfinity(dbl)) return "double.NegativeInfinity";
-        else return dbl.ToString(CultureInfo.InvariantCulture);
-    }
+        int.MinValue /*...*/ => "int.MinValue",
+        int.MaxValue /*...*/ => "int.MaxValue",
+        _ => num.ToString(CultureInfo.InvariantCulture),
+    };
+
+    [Pure]
+    private static string Double(double dbl) => dbl switch
+    {
+        double.MinValue /*...*/ => "double.MinValue",
+        double.MaxValue /*...*/ => "double.MaxValue",
+        _ when double.IsNaN(dbl) /*...*/ => "double.NaN",
+        _ when double.IsPositiveInfinity(dbl) /*...*/ => "double.PositiveInfinity",
+        _ when double.IsNegativeInfinity(dbl) /*...*/ => "double.NegativeInfinity",
+        _ => dbl.ToString(CultureInfo.InvariantCulture),
+    };
 
     [Pure]
     private static string String(string str)

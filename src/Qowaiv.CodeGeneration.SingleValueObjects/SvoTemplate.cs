@@ -14,8 +14,7 @@ internal sealed class SvoTemplate(SvoParameters parameters) : Code
             .Transform(line => line
                 .Replace("@Svo", Parameters.Svo)
                 .Replace("@Behavior", Parameters.Behavior)
-                .Replace("@Namespace", Parameters.Namespace.ToString())
-        ));
+                .Replace("@Namespace", Parameters.Namespace.ToString())));
 
     /// <inheritdoc />
     [Pure]

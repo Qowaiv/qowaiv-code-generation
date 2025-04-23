@@ -68,7 +68,7 @@ namespace @Namespace
             // Comparing with char.max value does not work as expected in older versions of .NET
             if (IsKnown && other.IsKnown)
             {
-                return return behavior.Compare(m_Value, other.m_Value);
+                return behavior.Compare(m_Value, other.m_Value);
             }
             else if (IsKnown)
             {
@@ -161,7 +161,11 @@ namespace @Namespace
         /// <param name="reader">An XML reader.</param>
         void global::System.Xml.Serialization.IXmlSerializable.ReadXml(global::System.Xml.XmlReader reader)
         {
+#if NET6_0_OR_GREATER
             global::System.ArgumentNullException.ThrowIfNull(reader);
+#else
+            if (reader is null) throw new global::System.ArgumentNullException(nameof(reader));
+#endif
             var xml = reader.ReadElementString();
             global::System.Runtime.CompilerServices.Unsafe.AsRef(in this) = Parse(xml, global::System.Globalization.CultureInfo.InvariantCulture);
         }
@@ -173,7 +177,11 @@ namespace @Namespace
         /// <param name="writer">An XML writer.</param>
         void global::System.Xml.Serialization.IXmlSerializable.WriteXml(global::System.Xml.XmlWriter writer)
         {
+#if NET6_0_OR_GREATER
             global::System.ArgumentNullException.ThrowIfNull(writer);
+#else
+            if (writer is null) throw new global::System.ArgumentNullException(nameof(writer));
+#endif
             writer.WriteString(ToXmlString());
         }
 

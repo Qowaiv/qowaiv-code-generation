@@ -1,4 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  
+  <Import Project="../../props/package.props" />
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,6 +8,7 @@
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     <IncludeSymbols>false</IncludeSymbols>
     <IncludeBuildOutput>false</IncludeBuildOutput>
+    <IsPackable>true</IsPackable>
     <PackageId>Qowaiv.CodeGeneration.SingleValueObjects</PackageId>
     <Version>1.0.0</Version>
     <PackageReleaseNotes>
@@ -14,11 +17,6 @@ v1.0.0
 - Generate custom SVO's.
 ]]>
     </PackageReleaseNotes>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <GenerateSBOM>true</GenerateSBOM>
   </PropertyGroup>
 
   <ItemGroup>

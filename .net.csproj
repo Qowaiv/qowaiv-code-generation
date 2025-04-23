@@ -12,8 +12,6 @@
 
   <ItemGroup>
     <AdditionalFiles Include="props/**" />
-    <AdditionalFiles Remove=".build\**" />
-    <None Remove=".build\**" />
     <AdditionalFiles Include="dictionary.dic" />
   </ItemGroup>
   

@@ -19,7 +19,7 @@ public sealed class Literal : Code
             null /*.........*/ => writer.Write("null"),
             Type type /*....*/ => writer.Write("typeof(").Write(type).Write(')'),
             bool boolean /*.*/ => writer.Write(boolean ? "true" : "false"),
-            int int32 /*....*/ => writer.Write(int32.ToString(CultureInfo.InvariantCulture)),
+            int int32 /*....*/ => writer.Write(Int32(int32)),
             double dbl /*...*/ => writer.Write(Double(dbl)),
             decimal dec /*..*/ => writer.Write(dec.ToString(CultureInfo.InvariantCulture)).Write('m'),
             string str /*...*/ => writer.Write(String(str)),
@@ -27,6 +27,14 @@ public sealed class Literal : Code
             _ => throw new NotSupportedException($"Literals of type {Value.GetType()} are not supported"),
         };
     }
+
+    [Pure]
+    private static string Int32(int num) => num switch
+    {
+        int.MinValue /*...*/ => "int.MinValue",
+        int.MaxValue /*...*/ => "int.MaxValue",
+        _ => num.ToString(CultureInfo.InvariantCulture),
+    };
 
     [Pure]
     private static string Double(double dbl) => dbl switch

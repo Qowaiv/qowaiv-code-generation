@@ -28,5 +28,8 @@ public readonly partial struct CustomSvo
 
         public override string NormalizeInput(string? str, IFormatProvider? formatProvider)
             => str?.Replace("-", "").ToUpper(formatProvider ?? CultureInfo.InvariantCulture) ?? string.Empty;
+
+        public override string InvalidFormatMessage(string? str, IFormatProvider? formatProvider)
+            => "Is not a valid CustomSvo";
     }
 }

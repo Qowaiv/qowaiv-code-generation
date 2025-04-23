@@ -3,7 +3,7 @@ namespace @Namespace
     [global::System.Diagnostics.DebuggerDisplay("{DebuggerDisplay}")]
     [global::System.ComponentModel.TypeConverter(typeof(SvoTypeConverter))]
 #if NET6_0_OR_GREATER
-    [global::System.Text.Json.Serialization.JsonConverter(typeof(global::Qowaiv.Json.SvoJsonConverter<@Svo>))]
+    [global::System.Text.Json.Serialization.JsonConverter(typeof(SvoJsonConverter))]
 #endif
     public readonly partial struct @Svo
         : global::System.Xml.Serialization.IXmlSerializable
@@ -306,6 +306,17 @@ namespace @Namespace
             var success = behavior.TryParse(s, provider, out var parsed);
             result = new @Svo(parsed);
             return success;
+        }
+
+        private sealed class SvoJsonConverter : global::Qowaiv.Json.SvoJsonConverter<@Svo>
+        {
+            /// <inheritdoc />
+            [global::System.Diagnostics.Contracts.Pure]
+            protected override @Svo FromJson(string? json) => @Svo.FromJson(json);
+
+            /// <inheritdoc />
+            [global::System.Diagnostics.Contracts.Pure]
+            protected override object? ToJson(@Svo svo) => svo.ToJson();
         }
 
         private sealed class SvoTypeConverter : global::Qowaiv.Conversion.SvoTypeConverter<@Svo>

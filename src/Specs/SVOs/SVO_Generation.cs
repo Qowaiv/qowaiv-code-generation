@@ -131,7 +131,7 @@ public class Can_be_parsed
         {
             Func<CustomSvo> parse = () => CustomSvo.Parse("invalid input!");
             parse.Should().Throw<FormatException>()
-                .WithMessage("Not a valid CustomSvo");
+                .WithMessage("Is not a valid CustomSvo");
         }
     }
 

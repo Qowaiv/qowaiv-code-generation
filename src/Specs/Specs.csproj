@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="AwesomeAssertions" />
     <PackageReference Include="NUnit" />
+    <PackageReference Include="Qowaiv.TestTools" />
     <PackageReference Include="Qowaiv.Validation.TestTools" />
   </ItemGroup>
 
@@ -25,11 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../qowaiv/src/Qowaiv/Qowaiv.csproj" />
-    <ProjectReference
-      Include="../Qowaiv.CodeGeneration.SingleValueObjects/Qowaiv.CodeGeneration.SingleValueObjects.csproj" 
-      ReferenceOutputAssembly="false"
-      OutputItemType="Analyzer"/>
+    <ProjectReference Include="../Qowaiv.CodeGeneration.SingleValueObjects/Qowaiv.CodeGeneration.SingleValueObjects.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,4 @@
 <Solution>
-  <Project Path="../qowaiv/src/Qowaiv/Qowaiv.csproj" />
   <Project Path=".net.csproj" />
   <Project Path="src/Qowaiv.CodeGeneration.SingleValueObjects/Qowaiv.CodeGeneration.SingleValueObjects.csproj" Id="126b7db2-b884-4f8f-aa24-24722855147d" />
   <Project Path="src/Qowaiv.CodeGeneration/Qowaiv.CodeGeneration.csproj" />

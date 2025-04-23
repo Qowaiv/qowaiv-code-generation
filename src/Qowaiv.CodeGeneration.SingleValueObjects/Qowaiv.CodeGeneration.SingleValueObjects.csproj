@@ -11,7 +11,7 @@
     <PackageReleaseNotes>
       <![CDATA[
 v1.0.0
-- Initial version.
+- Generate custom SVO's.
 ]]>
     </PackageReleaseNotes>
   </PropertyGroup>

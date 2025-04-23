@@ -10,9 +10,11 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <IsPackable>true</IsPackable>
     <PackageId>Qowaiv.CodeGeneration.SingleValueObjects</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <PackageReleaseNotes>
       <![CDATA[
+v1.0.1
+- Generate JSON Converter only for .NET 6.0 and higher.
 v1.0.0
 - Generate custom SVO's.
 ]]>

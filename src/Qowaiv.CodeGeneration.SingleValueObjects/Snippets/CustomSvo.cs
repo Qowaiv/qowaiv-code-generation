@@ -311,7 +311,17 @@ namespace @Namespace
             result = new @Svo(parsed);
             return success;
         }
+        private sealed class SvoTypeConverter : global::Qowaiv.Conversion.SvoTypeConverter<@Svo>
+        {
+            /// <inheritdoc />
+            [global::System.Diagnostics.Contracts.Pure]
+            protected override @Svo FromString(string? str, global::System.Globalization.CultureInfo? culture)
+            {
+                return Parse(str, culture);
+            }
+        }
 
+#if NET6_0_OR_GREATER
         private sealed class SvoJsonConverter : global::Qowaiv.Json.SvoJsonConverter<@Svo>
         {
             /// <inheritdoc />
@@ -322,15 +332,6 @@ namespace @Namespace
             [global::System.Diagnostics.Contracts.Pure]
             protected override object? ToJson(@Svo svo) => svo.ToJson();
         }
-
-        private sealed class SvoTypeConverter : global::Qowaiv.Conversion.SvoTypeConverter<@Svo>
-        {
-            /// <inheritdoc />
-            [global::System.Diagnostics.Contracts.Pure]
-            protected override @Svo FromString(string? str, global::System.Globalization.CultureInfo? culture)
-            {
-                return Parse(str, culture);
-            }
-        }
-    } 
+#endif
+    }
 }

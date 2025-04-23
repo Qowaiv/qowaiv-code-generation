@@ -11,4 +11,8 @@ public sealed class DisableWarningsHeader : Code
     public void WriteTo(CSharpWriter writer) => Guard.NotNull(writer)
         .Line("#pragma warning disable")
         .Line();
+
+    /// <inheritdoc />
+    [Pure]
+    public override string ToString() => this.Stringify();
 }

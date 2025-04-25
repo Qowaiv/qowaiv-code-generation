@@ -1,5 +1,4 @@
 using System.IO;
-using System.Runtime;
 using System.Text.RegularExpressions;
 
 namespace Qowaiv.CodeGeneration.Syntax;

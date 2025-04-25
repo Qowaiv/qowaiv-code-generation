@@ -2,12 +2,8 @@ using Qowaiv.Globalization;
 using Qowaiv.Hashing;
 using Qowaiv.OpenApi;
 using Qowaiv.TestTools.Globalization;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Xml.Serialization;
-using Qowaiv.TestTools;
 using System.ComponentModel;
 
 namespace Specs.SVO_Generation;

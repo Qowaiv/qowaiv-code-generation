@@ -1,10 +1,7 @@
+using Qowaiv;
 using Qowaiv.OpenApi;
-using Qowaiv.TestTools;
 using Qowaiv.TestTools.Globalization;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 
 namespace Specs.ID_Generation.Guid_based;
 
@@ -95,22 +92,22 @@ public class Supports_type_conversion
         }
     }
 
-    //[Test]
-    //public void from_Guid()
-    //    => Converting.From(Svo.Guid).To<CustomGuid>().Should().Be(Svo.CustomGuid);
+    [Test]
+    public void from_Guid()
+        => Converting.From(Svo.Guid).To<CustomGuid>().Should().Be(Svo.CustomGuid);
 
 
-    //[Test]
-    //public void from_Uuid()
-    //    => Converting.From(Svo.Uuid).To<CustomGuid>().Should().Be(Svo.CustomGuid);
+    [Test]
+    public void from_Uuid()
+        => Converting.From(Svo.Uuid).To<CustomGuid>().Should().Be(Svo.CustomGuid);
 
-    //[Test]
-    //public void to_Guid()
-    //    => Converting.To<Guid>().From(Svo.CustomGuid).Should().Be(Svo.Guid);
+    [Test]
+    public void to_Guid()
+        => Converting.To<Guid>().From(Svo.CustomGuid).Should().Be(Svo.Guid);
 
-    //[Test]
-    //public void to_Uuid()
-    //    => Converting.To<Uuid>().From(Svo.CustomGuid).Should().Be(Svo.Uuid);
+    [Test]
+    public void to_Uuid()
+        => Converting.To<Uuid>().From(Svo.CustomGuid).Should().Be(Svo.Uuid);
 }
 
 public class Supports_JSON_serialization

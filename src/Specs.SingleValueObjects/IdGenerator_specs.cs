@@ -1,5 +1,4 @@
 using Qowaiv.CodeGeneration.SingleValueObjects;
-using System;
 
 namespace Specs.Svos.IdGenerator_specs;
 

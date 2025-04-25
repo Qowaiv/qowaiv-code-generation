@@ -1,11 +1,7 @@
 using Qowaiv.OpenApi;
-using Qowaiv.TestTools;
 using Qowaiv.TestTools.Globalization;
 using Specs;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 
 namespace Identifiers.Id_for_String_specs;
 

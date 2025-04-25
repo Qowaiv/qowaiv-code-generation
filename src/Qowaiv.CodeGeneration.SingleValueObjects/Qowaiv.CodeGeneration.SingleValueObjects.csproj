@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   
   <Import Project="../../props/package.props" />
 
@@ -46,7 +46,6 @@ v1.0.0
   <ItemGroup Label="CompileTimeDependencies">
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Sbom.Targets" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup Label="DependencyPackaging">

@@ -1,13 +1,17 @@
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
-using System.IO;
 using System.Threading;
 
 namespace Qowaiv.CodeGeneration.SingleValueObjects;
 
+/// <summary>Provides a base generator for generating SVO's.</summary>
+/// <typeparam name="TParameters">
+/// The type of the parameters.
+/// </typeparam>
 public abstract class BaseGenerator<TParameters> : IIncrementalGenerator
     where TParameters : BaseParameters
 {
+    /// <summary>The metadata name of the attribute to trigger on.</summary>
     protected abstract string MetadataName { get; }
 
     /// <inheritdoc />
@@ -21,9 +25,7 @@ public abstract class BaseGenerator<TParameters> : IIncrementalGenerator
     [Pure]
     protected abstract TParameters Collect(GeneratorAttributeSyntaxContext context, CancellationToken token);
 
-    /// <remarks>
-    /// Currently, all syntax nodes are accepted.
-    /// </remarks>
+    /// <summary>Filters syntax nodes that should be included (default all are included).</summary>
     [Pure]
     protected virtual bool Filter(SyntaxNode node, CancellationToken token)
     {
@@ -37,14 +39,11 @@ public abstract class BaseGenerator<TParameters> : IIncrementalGenerator
         foreach (var pars in parameters)
         {
             var code = Generate(context, pars);
-
-            //using var writer = new StreamWriter($"C:/TEMP/{pars.Namespace}.{pars.Svo}.g.cs");
-            //writer.WriteLine(code);
-
             context.AddSource($"{pars.Namespace}.{pars.Svo}.g.cs", code.ToString());
         }
     }
 
+    /// <summary>Generates <see cref="Code"/> based on the parameters.</summary>
     [Pure]
     protected abstract Code Generate(SourceProductionContext context, TParameters parameters);
 

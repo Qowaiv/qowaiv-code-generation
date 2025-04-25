@@ -40,7 +40,7 @@
 
   <ItemGroup Label="Analyzers">
     <PackageReference Include="AsyncFixer" PrivateAssets="all" />
-    <PackageReference Include="DotNetProjectFile.Analyzers" PrivateAssets="all" />
+    <PackageReference Include="DotNetProjectFile.Analyzers" PrivateAssets="all" ExcludeAssets ="runtime" />
     <PackageReference Include="IDisposableAnalyzers" PrivateAssets="all" />
     <PackageReference Include="SonarAnalyzer.CSharp" PrivateAssets="all" />
   </ItemGroup>

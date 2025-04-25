@@ -9,8 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="AwesomeAssertions" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp"  />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
     <PackageReference Include="NUnit" />
     <PackageReference Include="Qowaiv.TestTools" />
     <PackageReference Include="Qowaiv.Validation.TestTools" />
@@ -24,6 +23,7 @@
 
   <ItemGroup Label="Analyzers">
     <PackageReference Include="AwesomeAssertions.Analyzers" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" />
     <PackageReference Include="NUnit.Analyzers" PrivateAssets="all" />
   </ItemGroup>
 

@@ -12,6 +12,7 @@ public sealed class IdTemplate(IdParameters parameters) : Code
         + Embedded.Snippet("Behavior.IFormattable")
         + Embedded.Snippet("Behavior.Json")
         + Embedded.Snippet("Behavior.IXmlSerializable")
+        + Embedded.Snippet("Behavior.Id.Next")
         + Embedded.Snippet("Behavior.IParsable");
 
     private readonly IdParameters Parameters = parameters;

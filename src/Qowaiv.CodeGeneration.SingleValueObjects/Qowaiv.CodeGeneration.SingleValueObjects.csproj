@@ -39,7 +39,7 @@ v1.0.0
     <Compile Include="../Qowaiv.CodeGeneration/CSharpWriter.cs" Link="Qowaiv.CodeGeneration/CSharpWriter.cs" />
     <Compile Include="../Qowaiv.CodeGeneration/CSharpWriterSettings.cs" Link="Qowaiv.CodeGeneration/CSharpWriterSettings.cs" />
     <Compile Include="../Qowaiv.CodeGeneration/Extensions/Qowaiv.CodeGeneration.Code.cs" Link="Qowaiv.CodeGeneration/Extensions/Qowaiv.CodeGeneration.Code.cs" />
-    <Compile Include="../Qowaiv.CodeGeneration/Syntax/*.cs" Link="Qowaiv.CodeGeneration/Syntax/*.cs" />
+    <Compile Include="../Qowaiv.CodeGeneration/Syntax/*.cs" Link="Qowaiv.CodeGeneration/Syntax/%(Filename).cs" />
     <Compile Include="../Qowaiv.CodeGeneration/Types/Namespace.cs" Link="Qowaiv.CodeGeneration/Types/Namespace.cs" />
   </ItemGroup>
 
@@ -51,7 +51,6 @@ v1.0.0
 
   <ItemGroup Label="DependencyPackaging">
     <None Include="$(OutputPath)/$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    <None Include="Snippets\Behavior.IXmlSerializable.cs" />
   </ItemGroup>
 
 </Project>

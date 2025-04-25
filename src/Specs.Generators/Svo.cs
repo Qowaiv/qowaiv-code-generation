@@ -8,17 +8,17 @@ namespace Specs;
 
 public static class Svo
 {
-    public static readonly CustomSvo CustomSvo = CustomSvo.Parse("QOWAIV");
-
     public static readonly CustomGuid CustomGuid = default;
+
+    public static readonly CustomSvo CustomSvo = CustomSvo.Parse("QOWAIV");
 }
 
 [Id<Behavior, Guid>]
 public readonly partial struct CustomGuid
 {
-    public sealed class Behavior : GuidBehavior
+    private sealed class Behavior : GuidBehavior 
     {
-
+        public override Guid Next() => Guid.NewGuid();
     }
 }
 

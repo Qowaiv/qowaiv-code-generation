@@ -4,11 +4,13 @@
     <TargetFramework>net9.0</TargetFramework>
     <IsTestProject>true</IsTestProject>
     <IsPackable>false</IsPackable>
-    <RootNamespace>Specs</RootNamespace>
+    <RootNamespace>Specs.Svos</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AwesomeAssertions" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp"  />
     <PackageReference Include="NUnit" />
     <PackageReference Include="Qowaiv.TestTools" />
     <PackageReference Include="Qowaiv.Validation.TestTools" />
@@ -26,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Qowaiv.CodeGeneration/Qowaiv.CodeGeneration.csproj" />
+    <ProjectReference Include="../Qowaiv.CodeGeneration.SingleValueObjects/Qowaiv.CodeGeneration.SingleValueObjects.csproj" />
   </ItemGroup>
-  
+
 </Project>

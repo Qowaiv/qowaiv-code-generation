@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <IsTestProject>true</IsTestProject>
+    <TargetFrameworks>net5.0;net8.0;net9.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
     <RootNamespace>Specs</RootNamespace>
+    <LangVersion>12</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AwesomeAssertions" />
     <PackageReference Include="NUnit" />
     <PackageReference Include="Qowaiv.TestTools" />
-    <PackageReference Include="Qowaiv.Validation.TestTools" />
   </ItemGroup>
 
   <ItemGroup Label="Build tools">
@@ -25,8 +25,10 @@
     <PackageReference Include="NUnit.Analyzers" PrivateAssets="all" />
   </ItemGroup>
 
+
   <ItemGroup>
-    <ProjectReference Include="../Qowaiv.CodeGeneration/Qowaiv.CodeGeneration.csproj" />
+    <ProjectReference Include="../../../qowaiv/src/Qowaiv/Qowaiv.csproj" />
+    <ProjectReference Include="../Qowaiv.CodeGeneration.SingleValueObjects/Qowaiv.CodeGeneration.SingleValueObjects.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
   </ItemGroup>
-  
+
 </Project>

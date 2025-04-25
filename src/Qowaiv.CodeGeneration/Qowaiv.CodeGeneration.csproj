@@ -8,7 +8,6 @@
 
   <PropertyGroup>
     <Version>0.0.1-alpha-031</Version>
-    <IsPackable>true</IsPackable>
     <PackageId>Qowaiv.CodeGeneration</PackageId>
     <ToBeReleased>
       <![CDATA[

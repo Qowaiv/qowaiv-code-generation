@@ -1,17 +1,17 @@
 using Microsoft.CodeAnalysis;
-using System.Collections.Immutable;
 using System.Threading;
 
 namespace Qowaiv.CodeGeneration.SingleValueObjects;
 
 [Generator]
-internal sealed class SvoGenerator : BaseGenerator<SvoParameters>
+public sealed class IdGenerator : BaseGenerator<IdParameters>
 {
-    protected override string MetadataName => "Qowaiv.Customization.SvoAttribute`1";
+    /// <inheritdoc />
+    protected override string MetadataName => "Qowaiv.Customization.IdAttribute`2";
 
-    /// <summary>Collects the SVO parameters.</summary>
+    /// <inheritdoc />
     [Pure]
-    protected override SvoParameters Collect(GeneratorAttributeSyntaxContext context, CancellationToken token)
+    protected override IdParameters Collect(GeneratorAttributeSyntaxContext context, CancellationToken token)
     {
         token.ThrowIfCancellationRequested();
 
@@ -22,12 +22,13 @@ internal sealed class SvoGenerator : BaseGenerator<SvoParameters>
         {
             Svo = symbol.Name,
             Behavior = FullName(attr.TypeArguments[0]),
+            Value = FullName(attr.TypeArguments[1]),
             Namespace = symbol.ContainingNamespace.ToString(),
         };
     }
 
-    /// <summary>Generates the source code for the SVO.</summary>
+    /// <inheritdoc />
     [Pure]
-    protected override Code Generate(SourceProductionContext context, SvoParameters parameters)
-        => new SvoTemplate(parameters);
+    protected override Code Generate(SourceProductionContext context, IdParameters parameters)
+        => new IdTemplate(parameters);
 }

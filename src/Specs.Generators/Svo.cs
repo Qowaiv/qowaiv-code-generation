@@ -4,13 +4,23 @@ using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace Specs.SVOs;
+namespace Specs;
 
 public static class Svo
 {
     public static readonly CustomSvo CustomSvo = CustomSvo.Parse("QOWAIV");
+
+    public static readonly CustomGuid CustomGuid = default;
 }
 
+[Id<Behavior, Guid>]
+public readonly partial struct CustomGuid
+{
+    public sealed class Behavior : GuidBehavior
+    {
+
+    }
+}
 
 [OpenApiDataType(description: "Custom SVO Example", type: "string", example: "QOWAIV", format: "custom")]
 [Svo<Behavior>]

@@ -1,4 +1,5 @@
 using System.IO;
+using System.Runtime;
 using System.Text.RegularExpressions;
 
 namespace Qowaiv.CodeGeneration.Syntax;
@@ -7,7 +8,7 @@ namespace Qowaiv.CodeGeneration.Syntax;
 public sealed class CodeSnippet : Code
 {
     /// <summary>Initializes a new instance of the <see cref="CodeSnippet"/> class.</summary>
-    internal CodeSnippet(string[] lines) => Lines = lines;
+    internal CodeSnippet(IReadOnlyList<string> lines) => Lines = lines;
 
     /// <summary>Gets the individual lines of the code snippet.</summary>
     public IReadOnlyList<string> Lines { get; }
@@ -115,6 +116,10 @@ public sealed class CodeSnippet : Code
     /// <inheritdoc />
     [Pure]
     public override string ToString() => this.Stringify();
+
+    /// <summary>Joins two code snippets.</summary>
+    [Pure]
+    public static CodeSnippet operator +(CodeSnippet l, CodeSnippet r) => new([..l.Lines, ..r.Lines]);
 
     /// <summary>Creates a code snippet from a stream.</summary>
     [Pure]

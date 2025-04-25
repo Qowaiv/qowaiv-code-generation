@@ -7,12 +7,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Serialization;
-using Specs.SVOs;
 using Qowaiv.TestTools;
 using System.ComponentModel;
 
 namespace Specs.SVO_Generation;
-
 
 public class With_domain_logic
 {

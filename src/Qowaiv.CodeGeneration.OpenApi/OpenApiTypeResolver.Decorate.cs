@@ -8,7 +8,7 @@ public partial class OpenApiTypeResolver
 {
     [Pure]
     protected virtual IEnumerable<AttributeInfo> DecorateEnumerationField(EnumerationField field, OpenApiString schema)
-        => [AttributeInfo.System_Runtime_Serialization_EnumMember(Guard.NotNull(schema).Value)];
+        => [AttributeInfo.System.Runtime.Serialization.EnumMember(Guard.NotNull(schema).Value)];
 
     [Pure]
     public virtual IEnumerable<AttributeInfo> DecorateModel(Class @class, ResolveOpenApiSchema schema)
@@ -31,7 +31,7 @@ public partial class OpenApiTypeResolver
 
     [Pure]
     protected virtual AttributeInfo? DecorateDerivedType(Type derivedType, ResolveOpenApiSchema schema)
-        => AttributeInfo.System_Text_Json_Serialization_JsonDerivedType(derivedType);
+        => AttributeInfo.System.Text.Json.Serialization.JsonDerivedType(derivedType);
 
     [Pure]
     protected virtual IEnumerable<AttributeInfo> DecorateProperty(Property property, ResolveOpenApiSchema schema)
@@ -49,7 +49,7 @@ public partial class OpenApiTypeResolver
 
     [Pure]
     protected virtual AttributeInfo? DecoratePropertyJson(Property property, ResolveOpenApiSchema schema)
-        => AttributeInfo.System_Text_Json_Serialization_JsonPropertyName(schema.Path.Last);
+        => AttributeInfo.System.Text.Json.Serialization.JsonPropertyName(schema.Path.Last);
 
     [Pure]
     protected virtual AttributeInfo? DecoratePropertyRequired(Property property, ResolveOpenApiSchema schema)
@@ -60,27 +60,27 @@ public partial class OpenApiTypeResolver
         {
             if (property.PropertyType.IsArray)
             {
-                return AttributeInfo.Qowaiv_Validation_DataAnnotations_Any;
+                return AttributeInfo.Qowaiv.Validation.DataAnnotations.Any;
             }
             else if (!property.PropertyType.IsNullableValueType() && IsNullableByDesign(property.PropertyType))
             {
-                return AttributeInfo.Qowaiv_Validation_DataAnnotations_Mandatory;
+                return AttributeInfo.Qowaiv.Validation.DataAnnotations.Mandatory;
             }
-            else return AttributeInfo.System_ComponentModel_DataAnnotations_Required;
+            else return AttributeInfo.System.ComponentModel.DataAnnotations.Required;
         }
-        else return AttributeInfo.Qowaiv_Validation_DataAnnotations_Optional;
+        else return AttributeInfo.Qowaiv.Validation.DataAnnotations.Optional;
     }
 
     [Pure]
     protected virtual AttributeInfo? DecoratePropertyPattern(Property property, ResolveOpenApiSchema schema)
         => Guard.NotNull(property).PropertyType == typeof(string) && schema.Schema.Pattern is { } pattern
-            ? AttributeInfo.System_ComponentModel_DataAnnotations_RegularExpression(pattern)
+            ? AttributeInfo.System.ComponentModel.DataAnnotations.RegularExpression(pattern)
             : null;
 
     [Pure]
     protected virtual AttributeInfo? PropertyPropertyMultipleOf(Property property, ResolveOpenApiSchema schema)
        => schema.Schema.MultipleOf is { } factor
-       ? AttributeInfo.Qowaiv_Validation_DataAnnotations_MultipleOf((double)factor)
+       ? AttributeInfo.Qowaiv.Validation.DataAnnotations.MultipleOf((double)factor)
        : null;
 
     [Pure]
@@ -90,7 +90,7 @@ public partial class OpenApiTypeResolver
 
         if (schema.MinLength is { } min)
         {
-            return AttributeInfo.System_ComponentModel_DataAnnotations_MinLength(min);
+            return AttributeInfo.System.ComponentModel.DataAnnotations.MinLength(min);
         }
         else return null;
     }
@@ -102,7 +102,7 @@ public partial class OpenApiTypeResolver
 
         if (schema.MaxLength is { } max)
         {
-            return AttributeInfo.System_ComponentModel_DataAnnotations_MaxLength(max);
+            return AttributeInfo.System.ComponentModel.DataAnnotations.MaxLength(max);
         }
         else return null;
     }
@@ -114,7 +114,7 @@ public partial class OpenApiTypeResolver
 
         if (schema.Minimum is { } || schema.Maximum is { })
         {
-            return AttributeInfo.System_ComponentModel_DataAnnotations_Range((double?)schema.Minimum, (double?)schema.Maximum);
+            return AttributeInfo.System.ComponentModel.DataAnnotations.Range((double?)schema.Minimum, (double?)schema.Maximum);
         }
         else return null;
     }
@@ -128,7 +128,7 @@ public partial class OpenApiTypeResolver
 
         if (type == typeof(double) || type == typeof(float))
         {
-            return AttributeInfo.Qowaiv_Validation_DataAnnotations_IsFinate;
+            return AttributeInfo.Qowaiv.Validation.DataAnnotations.IsFinate;
         }
         else return null;
     }
@@ -148,7 +148,7 @@ public partial class OpenApiTypeResolver
                 .Select(str => str.Value)
                 .ToArray();
 
-            return AttributeInfo.Qowaiv_Validation_DataAnnotations_Allowed(property.PropertyType, values);
+            return AttributeInfo.Qowaiv.Validation.DataAnnotations.Allowed(property.PropertyType, values);
         }
         else return null;
 

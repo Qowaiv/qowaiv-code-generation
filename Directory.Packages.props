@@ -8,8 +8,7 @@
     <PackageVersion Include="AwesomeAssertions" Version="8.0.2" />
     <PackageVersion Include="AwesomeAssertions.Analyzers" Version="0.34.2" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
-    <PackageVersion Include="DotNetProjectFile.Analyzers" Version="1.5.11" />
-    <PackageVersion Include="DotNetProjectFile.Analyzers.Sdk" Version="1.5.11" />
+    <PackageVersion Include="DotNetProjectFile.Analyzers.Sdk" Version="1.9.0" />
     <PackageVersion Include="IDisposableAnalyzers" Version="4.0.8" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageVersion Include="Microsoft.OpenApi.Readers" Version="1.6.23" />
@@ -23,11 +22,11 @@
     <PackageVersion Include="Qowaiv.Diagnostics.Contracts" Version="2.0.4" />
     <PackageVersion Include="Qowaiv.Validation.DataAnnotations" Version="3.0.0" />
     <PackageVersion Include="Qowaiv.Validation.TestTools" Version="2.0.0" />
-    <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.7.0.110445" />
     <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
     <PackageVersion Include="System.Memory.Data" Version="9.0.3" />
   </ItemGroup>
-  <ItemGroup Label="Additional files">
-    <AdditionalFiles Include="../../Directory.Packages.props" Link="Properties/Directory.Packages.props" />
+  <ItemGroup>
+    <GlobalPackageReference Include="DotNetProjectFile.Analyzers" Version="1.9.0" />
+    <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="10.19.0.132793" />
   </ItemGroup>
 </Project>

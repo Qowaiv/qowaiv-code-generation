@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qowaiv.OpenApi.DataAnnotati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = ".net", ".net.csproj", "{E811CC60-47D0-4096-83F2-127DF5ECE532}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qowaiv.CodeGeneration.SingleValueObjects", "src\Qowaiv.CodeGeneration.SingleValueObjects\Qowaiv.CodeGeneration.SingleValueObjects.csproj", "{114489E1-BC40-0DE4-A032-E23AE69C3808}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{E811CC60-47D0-4096-83F2-127DF5ECE532}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E811CC60-47D0-4096-83F2-127DF5ECE532}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E811CC60-47D0-4096-83F2-127DF5ECE532}.Release|Any CPU.Build.0 = Release|Any CPU
+		{114489E1-BC40-0DE4-A032-E23AE69C3808}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{114489E1-BC40-0DE4-A032-E23AE69C3808}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{114489E1-BC40-0DE4-A032-E23AE69C3808}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{114489E1-BC40-0DE4-A032-E23AE69C3808}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

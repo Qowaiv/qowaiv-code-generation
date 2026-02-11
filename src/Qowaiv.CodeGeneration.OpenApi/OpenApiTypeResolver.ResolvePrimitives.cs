@@ -57,7 +57,7 @@ public partial class OpenApiTypeResolver
         }
         if (!fields.Exists(IsNone))
         {
-            fields.Insert(0, new(type, "None", 0, [AttributeInfo.System_Runtime_Serialization_EnumMember(null)]));
+            fields.Insert(0, new(type, "None", 0, [AttributeInfo.System.Runtime.Serialization.EnumMember(null)]));
         }
 
         return type;

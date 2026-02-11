@@ -1,8 +1,6 @@
 <Solution>
-  <Folder Name="/specs/">
-    <Project Path="specs/Qowaiv.CodeGeneration.Specs/Qowaiv.CodeGeneration.Specs.csproj" />
-  </Folder>
   <Project Path=".net.csproj" />
+  <Project Path="specs/Qowaiv.CodeGeneration.Specs/Qowaiv.CodeGeneration.Specs.csproj" />
   <Project Path="src/Qowaiv.CodeGeneration.OpenApi/Qowaiv.CodeGeneration.OpenApi.csproj" />
   <Project Path="src/Qowaiv.CodeGeneration.SingleValueObjects/Qowaiv.CodeGeneration.SingleValueObjects.csproj" />
   <Project Path="src/Qowaiv.CodeGeneration/Qowaiv.CodeGeneration.csproj" />

@@ -54,11 +54,12 @@ public sealed class XmlDocumentation : Code
     }
 
     [Pure]
-    private static string[] Trim(string[] lines)
-        => lines
+    private static string[] Trim(string[] lines) =>
+    [
+        .. lines
             .SkipWhile(l => l.Trim().Length == 0)
             .TakeWhile(l => l.Trim().Length > 0)
-            .ToArray();
+    ];
 
     [Pure]
     private static string Escape(string s) => new XText(s).ToString();

@@ -17,7 +17,7 @@ public sealed class CodeSnippet : Code
     public CodeSnippet Transform(Func<string, string> transformLine)
     {
         Guard.NotNull(transformLine);
-        return new(Lines.Select(transformLine).ToArray());
+        return new([.. Lines.Select(transformLine)]);
     }
 
     /// <summary>Transforms a code snippet.</summary>
@@ -126,7 +126,7 @@ public sealed class CodeSnippet : Code
         {
             lines.Add(line);
         }
-        return new(lines.ToArray());
+        return new([.. lines]);
     }
 
     /// <summary>Parses the code snippet for a string.</summary>
@@ -141,7 +141,7 @@ public sealed class CodeSnippet : Code
         {
             lines.Add(line);
         }
-        return new(lines.ToArray());
+        return new([.. lines]);
     }
 
     private enum Mode

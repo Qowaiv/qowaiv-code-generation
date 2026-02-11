@@ -67,9 +67,7 @@ public partial class Property : PropertyInfo, Code
     /// <inheritdoc />
     [Pure]
     public override object[] GetCustomAttributes(Type attributeType, bool inherit)
-        => GetCustomAttributes(inherit)
-        .Where(attr => attr.GetType() == attributeType)
-        .ToArray();
+        => [.. GetCustomAttributes(inherit).Where(attr => attr.GetType() == attributeType)];
 
     /// <inheritdoc />
     [Pure]

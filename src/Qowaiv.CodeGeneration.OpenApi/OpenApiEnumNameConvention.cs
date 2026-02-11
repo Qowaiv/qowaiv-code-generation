@@ -17,13 +17,14 @@ public class OpenApiEnumNameConvention : CodeNameConvention
 
     /// <inheritdoc />
     [Pure]
-    public override IReadOnlyCollection<string> Split(IEnumerable<string?> parts)
-        => Guard.NotNull(parts)
+    public override IReadOnlyCollection<string> Split(IEnumerable<string?> parts) =>
+    [
+        .. Guard.NotNull(parts)
             .OfType<string>()
             .Where(p => p is { Length: > 0 })
             .Select(Format)
             .SelectMany(p => p.Split([.. Splitters], StringSplitOptions.RemoveEmptyEntries))
-            .ToArray();
+    ];
 
     /// <summary>Formats a part.</summary>
     [Pure]

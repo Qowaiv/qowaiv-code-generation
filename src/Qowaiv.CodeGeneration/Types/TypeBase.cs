@@ -78,22 +78,25 @@ public abstract class TypeBase : Type
 
     /// <inheritdoc />
     [Pure]
-    public override ConstructorInfo[] GetConstructors(BindingFlags bindingAttr)
-        => Data.Constructors.Where(c => (c.Bindings() & bindingAttr) != default).ToArray();
+    public override ConstructorInfo[] GetConstructors(BindingFlags bindingAttr) =>
+    [
+        .. Data.Constructors.Where(c => (c.Bindings() & bindingAttr) != default)
+    ];
 
     /// <inheritdoc />
     [Pure]
-    public override object[] GetCustomAttributes(bool inherit)
-        => Data.Attributes.Cast<object>()
-        .Concat(inherit ? BaseType.GetCustomAttributes(true) : [])
-        .ToArray();
+    public override object[] GetCustomAttributes(bool inherit) =>
+    [
+        .. Data.Attributes.Cast<object>(),
+        .. inherit ? BaseType.GetCustomAttributes(true) : []
+    ];
 
     /// <inheritdoc />
     [Pure]
-    public override object[] GetCustomAttributes(Type attributeType, bool inherit)
-        => GetCustomAttributes(inherit)
-        .Where(a => (a is AttributeInfo d && d.AttributeType == attributeType) || a.GetType() == attributeType)
-        .ToArray();
+    public override object[] GetCustomAttributes(Type attributeType, bool inherit) =>
+    [
+        .. GetCustomAttributes(inherit).Where(a => (a is AttributeInfo d && d.AttributeType == attributeType) || a.GetType() == attributeType)
+    ];
 
     /// <summary>Gets the <see cref="AttributeInfo"/>'s linked to the type.</summary>
     [Pure]
@@ -111,7 +114,7 @@ public abstract class TypeBase : Type
     /// <inheritdoc />
     [Pure]
     public override EventInfo[] GetEvents(BindingFlags bindingAttr)
-        => Data.Events.Where(e => (e.Bindings() & bindingAttr) != default).ToArray();
+        => [.. Data.Events.Where(e => (e.Bindings() & bindingAttr) != default)];
 
     /// <inheritdoc />
     [Pure]
@@ -121,7 +124,7 @@ public abstract class TypeBase : Type
     /// <inheritdoc />
     [Pure]
     public override FieldInfo[] GetFields(BindingFlags bindingAttr)
-        => Data.Fields.Where(f => (f.Bindings() & bindingAttr) != default).ToArray();
+        => [.. Data.Fields.Where(f => (f.Bindings() & bindingAttr) != default)];
 
     /// <inheritdoc />
     [Pure]
@@ -129,7 +132,7 @@ public abstract class TypeBase : Type
 
     /// <inheritdoc />
     [Pure]
-    public override Type[] GetInterfaces() => Data.Interfaces.ToArray();
+    public override Type[] GetInterfaces() => [.. Data.Interfaces];
 
     /// <inheritdoc />
     [Pure]
@@ -138,15 +141,16 @@ public abstract class TypeBase : Type
 
     /// <inheritdoc />
     [Pure]
-    public override MemberInfo[] GetMembers(BindingFlags bindingAttr)
-        => GetProperties(bindingAttr).Cast<MemberInfo>()
-        .Concat(GetFields(bindingAttr))
-        .ToArray();
+    public override MemberInfo[] GetMembers(BindingFlags bindingAttr) =>
+    [
+        .. GetProperties(bindingAttr).Cast<MemberInfo>(),
+        .. GetFields(bindingAttr)
+    ];
 
     /// <inheritdoc />
     [Pure]
     public override MethodInfo[] GetMethods(BindingFlags bindingAttr)
-        => Data.Methods.Where(p => (p.Bindings() & bindingAttr) != default).ToArray();
+        => [.. Data.Methods.Where(p => (p.Bindings() & bindingAttr) != default)];
 
     /// <inheritdoc />
     [Pure]

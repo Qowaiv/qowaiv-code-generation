@@ -55,9 +55,7 @@ public abstract class CodeNameConvention
         /// <inheritdoc />
         [Pure]
         public override IReadOnlyCollection<string> Split(IEnumerable<string?> parts)
-            => Trim(parts.SelectMany(SplitPart))
-            .Select((p, i) => i == 0 ? Formatted(p, i) : p)
-            .ToArray();
+            => [.. Trim(parts.SelectMany(SplitPart)).Select((p, i) => i == 0 ? Formatted(p, i) : p)];
 
         [Pure]
         private IEnumerable<string> SplitPart(string? part)
@@ -101,7 +99,7 @@ public abstract class CodeNameConvention
         {
             if (index == 0)
             {
-                var start = new string(part.TakeWhile(char.IsUpper).ToArray());
+                var start = new string([.. part.TakeWhile(char.IsUpper)]);
                 return start.ToLowerInvariant() + part[start.Length..];
             }
             else return base.Formatted(part, index);
@@ -120,9 +118,7 @@ public abstract class CodeNameConvention
         /// <inheritdoc />
         [Pure]
         public override IReadOnlyCollection<string> Split(IEnumerable<string?> parts)
-            => Trim(parts.SelectMany(p => (p ?? string.Empty).Split('-')))
-                .Select(p => p.ToLowerInvariant())
-                .ToArray();
+            => [.. Trim(parts.SelectMany(p => (p ?? string.Empty).Split('-'))).Select(p => p.ToLowerInvariant())];
     }
 
     [Inheritable]
@@ -138,9 +134,7 @@ public abstract class CodeNameConvention
         /// <inheritdoc />
         [Pure]
         public override IReadOnlyCollection<string> Split(IEnumerable<string?> parts)
-            => Trim(parts.SelectMany(p => (p ?? string.Empty).Split('_')))
-                .Select(p => p.ToLowerInvariant())
-                .ToArray();
+            => [.. Trim(parts.SelectMany(p => (p ?? string.Empty).Split('_'))).Select(p => p.ToLowerInvariant())];
     }
 
     private sealed class ScreamingSnakeCasing : SnakeCasing
@@ -155,9 +149,7 @@ public abstract class CodeNameConvention
         /// <inheritdoc />
         [Pure]
         public override IReadOnlyCollection<string> Split(IEnumerable<string?> parts)
-            => base.Split(parts)
-                .Select(p => p.ToUpperInvariant())
-                .ToArray();
+            => [.. base.Split(parts).Select(p => p.ToUpperInvariant())];
     }
 
     private sealed class SentenceCasing : CodeNameConvention
@@ -170,8 +162,7 @@ public abstract class CodeNameConvention
         /// <inheritdoc />
         [Pure]
         public override IReadOnlyCollection<string> Split(IEnumerable<string?> parts)
-            => Trim(parts.SelectMany(p => (p ?? string.Empty).Split(Splitters)))
-                .ToArray();
+            => [.. Trim(parts.SelectMany(p => (p ?? string.Empty).Split(Splitters)))];
 
         /// <inheritdoc />
         [Pure]
@@ -185,7 +176,7 @@ public abstract class CodeNameConvention
 
         /// <inheritdoc />
         [Pure]
-        public override IReadOnlyCollection<string> Split(IEnumerable<string?> parts) => Trim(parts).ToArray();
+        public override IReadOnlyCollection<string> Split(IEnumerable<string?> parts) => [.. Trim(parts)];
 
         /// <inheritdoc />
         [Pure]

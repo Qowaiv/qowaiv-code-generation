@@ -7,14 +7,20 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.0.1-alpha-032</Version>
+    <Version>1.0.0</Version>
     <PackageId>Qowaiv.CodeGeneration.OpenApi</PackageId>
     <PackageReleaseNotes>
       <![CDATA[
-ToBeReleased
-- Initial alpha release
+v1.*
+- ?
 ]]>
     </PackageReleaseNotes>
+    <ReleaseNotes>
+      <![CDATA[
+v1.0.0
+- Initial release
+]]>   
+    </ReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

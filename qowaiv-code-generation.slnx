@@ -1,6 +1,6 @@
 <Solution>
   <Project Path=".net.csproj" />
-  <Project Path="specs/Qowaiv.CodeGeneration.Specs/Qowaiv.CodeGeneration.Specs.csproj" />
+  <Project Path="specs/Specs/Specs.csproj" Id="483a7359-ad1d-48a3-ac0e-8d68adb46401" />
   <Project Path="src/Qowaiv.CodeGeneration.OpenApi/Qowaiv.CodeGeneration.OpenApi.csproj" />
   <Project Path="src/Qowaiv.CodeGeneration.SingleValueObjects/Qowaiv.CodeGeneration.SingleValueObjects.csproj" />
   <Project Path="src/Qowaiv.CodeGeneration/Qowaiv.CodeGeneration.csproj" />
